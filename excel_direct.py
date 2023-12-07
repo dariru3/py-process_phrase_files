@@ -1,5 +1,4 @@
 import xlwings as xw
-from xlwings.constants import DeleteShiftDirection
 import os
 
 def process_excel(file_path):
