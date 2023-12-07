@@ -23,15 +23,15 @@ def process_word_file(file_path):
         original_table = doc.tables[0]
 
         # Create a new table with 2 columns (for the 4th and 5th columns of the original table)
-        new_table = doc.add_table(rows=0, cols=2)
+        new_table = doc.add_table(rows=0, cols=2) # UPDATE: 4 cols
 
         for row in original_table.rows:
             new_row = new_table.add_row()
-            # Copy the content from the 4th and 5th columns of the original table
+            # Copy the content from the 4th and 5th columns of the original table; UPDATE: col 3-6
             new_row.cells[0].text = row.cells[3].text  # 4th column
             new_row.cells[1].text = row.cells[5].text  # 5th column
 
-            # If the new 2nd column cell has text, set the new 1st column cell to gray
+            # If the new 2nd column cell has text, set the new 1st column cell to gray; UPDATE: color both cells
             if new_row.cells[1].text.strip():
                 change_table_cell(new_row.cells[0], background_color="D9D9D9")  # Gray color
 
