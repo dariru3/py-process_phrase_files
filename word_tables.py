@@ -15,18 +15,15 @@ def process_word_file(file_path):
         original_table = doc.tables[0]
         rows = original_table.rows
 
-        # Determine the number of columns to be copied
-        num_cols = len(rows[0].cells) - 5  # Subtract first 3 and last 2 columns
-
-        # Create a new table with the desired number of columns
-        new_table = doc.add_table(rows=0, cols=num_cols)
+        # Create a new table with 2 columns (for the 4th and 5th columns only)
+        new_table = doc.add_table(rows=0, cols=2)
 
         for row in rows:
             new_row = new_table.add_row()
             new_cells = new_row.cells
-            # Copy the content from the middle columns of the original table
-            for idx, cell in enumerate(row.cells[3:-2]):
-                new_cells[idx].text = cell.text
+            # Copy the content from the 4th and 5th columns of the original table
+            new_cells[0].text = row.cells[3].text  # 4th column
+            new_cells[1].text = row.cells[5].text  # 5th column
 
         # Remove the original table
         original_table._element.getparent().remove(original_table._element)
