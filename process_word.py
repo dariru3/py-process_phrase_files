@@ -3,7 +3,7 @@ import os
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 
-def change_table_cell(cells, background_color=None):
+def change_cell_color(cells, background_color=None):
     """Changes the background color of a table cell."""
     for cell in cells:
         if background_color:
@@ -38,7 +38,7 @@ def process_word_file(file_path):
             # If the english column cell has text, highlight cells gray
             if new_cells[2].text.strip():
                 cells_to_color = [new_cells[1], new_cells[2]]
-                change_table_cell(cells_to_color, background_color="D9D9D9")  # Gray color
+                change_cell_color(cells_to_color, background_color="D9D9D9")  # Gray color
 
         # Remove the original table
         original_table._element.getparent().remove(original_table._element)
