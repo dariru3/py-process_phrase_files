@@ -1,7 +1,8 @@
 from docx import Document
-import os
+from docx.shared import Mm
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
+import os
 
 def change_cell_color(cells, background_color=None):
     """Changes the background color of a table cell."""
@@ -20,14 +21,21 @@ def process_word_file(file_path):
             tbl._element.getparent().remove(tbl._element)
 
     # Process the fourth table (now the first table in the document)
+    row_widths = [9, 90, 110, 10]
+
     if len(doc.tables) > 0:
         original_table = doc.tables[0]
 
         # Create a new table with 4 columns
         new_table = doc.add_table(rows=0, cols=4)
+        new_table.style = 'Table Grid'
+
+        # Set column widths
+        for i, width in enumerate(row_widths):
+            new_table.columns[i].width = Mm(width)
+        
         # Add column numbers to copy to list
         columns_to_copy = [2, 3, 5, 6]
-
         for row in original_table.rows:
             new_row = new_table.add_row()
             new_cells = new_row.cells
