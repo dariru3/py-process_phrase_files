@@ -5,51 +5,52 @@ from docx.oxml import parse_xml
 import os
 
 def change_cell_color(cells, background_color=None):
-    """Changes the background color of a table cell."""
     for cell in cells:
         if background_color:
             shading_elm = parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
             cell._tc.get_or_add_tcPr().append(shading_elm)
 
+def delete_first_n_tables(doc, n):
+    for _ in range(n):
+        if len(doc.tables) > 0:
+            table = doc.tables[0]
+            table._element.getparent().remove(table._element)
+
+def create_and_format_table(doc, row_widths, num_of_columns):
+    new_table = doc.add_table(rows=0, cols=num_of_columns)
+    new_table.style = 'Table Grid'
+    for i, width in enumerate(row_widths):
+        new_table.columns[i].width = Mm(width)
+    return new_table
+
+def copy_content_to_table(original_table, new_table, columns_to_copy):
+    for row in original_table.rows:
+        new_row = new_table.add_row()
+        new_cells = new_row.cells
+        for i, col_index in enumerate(columns_to_copy):
+            new_cells[i].text = row.cells[col_index].text
+
+def apply_conditional_formatting(new_table, condition_column_index, format_column_index, background_color):
+    for row in new_table.rows:
+        if row.cells[condition_column_index].text.strip():
+            cells_to_color = [row.cells[format_column_index], row.cells[condition_column_index]]
+            change_cell_color(cells_to_color, background_color)
+
 def process_word_file(file_path):
     doc = Document(file_path)
 
-    # Delete the first three tables
-    for _ in range(3):
-        if len(doc.tables) > 0:
-            tbl = doc.tables[0]
-            tbl._element.getparent().remove(tbl._element)
+    delete_first_n_tables(doc=doc, n=3)
 
-    # Process the fourth table (now the first table in the document)
     row_widths = [9, 90, 110, 10]
+    columns_to_copy = [2, 3, 5, 6]
 
-    if len(doc.tables) > 0:
-        original_table = doc.tables[0]
+    original_table = doc.tables[0]
+    new_table = create_and_format_table(doc, row_widths, num_of_columns=4)
+    copy_content_to_table(original_table, new_table, columns_to_copy)
+    apply_conditional_formatting(new_table, condition_column_index=2, format_column_index=1, background_color="D9D9D9")
 
-        # Create a new table with 4 columns
-        new_table = doc.add_table(rows=0, cols=4)
-        new_table.style = 'Table Grid'
-
-        # Set column widths
-        for i, width in enumerate(row_widths):
-            new_table.columns[i].width = Mm(width)
-        
-        # Add column numbers to copy to list
-        columns_to_copy = [2, 3, 5, 6]
-        for row in original_table.rows:
-            new_row = new_table.add_row()
-            new_cells = new_row.cells
-            # Copy the content from the original table
-            for i, col_index in enumerate(columns_to_copy):
-                new_cells[i].text = row.cells[col_index].text
-
-            # If the english column cell has text, highlight cells gray
-            if new_cells[2].text.strip():
-                cells_to_color = [new_cells[1], new_cells[2]]
-                change_cell_color(cells_to_color, background_color="D9D9D9")  # Gray color
-
-        # Remove the original table
-        original_table._element.getparent().remove(original_table._element)
+    # Remove the original table
+    original_table._element.getparent().remove(original_table._element)
 
     # Save the document
     new_file_path = file_path.replace('.docx', '_processed.docx')
