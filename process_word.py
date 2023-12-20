@@ -55,6 +55,7 @@ def process_word_file(file_path, output_folder):
     # Construct new file path
     base_name = os.path.basename(file_path)
     name_part, extension = os.path.splitext(base_name)
+    name_part = name_part.replace('_processed', '') # remove '_processed' if added by Excel process
     new_filename = name_part + '_processed' + extension
     processed_file_path = os.path.join(output_folder, new_filename)
 
