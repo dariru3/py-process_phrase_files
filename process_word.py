@@ -36,7 +36,7 @@ def apply_conditional_formatting(new_table, condition_column_index, format_colum
             cells_to_color = [row.cells[format_column_index], row.cells[condition_column_index]]
             change_cell_color(cells_to_color, background_color)
 
-def process_word_file(file_path):
+def process_word_file(file_path, output_folder):
     doc = Document(file_path)
 
     delete_first_n_tables(doc=doc, n=3)
@@ -52,18 +52,26 @@ def process_word_file(file_path):
     # Remove the original table
     original_table._element.getparent().remove(original_table._element)
 
+    # Construct new file path
+    base_name = os.path.basename(file_path)
+    name_part, extension = os.path.splitext(base_name)
+    new_filename = name_part + '_processed' + extension
+    processed_file_path = os.path.join(output_folder, new_filename)
+
+    # Check for output folder
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     # Save the document
-    new_file_path = file_path.replace('.docx', '_processed.docx')
-    doc.save(new_file_path)
+    doc.save(processed_file_path)
 
-    print(f"Processed file saved as: {new_file_path}")
+    print(f"Processed file saved as: {processed_file_path}")
 
-def process_all_word_files_in_folder(folder_path):
+def process_all_word_files_in_folder(folder_path, output_folder):
     for file_name in os.listdir(folder_path):
         if file_name.endswith('.docx'):
             file_path = os.path.join(folder_path, file_name)
-            process_word_file(file_path)
+            process_word_file(file_path, output_folder)
 
 # Example usage
-input_folder = 'input_files'
-process_all_word_files_in_folder(input_folder)
+process_all_word_files_in_folder('input_files', 'output_files')
