@@ -34,16 +34,14 @@ def apply_conditional_formatting(new_table, condition_column_index, format_colum
     for row in new_table.rows:
         # Check if the cell has text.
         condition_met = row.cells[condition_column_index].text.strip() != ""
-        # Additionally, check if the next cell to the right has either "99" or "100".
+        # Additionally, check if the next cell to the right has either "99", "100", or "101".
         next_cell_value = row.cells[condition_column_index + 1].text.strip()
         next_cell_condition_met = next_cell_value in ["99", "100", "101"]
 
+        indexes_to_color = [format_column_index, condition_column_index, condition_column_index +1]
+
         if condition_met and next_cell_condition_met:
-            cells_to_color = [
-                row.cells[format_column_index],
-                row.cells[condition_column_index],
-                row.cells[condition_column_index +1]
-            ]
+            cells_to_color = [row.cells[i] for i in indexes_to_color]
             change_cell_color(cells_to_color, background_color)
 
 def process_word_file(file_path, output_folder):
