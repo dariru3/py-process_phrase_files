@@ -30,17 +30,17 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         for i, col_index in enumerate(columns_to_copy):
             new_cells[i].text = row.cells[col_index].text
 
-def apply_conditional_formatting(new_table, condition_column_index, format_columns_indexes, background_color):
+def apply_conditional_formatting(new_table, condition_column_index, format_column_index, background_color):
     for row in new_table.rows:
         # Check if the cell has text.
         condition_met = row.cells[condition_column_index].text.strip() != ""
         # Additionally, check if the next cell to the right has either "99" or "100".
         next_cell_value = row.cells[condition_column_index + 1].text.strip()
-        next_cell_condition_met = next_cell_value in ["99", "100"]
+        next_cell_condition_met = next_cell_value in ["99", "100", "101"]
 
         if condition_met and next_cell_condition_met:
             cells_to_color = [
-                row.cells[format_columns_indexes],
+                row.cells[format_column_index],
                 row.cells[condition_column_index],
                 row.cells[condition_column_index +1]
             ]
@@ -52,12 +52,12 @@ def process_word_file(file_path, output_folder):
     delete_first_n_tables(doc=doc, n=3)
 
     row_widths = [9, 90, 110, 10, 50]
-    columns_to_copy = [2, 3, 5, 6, 7]
+    columns_to_copy = [2, 3, 4, 5, 6]
 
     original_table = doc.tables[0]
-    new_table = create_and_format_table(doc, row_widths, num_of_columns=5) ## change to 5
+    new_table = create_and_format_table(doc, row_widths, num_of_columns=5)
     copy_content_to_table(original_table, new_table, columns_to_copy)
-    apply_conditional_formatting(new_table, condition_column_index=2, format_columns_indexes=1, background_color="D9D9D9")
+    apply_conditional_formatting(new_table, condition_column_index=2, format_column_index=1, background_color="D9D9D9")
 
     # Remove the original table
     original_table._element.getparent().remove(original_table._element)
