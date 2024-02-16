@@ -50,7 +50,7 @@ if sources and targets:
     })
 
     # Save the DataFrame to a CSV file
-    csv_file = 'output_files/output.csv'
+    csv_file = 'output_files/tmx_output.csv'
     df.to_csv(csv_file, index=False)
 
     print(f"CSV file has been saved to {csv_file}.")
