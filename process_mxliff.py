@@ -23,11 +23,11 @@ targets = []
 match_qualities = []
 
 # Loop through each translation unit in the MXLIFF file
-for trans_unit in list(root.findall('.//m:trans-unit', namespaces))[:5]:
-    source_text = trans_unit.find('.//source', namespaces).text if trans_unit.find('.//source', namespaces) is not None else ''
-    print(f'Source text: {source_text}')
-    target_text = trans_unit.find('.//target', namespaces).text if trans_unit.find('.//target', namespaces) is not None else ''
-    print(f'Target text: {target_text}')
+for trans_unit in root.findall('.//m:trans-unit', namespaces):
+    source_text = trans_unit.find('m:source', namespaces).text if trans_unit.find('m:source', namespaces) is not None else ''
+    # print(f'Source text: {source_text}')
+    target_text = trans_unit.find('m:target', namespaces).text if trans_unit.find('m:target', namespaces) is not None else ''
+    # print(f'Target text: {target_text}')
 
     # Initialize match quality as 'N/A' or another suitable default value
     match_quality = 'N/A'
@@ -36,7 +36,7 @@ for trans_unit in list(root.findall('.//m:trans-unit', namespaces))[:5]:
     for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
         if alt_trans.attrib.get('origin') == 'memsource-tm':
             match_quality = alt_trans.attrib.get('match-quality', 'N/A')
-            print(f'Match: {match_quality}')
+            # print(f'Match: {match_quality}')
             break  # Assuming we only need the first matching alt-trans entry
 
     sources.append(source_text)
