@@ -10,7 +10,6 @@ tree = ET.parse(tmx_file)
 root = tree.getroot()
 
 # Extracting the namespace map from the TMX file's root element
-# TMX files and other XML documents often define namespaces, which need to be accounted for when searching for elements
 namespaces = {'xml': 'http://www.w3.org/XML/1998/namespace'}  # Common namespace for xml:lang attributes
 
 # Initialize lists to hold the extracted data
@@ -22,21 +21,25 @@ for tu in root.findall('body/tu'):
     source_text = ''
     target_text = ''
     
-    # Extracting source and target segments based on xml:lang attribute
-    for tuv in tu.findall('tuv[@xml:lang="ja"]', namespaces=namespaces):
-        seg = tuv.find('seg')
-        if seg is not None:
-            source_text = seg.text
+    # Extracting Japanese source segments
+    ja_tuv = tu.find('tuv[@xml:lang="ja"]', namespaces=namespaces)
+    if ja_tuv is not None:
+        ja_seg = ja_tuv.find('seg')
+        if ja_seg is not None:
+            source_text = ja_seg.text
+            # print(f'Source: {source_text}')
+            
+    # Extracting English target segments if available
+    en_tuv = tu.find('tuv[@xml:lang="en"]', namespaces=namespaces)
+    if en_tuv is not None:
+        en_seg = en_tuv.find('seg')
+        if en_seg is not None:
+            target_text = en_seg.text
+            # print(f'Target: {target_text}')
     
-    for tuv in tu.findall('tuv[@xml:lang="en"]', namespaces=namespaces):
-        seg = tuv.find('seg')
-        if seg is not None:
-            target_text = seg.text
-    
-    # Only add to lists if both source and target text are found
-    if source_text and target_text:
-        sources.append(source_text)
-        targets.append(target_text)
+    # Append to lists regardless of whether both source and target texts are found
+    sources.append(source_text if source_text is not None else '')
+    targets.append(target_text if target_text is not None else '')
 
 # Check if we have successfully extracted any data
 if sources and targets:
