@@ -1,4 +1,5 @@
 from docx import Document
+from docx.shared import Mm
 from process_mxliff import parse_mxliff_to_df
 from config import mxliff_filepath
 
@@ -7,6 +8,13 @@ df = parse_mxliff_to_df(mxliff_file)
 
 output_file_path = "output_files/df_to_word_output.docx"
 
+def format_table(table):
+    table.style = 'Table Grid'
+    row_widths = [9, 90, 110, 10] # missing comments column!
+    for i, width in enumerate(row_widths):
+        table.columns[i].width = Mm(width)
+    return table
+
 def dataframe_to_word_table(df, output_file_path):
     doc = Document()
     df.index = df.index + 1
@@ -14,6 +22,7 @@ def dataframe_to_word_table(df, output_file_path):
     df.reset_index(inplace=True)
     
     table = doc.add_table(rows=1, cols=len(df.columns))
+    table = format_table(table)
     
     # Add header row
     for i, column in enumerate(df.columns):
