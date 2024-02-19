@@ -12,7 +12,7 @@ output_file_path = "output_files/df_to_word_output.docx"
 
 def format_table(table):
     table.style = 'Table Grid'
-    row_widths = [9, 60, 70, 10] # missing comments column!
+    row_widths = [11, 60, 70, 11] # missing comments column!
     for i, width in enumerate(row_widths):
         for cell in table.columns[i].cells:
             cell.width = Mm(width)
@@ -33,7 +33,7 @@ def apply_conditional_formatting(table):
         condition_met = row.cells[condition_column_index].text.strip() != ""
         # Additionally, check if the next cell to the right has either "99", "100", or "101".
         next_cell_value = row.cells[condition_column_index + 1].text.strip()
-        next_cell_condition_met = next_cell_value in ["0.99", "1.0", "1.1"]
+        next_cell_condition_met = next_cell_value in ["99", "100", "101"]
 
         indexes_to_color = [format_column_index, condition_column_index, condition_column_index +1]
 

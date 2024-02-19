@@ -21,12 +21,13 @@ def parse_mxliff_to_df(mxliff_file):
     for trans_unit in root.findall('.//m:trans-unit', namespaces):
         source_text = trans_unit.find('m:source', namespaces).text if trans_unit.find('m:source', namespaces) is not None else ''
         target_text = trans_unit.find('m:target', namespaces).text if trans_unit.find('m:target', namespaces) is not None else ''
-        match_quality = 'N/A' # Default value
+        match_quality = '0' # Default value
         
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
         for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
             if alt_trans.attrib.get('origin') == 'memsource-tm':
-                match_quality = alt_trans.attrib.get('match-quality', 'N/A')
+                match_quality = alt_trans.attrib.get('match-quality', '0')
+                match_quality = int(float(match_quality) * 100)
                 break  # Assuming we only need the first matching alt-trans entry
 
         sources.append(source_text)
