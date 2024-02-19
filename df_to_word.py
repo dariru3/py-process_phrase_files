@@ -23,7 +23,10 @@ def dataframe_to_word_table(df, output_file_path):
     for index, row in df.iterrows():
         cells = table.add_row().cells
         for i, value in enumerate(row):
-            cells[i].text = str(value)
+            if value is None or value == "None":
+                cells[i].text = ""
+            else:
+                cells[i].text = str(value)
     
     doc.save(output_file_path)
     print(f"Word document has been saved to {output_file_path}.")
