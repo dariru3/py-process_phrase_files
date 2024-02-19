@@ -37,7 +37,7 @@ def parse_mxliff_to_df(mxliff_file):
     df = pd.DataFrame({
         'Source': sources,
         'Target': targets,
-        'Match Quality (Memsource-TM)': match_qualities
+        'Match': match_qualities
     })
 
     # View parsed data in CSV file
