@@ -1,8 +1,5 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
-from config import mxliff_filepath
-
-mxliff_file = mxliff_filepath
 
 def parse_mxliff_to_df(mxliff_file): 
     # Register the namespace to properly handle prefixed attributes
@@ -44,7 +41,7 @@ def parse_mxliff_to_df(mxliff_file):
     })
 
     # View parsed data in CSV file
-    csv_file = 'output_files/mxliff_to_csv_output.csv'
+    csv_file = 'output_files/mxliff_to_csv_preview.csv'
     df.to_csv(csv_file, index=False)
     print(f"CSV file has been saved to {csv_file}.")
 
