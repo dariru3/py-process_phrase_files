@@ -2,13 +2,8 @@ from docx import Document
 from docx.shared import Mm
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
+import help_format_tables as help
 import os
-
-def change_cell_color(cells, background_color=None):
-    for cell in cells:
-        if background_color:
-            shading_elm = parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
-            cell._tc.get_or_add_tcPr().append(shading_elm)
 
 def delete_first_n_tables(doc, n):
     for _ in range(n):
@@ -16,6 +11,7 @@ def delete_first_n_tables(doc, n):
             table = doc.tables[0]
             table._element.getparent().remove(table._element)
 
+# Keep in case cell width format by help.format_table screws things up
 def create_and_format_table(doc, row_widths, num_of_columns):
     new_table = doc.add_table(rows=0, cols=num_of_columns)
     new_table.style = 'Table Grid'
@@ -30,32 +26,20 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         for i, col_index in enumerate(columns_to_copy):
             new_cells[i].text = row.cells[col_index].text
 
-def apply_conditional_formatting(new_table, condition_column_index, format_column_index, background_color):
-    for row in new_table.rows:
-        # Check if the cell has text.
-        condition_met = row.cells[condition_column_index].text.strip() != ""
-        # Additionally, check if the next cell to the right has either "99", "100", or "101".
-        next_cell_value = row.cells[condition_column_index + 1].text.strip()
-        next_cell_condition_met = next_cell_value in ["99", "100", "101"]
-
-        indexes_to_color = [format_column_index, condition_column_index, condition_column_index +1]
-
-        if condition_met and next_cell_condition_met:
-            cells_to_color = [row.cells[i] for i in indexes_to_color]
-            change_cell_color(cells_to_color, background_color)
-
 def process_word_file(file_path, output_folder):
     doc = Document(file_path)
 
     delete_first_n_tables(doc=doc, n=3)
 
-    row_widths = [9, 90, 110, 10, 50]
+    # row_widths = [9, 90, 110, 10, 50] # in help.format_table
     columns_to_copy = [2, 3, 4, 5, 6] # may need adjusting
 
     original_table = doc.tables[0]
-    new_table = create_and_format_table(doc, row_widths, num_of_columns=5)
+    new_table = doc.add_table(rows=0, cols=5)
+    help.format_table(new_table, comments=True)
+
     copy_content_to_table(original_table, new_table, columns_to_copy)
-    apply_conditional_formatting(new_table, condition_column_index=2, format_column_index=1, background_color="D9D9D9")
+    help.apply_conditional_formatting(new_table)
 
     # Remove the original table
     original_table._element.getparent().remove(original_table._element)
