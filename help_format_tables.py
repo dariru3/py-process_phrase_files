@@ -13,10 +13,14 @@ def format_table(table, comments=True):
     if comments:
         row_widths = [9, 90, 110, 10, 50]
     else:
-        row_widths = [11, 60, 70, 11] # missing comments column!
+        row_widths = [11, 60, 70, 11]
+    
     for i, width in enumerate(row_widths):
-        for cell in table.columns[i].cells:
-            cell.width = Mm(width)
+        if comments:
+            table.columns[i].width = Mm(width)
+        else:
+            for cell in table.columns[i].cells:
+                cell.width = Mm(width)
 
 def apply_conditional_formatting(table):
     condition_column_index = 2

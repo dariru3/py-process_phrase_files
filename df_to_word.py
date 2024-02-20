@@ -1,7 +1,4 @@
 from docx import Document
-from docx.shared import Mm
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
 from process_mxliff import parse_mxliff_to_df
 import help_format_tables as help
 from config import mxliff_filepath

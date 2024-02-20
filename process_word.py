@@ -1,7 +1,4 @@
 from docx import Document
-from docx.shared import Mm
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
 import help_format_tables as help
 import os
 
@@ -10,14 +7,6 @@ def delete_first_n_tables(doc, n):
         if len(doc.tables) > 0:
             table = doc.tables[0]
             table._element.getparent().remove(table._element)
-
-# Keep in case cell width format by help.format_table screws things up
-def create_and_format_table(doc, row_widths, num_of_columns):
-    new_table = doc.add_table(rows=0, cols=num_of_columns)
-    new_table.style = 'Table Grid'
-    for i, width in enumerate(row_widths):
-        new_table.columns[i].width = Mm(width)
-    return new_table
 
 def copy_content_to_table(original_table, new_table, columns_to_copy):
     for row in original_table.rows:
@@ -31,7 +20,6 @@ def process_word_file(file_path, output_folder):
 
     delete_first_n_tables(doc=doc, n=3)
 
-    # row_widths = [9, 90, 110, 10, 50] # in help.format_table
     columns_to_copy = [2, 3, 4, 5, 6] # may need adjusting
 
     original_table = doc.tables[0]
