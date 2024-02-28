@@ -38,5 +38,5 @@ def process_all_excel_in_folder(folder_path, output_folder):
             file_path = os.path.join(folder_path, file_name)
             process_excel(file_path, output_folder)
 
-# Example usage
-process_all_excel_in_folder('input_files', 'output_files')
+if __name__ == "__main__":
+    process_all_excel_in_folder('input_files', 'output_files')
