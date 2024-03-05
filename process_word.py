@@ -1,6 +1,6 @@
 from docx import Document
 import help_format_tables as help
-from merge_df import table_to_df
+from table_to_df import table_to_df
 import os
 
 def delete_first_n_tables(doc, n):
