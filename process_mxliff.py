@@ -41,9 +41,19 @@ def parse_mxliff_to_df(mxliff_file):
         'Match': match_qualities
     })
 
+    df.index += 1
+    df.reset_index(inplace=True)
+    df.rename(columns={'index': 'Index'}, inplace=True)
+
+    df['Comment'] = ""
+
     # View parsed data in CSV file
     csv_file = 'output_files/mxliff_to_csv_preview.csv'
-    # df.to_csv(csv_file, index=False)
-    # print(f"CSV file has been saved to {csv_file}.")
+    df.to_csv(csv_file, index=False)
+    print(f"CSV file has been saved to {csv_file}.")
 
     return df
+
+if __name__ == "__main__":
+    filepath = "input_files/240226_良品計画様_統合報告2023対訳表_P37-40+-ja-en-T.mxliff"
+    parse_mxliff_to_df(filepath)

@@ -1,5 +1,6 @@
 from docx import Document
 import help_format_tables as help
+from merge_df import table_to_df
 import os
 
 def delete_first_n_tables(doc, n):
@@ -29,6 +30,11 @@ def process_word_file(file_path, output_folder):
     copy_content_to_table(original_table, new_table, columns_to_copy)
     help.apply_conditional_formatting(new_table)
 
+    df_word_table = table_to_df(new_table)
+    csv_file = 'output_files/df_word_table.csv'
+    df_word_table.to_csv(csv_file, index=False)
+    print(f"CSV files has been saved to {csv_file}.")
+
     # Remove the original table
     original_table._element.getparent().remove(original_table._element)
 
@@ -44,9 +50,11 @@ def process_word_file(file_path, output_folder):
         os.makedirs(output_folder)
 
     # Save the document
-    doc.save(processed_file_path)
+    # doc.save(processed_file_path)
 
-    print(f"Processed file saved as: {processed_file_path}")
+    # print(f"Processed file saved as: {processed_file_path}")
+
+    return df_word_table
 
 def process_all_word_files_in_folder(folder_path, output_folder):
     for file_name in os.listdir(folder_path):
