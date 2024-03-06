@@ -17,12 +17,13 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         for i, col_index in enumerate(columns_to_copy):
             new_cells[i].text = row.cells[col_index].text
 
-def process_word_file(file_path, output_folder):
+def process_word_file(file_path, output_folder, attempts=1):
+    max_attempts = 2 
     doc = Document(file_path)
 
     delete_first_n_tables(doc=doc, n=3)
 
-    columns_to_copy = [2, 3, 5, 6, 7] # [2, 3, 4, 5, 6] # may need adjusting
+    columns_to_copy = adjust_columns_by_attempts(attempts)
 
     original_table = doc.tables[0]
     new_table = doc.add_table(rows=0, cols=5)
@@ -32,30 +33,23 @@ def process_word_file(file_path, output_folder):
     help.apply_conditional_formatting(new_table)
 
     df_word_table = table_to_df(new_table)
-    # csv_file = 'output_files/df_word_table.csv'
-    # df_word_table.to_csv(csv_file, index=False)
-    # print(f"CSV files has been saved to {csv_file}.")
-
+    
     # Remove the original table
     original_table._element.getparent().remove(original_table._element)
-
-    # Construct new file path
-    base_name = os.path.basename(file_path)
-    name_part, extension = os.path.splitext(base_name)
-    name_part = name_part.replace('_processed', '') # remove '_processed' if added by Excel process
-    new_filename = name_part + '_processed' + extension
-    processed_file_path = os.path.join(output_folder, new_filename)
 
     # Check for output folder
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     if validate_table_contents(new_table):
-        # Save the document
-        doc.save(processed_file_path)
-        print(f"Processed file saved as: {processed_file_path}")
+        filename = save_as_word_file(file_path, output_folder, doc)
+        save_as_csv_file(df_word_table, filename)
     else:
-        print(f'At least one row does not meet the specified criteria in file {base_name}')
+        if attempts < max_attempts:
+            print(f'Attempt {attempts} failed, trying again...')
+            process_word_file(file_path, output_folder, attempts + 1)
+        else:
+            print(f'Maximum attempts reached for file {file_path}. File processing aborted.')
 
     return df_word_table
 
@@ -67,27 +61,41 @@ def contains_japanese(text):
 def validate_table_contents(new_table):
     valid_rows = True
     for row_number, row in enumerate(new_table.rows[1:9], start=2):  # Adjusted indexing for Python's 0-based index
-        column_2_text = row.cells[1].text  # Column 2 (0-based index)
         column_3_text = row.cells[2].text  # Column 3 (0-based index)
 
         # Check conditions
-        # if column_2_text and not contains_japanese(column_2_text):
-        #     print(f"Row {row_number}, Column 2 does not meet the criteria.")
-        #     print(column_2_text)
-        #     valid_rows = False
         if column_3_text and contains_japanese(column_3_text):
-            print(f"Row {row_number}, Column 3 does not meet the criteria.")
-            print("Column 2")
-            print(column_2_text)
-            print("Column 3")
-            print(column_3_text)
+            print(f"Row {row_number}, Column 3 contain Japanese: {column_3_text}")
             valid_rows = False
     
     return valid_rows
 
-# You can call validate_table_contents(new_table) after copying the content
-# If the function returns False, it means at least one row does not meet the specified criteria.
+def adjust_columns_by_attempts(attempts):
+    attempts_mapping = {
+        1: ("First try", [2, 3, 4, 5, 6]),
+        2: ("Second try", [2, 3, 5, 6, 7]),
+    }
 
+    message, columns = attempts_mapping.get(attempts, ("Second attempt failed", None))
+    print(message)
+    return columns
+
+def save_as_word_file(file_path, output_folder, doc):
+    # Construct new file path
+    base_name = os.path.basename(file_path)
+    name_part, extension = os.path.splitext(base_name)
+    name_part = name_part.replace('_processed', '') # remove '_processed' if added by Excel process
+    new_filename = name_part + '_processed' + extension
+    processed_file_path = os.path.join(output_folder, new_filename)
+    # Save the document
+    doc.save(processed_file_path)
+    print(f"Processed file saved as: {processed_file_path}")
+    return name_part
+
+def save_as_csv_file(dataframe, filename):
+    csv_file = f'output_files/{filename}.csv'
+    dataframe.to_csv(csv_file, index=False)
+    print(f"CSV files has been saved to {csv_file}.")
 
 def process_all_word_files_in_folder(folder_path, output_folder):
     for file_name in os.listdir(folder_path):
