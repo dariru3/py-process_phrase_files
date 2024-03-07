@@ -30,10 +30,8 @@ def merge_dfs(df1, df2):
     csv_file = 'output_files/merged_dfs.csv'
     df_combined.to_csv(csv_file, index=False)
 
+    return df_combined
+
 
 if __name__ == "__main__":
     merge_dfs(df1, df2)
-    print("Word dataframe types")
-    print(df1.dtypes)
-    print(".mxliff dataframe types")
-    print(df2.dtypes)

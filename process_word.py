@@ -1,4 +1,5 @@
 from docx import Document
+import pandas as pd
 import help_format_tables as help
 from table_to_df import table_to_df
 import os
@@ -18,7 +19,7 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
             new_cells[i].text = row.cells[col_index].text
 
 def process_word_file(file_path, output_folder, attempts=1):
-    max_attempts = 2 
+    max_attempts = 2
     doc = Document(file_path)
 
     delete_first_n_tables(doc=doc, n=3)
@@ -31,8 +32,6 @@ def process_word_file(file_path, output_folder, attempts=1):
 
     copy_content_to_table(original_table, new_table, columns_to_copy)
     help.apply_conditional_formatting(new_table)
-
-    df_word_table = table_to_df(new_table)
     
     # Remove the original table
     original_table._element.getparent().remove(original_table._element)
@@ -43,15 +42,16 @@ def process_word_file(file_path, output_folder, attempts=1):
 
     if validate_table_contents(new_table):
         filename = save_as_word_file(file_path, output_folder, doc)
-        save_as_csv_file(df_word_table, filename)
+        df_table = table_to_df(new_table)
+        save_as_csv_file(df_table, filename)
+        return df_table
     else:
         if attempts < max_attempts:
             print(f'Attempt {attempts} failed, trying again...')
-            process_word_file(file_path, output_folder, attempts + 1)
+            return process_word_file(file_path, output_folder, attempts + 1)
         else:
             print(f'Maximum attempts reached for file {file_path}. File processing aborted.')
-
-    return df_word_table
+            return None
 
 def contains_japanese(text):
     # Regular expression for matching Japanese characters
@@ -65,7 +65,7 @@ def validate_table_contents(new_table):
 
         # Check conditions
         if column_3_text and contains_japanese(column_3_text):
-            print(f"Row {row_number}, Column 3 contain Japanese: {column_3_text}")
+            # print(f"Row {row_number}, Column 3 contain Japanese: {column_3_text}")
             valid_rows = False
     
     return valid_rows
