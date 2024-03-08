@@ -33,10 +33,10 @@ def process_word_file(file_path, output_folder, attempts=1):
     help.format_table(new_table, comments=True)
 
     copy_content_to_table(original_table, new_table, columns_to_copy)
-    help.apply_conditional_formatting(new_table)
+    # help.apply_conditional_formatting(new_table)
     
     # Remove the original table
-    original_table._element.getparent().remove(original_table._element)
+    # original_table._element.getparent().remove(original_table._element)
 
     # Check for output folder
     if not os.path.exists(output_folder):
