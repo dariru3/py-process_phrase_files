@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def parse_mxliff_to_df(mxliff_file): 
+def parse_mxliff_to_df(mxliff_file):
+    print("Processing .MXLIFF file...")
     # Register the namespace to properly handle prefixed attributes
     ET.register_namespace('m', 'urn:oasis:names:tc:xliff:document:1.2')
 
@@ -49,8 +50,8 @@ def parse_mxliff_to_df(mxliff_file):
 
     # View parsed data in CSV file
     csv_file = 'output_files/mxliff_to_csv.csv'
-    df.to_csv(csv_file, index=False)
-    print(f"Processed MXLIFF file saved as {csv_file}.")
+    # df.to_csv(csv_file, index=False)
+    # print(f"Processed MXLIFF file saved as {csv_file}.")
 
     return df
 

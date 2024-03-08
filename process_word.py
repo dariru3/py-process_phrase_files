@@ -19,6 +19,8 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
             new_cells[i].text = row.cells[col_index].text
 
 def process_word_file(file_path, output_folder, attempts=1):
+    if attempts == 1:
+        print("Processing .DOCX file...")
     max_attempts = 2
     doc = Document(file_path)
 
@@ -41,9 +43,9 @@ def process_word_file(file_path, output_folder, attempts=1):
         os.makedirs(output_folder)
 
     if validate_table_contents(new_table):
-        filename = save_as_word_file(file_path, output_folder, doc)
+        # filename = save_as_word_file(file_path, output_folder, doc)
         df_table = table_to_df(new_table)
-        save_as_csv_file(df_table, filename)
+        # save_as_csv_file(df_table, filename)
         return df_table
     else:
         if attempts < max_attempts:
