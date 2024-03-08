@@ -23,19 +23,27 @@ def format_table(table, comments=True):
                 cell.width = Mm(width)
 
 def apply_conditional_formatting(table):
-    condition_column_index = 2
-    format_column_index = 1
+    '''
+    Change row cell colors to gray if either condition is met.
+    There is text in the target cell and ...
+    Condition 1: the match cell as either "100" or "101"
+    Condition 2: the text in the comment cell is "lock" or "locked"
+    '''
+    target_column_index = 2
+    match_column_index = 3
+    comment_column_index = 4
+    comment_to_gray = ['lock', 'locked']
+    match_to_gray = ['100', '101']
     background_color= "D9D9D9"
 
     for row in table.rows:
-        # Check if the cell has text.
-        condition_met = row.cells[condition_column_index].text.strip() != ""
-        # Additionally, check if the next cell to the right has either "99", "100", or "101".
-        next_cell_value = row.cells[condition_column_index + 1].text.strip()
-        next_cell_condition_met = next_cell_value in ["100", "101"]
+        target_value = row.cells[target_column_index].text.strip()
+        match_value = row.cells[match_column_index].text.strip()
+        comment_value = row.cells[comment_column_index].text.lower().strip()
 
-        indexes_to_color = [format_column_index, condition_column_index, condition_column_index +1]
+        condition_1_met = match_value in match_to_gray
+        condition_2_met = comment_value in comment_to_gray
 
-        if condition_met and next_cell_condition_met:
-            cells_to_color = [row.cells[i] for i in indexes_to_color]
+        if target_value and (condition_1_met or condition_2_met):
+            cells_to_color = [cell for cell in row.cells]
             change_cell_color(cells_to_color, background_color)
