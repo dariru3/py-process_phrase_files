@@ -41,9 +41,9 @@ def process_word_file(file_path, output_folder, attempts=1):
         os.makedirs(output_folder)
 
     if validate_table_contents(new_table):
-        filename = save_as_word_file(file_path, output_folder, doc)
+        # filename = save_as_word_file(file_path, output_folder, doc)
         df_table = table_to_df(new_table)
-        save_as_csv_file(df_table, filename)
+        # save_as_csv_file(df_table, filename)
         return df_table
     else:
         if attempts < max_attempts:

@@ -25,7 +25,6 @@ def get_file_pairs(folder_path):
         mxliff_file = mxliff_files.get(base_name)
         if mxliff_file:
             pairs.append((docx_file, mxliff_file))
-    print(f"Pair files: {pairs}")
     return pairs
 
 def process_files(docx_file, mxliff_file, output_folder):
@@ -67,4 +66,5 @@ def dataframe_to_word_table(df, output_file_path):
 if __name__ == "__main__":
     pairs = get_file_pairs(input_folder)
     for docx_file, mxliff_file in pairs:
+        print(f"File pair:\n{docx_file}\n{mxliff_file}")
         process_files(docx_file, mxliff_file, output_folder)
