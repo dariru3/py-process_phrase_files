@@ -19,6 +19,8 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
             new_cells[i].text = row.cells[col_index].text
 
 def process_word_file(file_path, output_folder, attempts=1):
+    if attempts == 1:
+        print("Processing .DOCX file...")
     max_attempts = 2
     doc = Document(file_path)
 

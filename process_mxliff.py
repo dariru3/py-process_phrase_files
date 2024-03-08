@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
-def parse_mxliff_to_df(mxliff_file): 
+def parse_mxliff_to_df(mxliff_file):
+    print("Processing .MXLIFF file...")
     # Register the namespace to properly handle prefixed attributes
     ET.register_namespace('m', 'urn:oasis:names:tc:xliff:document:1.2')
 
