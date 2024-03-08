@@ -60,6 +60,9 @@ def dataframe_to_word_table(df, output_file_path):
     help.format_table(table, comments=False)
     help.apply_conditional_formatting(table)
     
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
 

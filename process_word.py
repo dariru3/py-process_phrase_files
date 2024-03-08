@@ -1,6 +1,4 @@
 from docx import Document
-import pandas as pd
-import help_format_tables as help
 from table_to_df import table_to_df
 import os
 import re
@@ -30,22 +28,11 @@ def process_word_file(file_path, output_folder, attempts=1):
 
     original_table = doc.tables[0]
     new_table = doc.add_table(rows=0, cols=5)
-    help.format_table(new_table, comments=True)
 
     copy_content_to_table(original_table, new_table, columns_to_copy)
-    # help.apply_conditional_formatting(new_table)
-    
-    # Remove the original table
-    # original_table._element.getparent().remove(original_table._element)
-
-    # Check for output folder
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
 
     if validate_table_contents(new_table):
-        # filename = save_as_word_file(file_path, output_folder, doc)
         df_table = table_to_df(new_table)
-        # save_as_csv_file(df_table, filename)
         return df_table
     else:
         if attempts < max_attempts:
@@ -62,11 +49,10 @@ def contains_japanese(text):
 
 def validate_table_contents(new_table):
     valid_rows = True
-    for row_number, row in enumerate(new_table.rows[1:9], start=2):  # Adjusted indexing for Python's 0-based index
-        column_3_text = row.cells[2].text  # Column 3 (0-based index)
+    for row_number, row in enumerate(new_table.rows[1:11], start=2):
+        column_3_target_text = row.cells[2].text
 
-        # Check conditions
-        if column_3_text and contains_japanese(column_3_text):
+        if column_3_target_text and contains_japanese(column_3_target_text):
             valid_rows = False
     
     return valid_rows
