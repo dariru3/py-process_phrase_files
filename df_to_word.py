@@ -5,9 +5,9 @@ from config import mxliff_filepath
 from merge_df import merge_dfs
 from process_word import process_word_file
 
-word_input_file = "input_files/240226_良品計画様_統合報告2023対訳表_P37-40+-ja-en-T.docx"
+word_input_file = "input_files/ダリルさん-ja-en-T.docx"
 word_output_folder = "output_files/"
-mxliff_file = "input_files/240226_良品計画様_統合報告2023対訳表_P37-40+-ja-en-T.mxliff"
+mxliff_file = "input_files/ダリルさん-ja-en-T.mxliff"
 
 # Word file has comments
 df1 = process_word_file(word_input_file, word_output_folder)

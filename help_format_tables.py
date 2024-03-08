@@ -32,7 +32,7 @@ def apply_conditional_formatting(table):
         condition_met = row.cells[condition_column_index].text.strip() != ""
         # Additionally, check if the next cell to the right has either "99", "100", or "101".
         next_cell_value = row.cells[condition_column_index + 1].text.strip()
-        next_cell_condition_met = next_cell_value in ["99", "100", "101"]
+        next_cell_condition_met = next_cell_value in ["100", "101"]
 
         indexes_to_color = [format_column_index, condition_column_index, condition_column_index +1]
 

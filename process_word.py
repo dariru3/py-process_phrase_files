@@ -41,11 +41,13 @@ def process_word_file(file_path, output_folder, attempts=1):
         os.makedirs(output_folder)
 
     if validate_table_contents(new_table):
+        print("Table valid")
         filename = save_as_word_file(file_path, output_folder, doc)
         df_table = table_to_df(new_table)
         save_as_csv_file(df_table, filename)
         return df_table
     else:
+        print("Table invalid")
         if attempts < max_attempts:
             print(f'Attempt {attempts} failed, trying again...')
             return process_word_file(file_path, output_folder, attempts + 1)
@@ -78,6 +80,7 @@ def adjust_columns_by_attempts(attempts):
 
     message, columns = attempts_mapping.get(attempts, ("Second attempt failed", None))
     print(message)
+    print(f'Columns: {columns}')
     return columns
 
 def save_as_word_file(file_path, output_folder, doc):
@@ -104,4 +107,4 @@ def process_all_word_files_in_folder(folder_path, output_folder):
             process_word_file(file_path, output_folder)
 
 # Example usage
-process_all_word_files_in_folder('input_files', 'output_files')
+# process_all_word_files_in_folder('input_files', 'output_files')
