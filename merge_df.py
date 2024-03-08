@@ -1,16 +1,4 @@
 import pandas as pd
-from process_word import process_word_file
-from process_mxliff import parse_mxliff_to_df
-
-# word_input_file = "input_files/240226_良品計画様_統合報告2023対訳表_P37-40+-ja-en-T.docx"
-# word_output_folder = "output_files/"
-# mxliff_file = "input_files/240226_良品計画様_統合報告2023対訳表_P37-40+-ja-en-T.mxliff"
-
-# # Word file has comments
-# df1 = process_word_file(word_input_file, word_output_folder)
-# # .mxliff file has repeating text
-# df2 = parse_mxliff_to_df(mxliff_file)
-
 
 def merge_dfs(df1, df2):
     df1['Index'] = df1['Index'].astype(int)  # Convert Index to int
@@ -31,7 +19,3 @@ def merge_dfs(df1, df2):
     df_combined.to_csv(csv_file, index=False)
 
     return df_combined
-
-
-# if __name__ == "__main__":
-#     merge_dfs(df1, df2)

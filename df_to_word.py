@@ -1,7 +1,6 @@
 from docx import Document
 from process_mxliff import parse_mxliff_to_df
 import help_format_tables as help
-from config import mxliff_filepath
 from merge_df import merge_dfs
 from process_word import process_word_file
 
@@ -14,16 +13,12 @@ df1 = process_word_file(word_input_file, word_output_folder)
 # .mxliff file has repeating text
 df2 = parse_mxliff_to_df(mxliff_file)
 
-mxliff_file = mxliff_filepath
-df = merge_dfs(df1, df2) # parse_mxliff_to_df(mxliff_file)
+df = merge_dfs(df1, df2)
 
 output_file_path = "output_files/merge_to_word_output.docx"
 
 def dataframe_to_word_table(df, output_file_path):
     doc = Document()
-    # df.index = df.index + 1
-    # df.index.name = 'Index'
-    # df.reset_index(inplace=True)
     
     table = doc.add_table(rows=1, cols=len(df.columns))
     table.autofit = False
@@ -45,6 +40,7 @@ def dataframe_to_word_table(df, output_file_path):
     help.apply_conditional_formatting(table)
     
     doc.save(output_file_path)
-    print(f"Word document has been saved to {output_file_path}.")
+    print(f"Merged tables saved as Word document: {output_file_path}.")
 
-dataframe_to_word_table(df, output_file_path)
+if __name__ == "__main__":
+    dataframe_to_word_table(df, output_file_path)

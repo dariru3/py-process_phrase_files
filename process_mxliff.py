@@ -48,9 +48,9 @@ def parse_mxliff_to_df(mxliff_file):
     df['Comment'] = ""
 
     # View parsed data in CSV file
-    csv_file = 'output_files/mxliff_to_csv_preview.csv'
+    csv_file = 'output_files/mxliff_to_csv.csv'
     df.to_csv(csv_file, index=False)
-    print(f"CSV file has been saved to {csv_file}.")
+    print(f"Processed MXLIFF file saved as {csv_file}.")
 
     return df
 

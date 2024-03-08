@@ -41,13 +41,11 @@ def process_word_file(file_path, output_folder, attempts=1):
         os.makedirs(output_folder)
 
     if validate_table_contents(new_table):
-        print("Table valid")
         filename = save_as_word_file(file_path, output_folder, doc)
         df_table = table_to_df(new_table)
         save_as_csv_file(df_table, filename)
         return df_table
     else:
-        print("Table invalid")
         if attempts < max_attempts:
             print(f'Attempt {attempts} failed, trying again...')
             return process_word_file(file_path, output_folder, attempts + 1)
@@ -67,20 +65,18 @@ def validate_table_contents(new_table):
 
         # Check conditions
         if column_3_text and contains_japanese(column_3_text):
-            # print(f"Row {row_number}, Column 3 contain Japanese: {column_3_text}")
             valid_rows = False
     
     return valid_rows
 
 def adjust_columns_by_attempts(attempts):
     attempts_mapping = {
-        1: ("First try", [2, 3, 4, 5, 6]),
-        2: ("Second try", [2, 3, 5, 6, 7]),
+        1: ("First attempt", [2, 3, 4, 5, 6]),
+        2: ("Second attempt", [2, 3, 5, 6, 7]),
     }
 
     message, columns = attempts_mapping.get(attempts, ("Second attempt failed", None))
     print(message)
-    print(f'Columns: {columns}')
     return columns
 
 def save_as_word_file(file_path, output_folder, doc):
@@ -92,13 +88,13 @@ def save_as_word_file(file_path, output_folder, doc):
     processed_file_path = os.path.join(output_folder, new_filename)
     # Save the document
     doc.save(processed_file_path)
-    print(f"Processed file saved as: {processed_file_path}")
+    print(f"Processed Word file saved as {processed_file_path}")
     return name_part
 
 def save_as_csv_file(dataframe, filename):
     csv_file = f'output_files/{filename}.csv'
     dataframe.to_csv(csv_file, index=False)
-    print(f"CSV files has been saved to {csv_file}.")
+    print(f"Word table saved as CSV file: {csv_file}.")
 
 def process_all_word_files_in_folder(folder_path, output_folder):
     for file_name in os.listdir(folder_path):
@@ -106,5 +102,5 @@ def process_all_word_files_in_folder(folder_path, output_folder):
             file_path = os.path.join(folder_path, file_name)
             process_word_file(file_path, output_folder)
 
-# Example usage
-# process_all_word_files_in_folder('input_files', 'output_files')
+if __name__ == "__main__":
+    process_all_word_files_in_folder('input_files', 'output_files')
