@@ -24,11 +24,11 @@ def format_table(table, comments=True):
 
 def apply_conditional_formatting(table):
     '''
-    Change cell colors to gray if either condition is met.
-    Condition 1: text in target cell and match cell as either "100" or "101"
-    Condition 2: text in comment cell is "lock" or "locked"
+    Change row cell colors to gray if either condition is met.
+    There is text in the target cell and ...
+    Condition 1: the match cell as either "100" or "101"
+    Condition 2: the text in the comment cell is "lock" or "locked"
     '''
-    source_column_index = 1
     target_column_index = 2
     match_column_index = 3
     comment_column_index = 4
@@ -37,17 +37,13 @@ def apply_conditional_formatting(table):
     background_color= "D9D9D9"
 
     for row in table.rows:
-        # Condition 1: text in target cell and match cell as either "100" or "101"
-        target_condition_met = row.cells[target_column_index].text.strip() != ""
-        match_cell_value = row.cells[match_column_index].text.strip()
-        match_condition_met = match_cell_value in match_to_gray
+        target_value = row.cells[target_column_index].text.strip()
+        match_value = row.cells[match_column_index].text.strip()
+        comment_value = row.cells[comment_column_index].text.lower().strip()
 
-        # Condition 2: text in comment cell is "lock" or "locked"
-        comment_cell_value = row.cells[comment_column_index].text.lower().strip()
-        comment_condition_met = comment_cell_value in comment_to_gray
+        condition_1_met = match_value in match_to_gray
+        condition_2_met = comment_value in comment_to_gray
 
-        indexes_to_color = [source_column_index, target_column_index]
-
-        if target_condition_met and (match_condition_met or comment_condition_met):
-            cells_to_color = [row.cells[i] for i in indexes_to_color]
+        if target_value and (condition_1_met or condition_2_met):
+            cells_to_color = [cell for cell in row.cells]
             change_cell_color(cells_to_color, background_color)
