@@ -5,9 +5,11 @@ from process_mxliff import parse_mxliff_to_df
 import help_format_tables as help
 from merge_df import merge_dfs
 from process_word import process_word_file
+from config_loader import CONFIG
 
-input_folder = "input_files/"
-output_folder = "output_files/"
+general_settings = CONFIG["GeneralSettings"]
+input_folder = general_settings["InputFolderPath"] # "input_files/"
+output_folder = general_settings["OutputFolderPath"] # "output_files/"
 
 def get_file_pairs(folder_path):
     docx_files = {}

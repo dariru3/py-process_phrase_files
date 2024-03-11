@@ -1,9 +1,8 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
-from config import tmx_filepath
 
 # Define the path to your TMX file
-tmx_file = tmx_filepath
+tmx_file = "tmx_filepath"
 
 # Parse the TMX file
 tree = ET.parse(tmx_file)

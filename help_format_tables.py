@@ -1,6 +1,7 @@
 from docx.shared import Mm
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
+from config_loader import CONFIG
 
 def change_cell_color(cells, background_color=None):
     for cell in cells:
@@ -9,11 +10,12 @@ def change_cell_color(cells, background_color=None):
             cell._tc.get_or_add_tcPr().append(shading_elm)
 
 def format_table(table, comments=True):
+    f_settings = CONFIG["TableFormattingSettings"]
     table.style = 'Table Grid'
     if comments:
-        row_widths = [9, 90, 110, 10, 50]
+        row_widths = f_settings["RowWidthsWithComments"] # [9, 90, 110, 10, 50]
     else:
-        row_widths = [11, 60, 70, 11]
+        row_widths = f_settings["RowWidthsWithoutComments"] # [11, 60, 70, 11]
     
     for i, width in enumerate(row_widths):
         if comments:
@@ -28,12 +30,13 @@ def apply_conditional_formatting(table):
     Condition 1: There is text in the target cell and the match is either "100" or "101"
     Condition 2: There is text in the target cell and the comment is "lock" or "locked"
     '''
-    target_column_index = 2
-    match_column_index = 3
-    comment_column_index = 4
-    comment_to_gray = ['lock', 'locked']
-    match_to_gray = ['100', '101']
-    background_color= "D9D9D9"
+    cf_settings = CONFIG["ConditionalFormattingSettings"]
+    target_column_index = cf_settings["TargetColumnIndex"] # 2
+    match_column_index = cf_settings["MatchColumnIndex"] #3
+    comment_column_index = cf_settings["CommentColumnIndex"] # 4
+    comment_to_gray = cf_settings["CommentToGray"] # ['lock', 'locked']
+    match_to_gray = cf_settings["MatchToGray"] # ['100', '101']
+    background_color= cf_settings["BackgroundColor"] # "D9D9D9"
 
     for row in table.rows:
         target_value = row.cells[target_column_index].text.strip()

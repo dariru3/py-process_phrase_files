@@ -14,8 +14,4 @@ def merge_dfs(df1, df2):
     # Drop the temporary columns from df2
     df_combined.drop(columns=['Target_df2', 'Match_df2', 'Comment_df2'], inplace=True)
 
-    # Assuming the data structures you provided and focusing on completing the dataset as requested
-    # csv_file = 'output_files/merged_dfs.csv'
-    # df_combined.to_csv(csv_file, index=False)
-
     return df_combined
