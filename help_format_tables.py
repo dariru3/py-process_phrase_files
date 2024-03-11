@@ -25,9 +25,8 @@ def format_table(table, comments=True):
 def apply_conditional_formatting(table):
     '''
     Change row cell colors to gray if either condition is met.
-    There is text in the target cell and ...
-    Condition 1: the match cell as either "100" or "101"
-    Condition 2: the text in the comment cell is "lock" or "locked"
+    Condition 1: There is text in the target cell and the match is either "100" or "101"
+    Condition 2: There is text in the target cell and the comment is "lock" or "locked"
     '''
     target_column_index = 2
     match_column_index = 3
@@ -41,9 +40,9 @@ def apply_conditional_formatting(table):
         match_value = row.cells[match_column_index].text.strip()
         comment_value = row.cells[comment_column_index].text.lower().strip()
 
-        condition_1_met = match_value in match_to_gray
-        condition_2_met = comment_value in comment_to_gray
+        condition_1_met = target_value and match_value in match_to_gray
+        condition_2_met = target_value and comment_value in comment_to_gray
 
-        if target_value and (condition_1_met or condition_2_met):
+        if condition_1_met or condition_2_met:
             cells_to_color = [cell for cell in row.cells]
             change_cell_color(cells_to_color, background_color)
