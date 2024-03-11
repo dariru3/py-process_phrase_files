@@ -7,10 +7,6 @@ from merge_df import merge_dfs
 from process_word import process_word_file
 from config_loader import CONFIG
 
-general_settings = CONFIG["GeneralSettings"]
-input_folder = general_settings["InputFolderPath"] # "input_files/"
-output_folder = general_settings["OutputFolderPath"] # "output_files/"
-
 def get_file_pairs(folder_path):
     docx_files = {}
     mxliff_files = {}
@@ -69,6 +65,10 @@ def dataframe_to_word_table(df, output_file_path):
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
 if __name__ == "__main__":
+    g_settings = CONFIG["GeneralSettings"]
+    input_folder = g_settings["InputFolderPath"] # "input_files/"
+    output_folder = g_settings["OutputFolderPath"] # "output_files/"
+
     pairs = get_file_pairs(input_folder)
     for docx_file, mxliff_file in pairs:
         print(f"File pair:\n{docx_file}\n{mxliff_file}")
