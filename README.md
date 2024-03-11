@@ -1,4 +1,4 @@
-# Phrase Export Documents Processing and Merging Tool
+# Exported Documents Processing and Merging Tool
 
 This Python tool automates the processing and merging of paired `.docx` and `.mxliff` files, applying conditional formatting to the resulting Word tables. It's designed to streamline workflows that involve handling translations and comments across different document formats.
 
@@ -42,4 +42,4 @@ This Python tool automates the processing and merging of paired `.docx` and `.mx
 
 ## License
 
-Specify your project's license here.
+This project is licensed under the MIT License - see the LICENSE file for details.
