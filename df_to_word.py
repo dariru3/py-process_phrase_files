@@ -55,7 +55,7 @@ def dataframe_to_word_table(df, output_file_path):
             else:
                 cells[i].text = str(value)
     
-    help.format_table(table, comments=False)
+    help.format_table(table)
     help.apply_conditional_formatting(table)
     
     if not os.path.exists(output_folder):

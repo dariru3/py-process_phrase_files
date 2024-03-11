@@ -9,20 +9,14 @@ def change_cell_color(cells, background_color=None):
             shading_elm = parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
             cell._tc.get_or_add_tcPr().append(shading_elm)
 
-def format_table(table, comments=True):
+def format_table(table):
     t_settings = CONFIG["TableFormattingSettings"]
     table.style = 'Table Grid'
-    if comments:
-        row_widths = t_settings["RowWidthsWithComments"] # [9, 90, 110, 10, 50]
-    else:
-        row_widths = t_settings["RowWidthsWithoutComments"] # [11, 60, 70, 11]
-    
+    row_widths = t_settings["RowWidths"] # [9, 90, 110, 10, 50]
+
     for i, width in enumerate(row_widths):
-        if comments:
-            table.columns[i].width = Mm(width)
-        else:
-            for cell in table.columns[i].cells:
-                cell.width = Mm(width)
+        for cell in table.columns[i].cells:
+            cell.width = Mm(width)
 
 def apply_conditional_formatting(table):
     '''

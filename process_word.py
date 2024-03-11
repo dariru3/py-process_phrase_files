@@ -53,7 +53,7 @@ def contains_japanese(text):
 
 def validate_table_contents(new_table):
     valid_rows = True
-    for row_number, row in enumerate(new_table.rows[1:11], start=2):
+    for row in new_table.rows[1:11]:
         column_3_target_text = row.cells[2].text
 
         if column_3_target_text and contains_japanese(column_3_target_text):
