@@ -42,4 +42,4 @@ This Python tool automates the processing and merging of paired `.docx` and `.mx
 
 ## License
 
-Specify your project's license here.
+This project is licensed under the MIT License - see the LICENSE file for details.
