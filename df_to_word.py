@@ -2,10 +2,9 @@ from docx import Document
 import os
 import pandas as pd
 from process_mxliff import parse_mxliff_to_df
-import help_format_tables as help
+import format_tables as help
 from merge_df import merge_dfs
 from process_word import process_word_file
-from config_loader import CONFIG
 
 def get_file_pairs(folder_path):
     docx_files = {}
@@ -25,19 +24,7 @@ def get_file_pairs(folder_path):
             pairs.append((docx_file, mxliff_file))
     return pairs
 
-def process_files(docx_file, mxliff_file, output_folder):
-    # Process the Word and MXLIFF files
-    df_word = process_word_file(os.path.join(input_folder, docx_file), output_folder)
-    df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
-
-    # Merge the DataFrames
-    merged_df = merge_dfs(df_word, df_mxliff)
-
-    # Save the merged DataFrame to a Word document
-    output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
-    dataframe_to_word_table(merged_df, output_file_path)
-
-def dataframe_to_word_table(df, output_file_path):
+def dataframe_to_word_table(docx_file, df, output_folder):
     doc = Document()
     table = doc.add_table(rows=1, cols=len(df.columns))
     table.autofit = False
@@ -61,15 +48,17 @@ def dataframe_to_word_table(df, output_file_path):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
+    output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
     doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
-if __name__ == "__main__":
-    g_settings = CONFIG["GeneralSettings"]
-    input_folder = g_settings["InputFolderPath"] # "input_files/"
-    output_folder = g_settings["OutputFolderPath"] # "output_files/"
+def process_files(docx_file, mxliff_file, input_folder, output_folder):
+    # Process the Word and MXLIFF files
+    df_word = process_word_file(os.path.join(input_folder, docx_file), output_folder)
+    df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
 
-    pairs = get_file_pairs(input_folder)
-    for docx_file, mxliff_file in pairs:
-        print(f"File pair:\n{docx_file}\n{mxliff_file}")
-        process_files(docx_file, mxliff_file, output_folder)
+    # Merge the DataFrames
+    merged_df = merge_dfs(df_word, df_mxliff)
+
+    # Save the merged DataFrame to a Word document
+    dataframe_to_word_table(docx_file, merged_df, output_folder)
