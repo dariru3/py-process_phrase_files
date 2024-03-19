@@ -1,17 +1,15 @@
 import os
 
-# Adjust these paths according to your needs
-directory_path = 'temp'
-output_file_path = 'temp/combined_script.py'
+output_file_path = 'combined_script.py'
 
 # This will hold the combined content of all scripts
 combined_scripts = ''
 
 # Loop through all files in the directory
-for filename in os.listdir(directory_path):
+for filename in os.listdir():
     if filename.endswith('.py'):
         # Construct full file path
-        file_path = os.path.join(directory_path, filename)
+        file_path = os.path.join(filename)
         # Open and read the content of the file
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
