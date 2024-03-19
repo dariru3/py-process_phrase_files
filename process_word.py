@@ -96,5 +96,4 @@ def process_all_word_files_in_folder(folder_path, output_folder):
         if file_name.endswith('.docx'):
             file_path = os.path.join(folder_path, file_name)
             process_word_file(file_path, output_folder)
-
 # end of UNUSED
