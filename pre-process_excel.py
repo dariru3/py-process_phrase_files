@@ -5,15 +5,13 @@ def process_excel(file_path, output_folder):
     # Load the Excel file into a pandas DataFrame, skipping the first two rows
     df = pd.read_excel(file_path, engine='openpyxl')
 
-    # Delete the first two rows
-    df = df.iloc[1:]
-    # Delete the first two columns
-    df = df.iloc[:, 2:]
+    # Delete the first two rows and the first two columns
+    df = df.iloc[1:, 2:]
 
     # Construct new file path
     base_name = os.path.basename(file_path)
     name_part, extension = os.path.splitext(base_name)
-    new_filename = name_part + '_processed_new' + extension
+    new_filename = name_part + '_pre-processed' + extension
     processed_file_path = os.path.join(output_folder, new_filename)
 
     # Check for output folder and create if necessary
