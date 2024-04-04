@@ -8,8 +8,8 @@
         "DeleteFirstNTables": 3,
         "MaxAttempts": 2,
         "JapanesePattern": "[\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FAF]",
-        "Mapping_1": [2, 3, 4, 5, 6],
-        "Mapping_2": [2, 3, 5, 6, 7]
+        "Mapping_1": [2, 3, 5, 6, 7],
+        "Mapping_2": [2, 3, 4, 5, 6]
     },
     "ConditionalFormattingSettings": {
         "TargetColumnIndex": 2,

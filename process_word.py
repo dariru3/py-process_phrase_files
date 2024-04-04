@@ -37,6 +37,7 @@ def process_word_file(file_path, output_folder, attempts=1):
 
     if validate_table_contents(new_table, p_settings):
         df_table = table_to_df(new_table)
+        print("Success!")
         return df_table
     else:
         if attempts < max_attempts:
