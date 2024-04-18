@@ -55,7 +55,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
     # Process the Word and MXLIFF files
     df_word = process_word_file(os.path.join(input_folder, docx_file), output_folder)
-    if df_word:
+    if not df_word.empty:
         df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
     else:
         print("Failed to process Word file.")
