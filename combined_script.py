@@ -226,7 +226,7 @@ from docx import Document
 import os
 import pandas as pd
 from process_mxliff import parse_mxliff_to_df
-import format_tables as help
+import format_helper as help
 from merge_df import merge_dfs
 from process_word import process_word_file
 
