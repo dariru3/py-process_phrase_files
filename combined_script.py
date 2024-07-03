@@ -65,39 +65,11 @@ def parse_mxliff_to_df(mxliff_file):
 # End of process_mxliff.py
 
 
-# Start of combine_for_notebook.py
-import os
-
-output_file_path = 'combined_script.py'
-
-# This will hold the combined content of all scripts
-combined_scripts = ''
-
-# Loop through all files in the directory
-for filename in os.listdir():
-    if filename.endswith('.py'):
-        # Construct full file path
-        file_path = os.path.join(filename)
-        # Open and read the content of the file
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-            combined_scripts += f"\n# Start of {filename}\n"
-            combined_scripts += content
-            combined_scripts += f"\n# End of {filename}\n\n"
-
-# Save the combined scripts to a new file
-with open(output_file_path, 'w', encoding='utf-8') as output_file:
-    output_file.write(combined_scripts)
-
-print(f"All scripts have been combined into {output_file_path}")
-
-# End of combine_for_notebook.py
-
-
-# Start of format_tables.py
+# Start of format_helper.py
 from docx.shared import Mm
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
+from docx.enum.section import WD_ORIENT
 from config_loader import CONFIG
 
 def change_cell_color(cells, background_color=None):
@@ -140,7 +112,14 @@ def apply_conditional_formatting(table):
         if condition_1_met or condition_2_met:
             cells_to_color = [cell for cell in row.cells]
             change_cell_color(cells_to_color, background_color)
-# End of format_tables.py
+
+def set_landscape_orientation(document):
+    section = document.sections[-1]
+    new_width, new_height = section.page_height, section.page_width
+    section.orientation = WD_ORIENT.LANDSCAPE
+    section.page_width = new_width
+    section.page_height = new_height
+# End of format_helper.py
 
 
 # Start of process_word.py
@@ -183,6 +162,7 @@ def process_word_file(file_path, output_folder, attempts=1):
 
     if validate_table_contents(new_table, p_settings):
         df_table = table_to_df(new_table)
+        print("Success!")
         return df_table
     else:
         if attempts < max_attempts:
@@ -199,10 +179,11 @@ def contains_japanese(text, process_settings):
 
 def validate_table_contents(new_table, process_settings):
     valid_rows = True
-    for row in new_table.rows[1:11]:
+    for i, row in enumerate(new_table.rows[1:11]):
         column_3_target_text = row.cells[2].text
 
         if column_3_target_text and contains_japanese(column_3_target_text, process_settings):
+            print(f"Invalid row {i}: {column_3_target_text}")
             valid_rows = False
     
     return valid_rows
@@ -268,6 +249,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     
     help.format_table(table)
     help.apply_conditional_formatting(table)
+    help.set_landscape_orientation(doc)
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -279,7 +261,11 @@ def dataframe_to_word_table(docx_file, df, output_folder):
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
     # Process the Word and MXLIFF files
     df_word = process_word_file(os.path.join(input_folder, docx_file), output_folder)
-    df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
+    if not df_word.empty:
+        df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
+    else:
+        print("Failed to process Word file.")
+        return
 
     # Merge the DataFrames
     merged_df = merge_dfs(df_word, df_mxliff)
@@ -316,8 +302,24 @@ def merge_dfs(df1, df2):
 
 
 # Start of main.py
+import os
 from config_loader import CONFIG
 from df_to_word import get_file_pairs, process_files
+
+def filter_unprocessed_pairs(pairs, output_folder):
+    unprocessed_pairs = []
+    for docx_file, mxliff_file in pairs:
+        # Extract the base name from the docx file (base name for mxliff file should be the same)
+        base_name, _ = os.path.splitext(os.path.basename(docx_file))
+
+        # Check if the merged file exists
+        merged_filename = f"{base_name}_merged.docx"
+        merged_file_path = os.path.join(output_folder, merged_filename)
+        if not os.path.exists(merged_file_path):
+            unprocessed_pairs.append((docx_file, mxliff_file))
+        else:
+            print(f"Skipped processing for {base_name} because the merged file already exists.")
+    return unprocessed_pairs
 
 def main():
     g_settings = CONFIG["GeneralSettings"]
@@ -325,7 +327,8 @@ def main():
     output_folder = g_settings["OutputFolderPath"] # "output_files/"
 
     pairs = get_file_pairs(input_folder)
-    for docx_file, mxliff_file in pairs:
+    unprocessed_pairs = filter_unprocessed_pairs(pairs, output_folder)
+    for docx_file, mxliff_file in unprocessed_pairs:
         print(f"File pair:\n{docx_file}\n{mxliff_file}")
         process_files(docx_file, mxliff_file,input_folder, output_folder)
 
