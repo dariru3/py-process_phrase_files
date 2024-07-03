@@ -1,4 +1,5 @@
 from docx import Document
+from docx.enum.section import WD_ORIENT
 import os
 import pandas as pd
 from process_mxliff import parse_mxliff_to_df
@@ -24,6 +25,13 @@ def get_file_pairs(folder_path):
             pairs.append((docx_file, mxliff_file))
     return pairs
 
+def set_landscape_orientation(document):
+    section = document.sections[-1]
+    new_width, new_height = section.page_height, section.page_width
+    section.orientation = WD_ORIENT.LANDSCAPE
+    section.page_width = new_width
+    section.page_height = new_height
+
 def dataframe_to_word_table(docx_file, df, output_folder):
     doc = Document()
     table = doc.add_table(rows=1, cols=len(df.columns))
@@ -44,6 +52,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     
     help.format_table(table)
     help.apply_conditional_formatting(table)
+    set_landscape_orientation(doc)
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
