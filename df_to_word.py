@@ -2,7 +2,7 @@ from docx import Document
 import os
 import pandas as pd
 from process_mxliff import parse_mxliff_to_df
-import format_tables as help
+import format_helper as help
 from merge_df import merge_dfs
 from process_word import process_word_file
 
@@ -44,6 +44,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     
     help.format_table(table)
     help.apply_conditional_formatting(table)
+    help.set_landscape_orientation(doc)
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)

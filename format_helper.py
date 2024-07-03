@@ -1,6 +1,7 @@
 from docx.shared import Mm
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
+from docx.enum.section import WD_ORIENT
 from config_loader import CONFIG
 
 def change_cell_color(cells, background_color=None):
@@ -43,3 +44,10 @@ def apply_conditional_formatting(table):
         if condition_1_met or condition_2_met:
             cells_to_color = [cell for cell in row.cells]
             change_cell_color(cells_to_color, background_color)
+
+def set_landscape_orientation(document):
+    section = document.sections[-1]
+    new_width, new_height = section.page_height, section.page_width
+    section.orientation = WD_ORIENT.LANDSCAPE
+    section.page_width = new_width
+    section.page_height = new_height
