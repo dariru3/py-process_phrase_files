@@ -56,7 +56,7 @@ def format_font_lines(document):
     font = style.font
     font.name = 'Arial'
     font.size = Pt(11)
-    line_space = Pt(1.15 * 12)
+    line_space = 1.15
 
     for paragraph in document.paragraphs:
         apply_paragraph_format(paragraph, style, line_space)
