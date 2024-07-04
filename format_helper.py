@@ -47,7 +47,6 @@ def apply_conditional_formatting(table):
 
 def set_landscape_orientation(document):
     section = document.sections[-1]
-    new_width, new_height = section.page_height, section.page_width
     section.orientation = WD_ORIENT.LANDSCAPE
-    section.page_width = new_width
-    section.page_height = new_height
+    section.page_width = Mm(297) # A4 width
+    section.page_height = Mm(210) # A4 height
