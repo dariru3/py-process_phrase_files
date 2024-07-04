@@ -1,4 +1,4 @@
-from docx.shared import Mm
+from docx.shared import Mm, Pt
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 from docx.enum.section import WD_ORIENT
@@ -50,3 +50,23 @@ def set_landscape_orientation(document):
     section.orientation = WD_ORIENT.LANDSCAPE
     section.page_width = Mm(297) # A4 width
     section.page_height = Mm(210) # A4 height
+
+def format_font_lines(document):
+    style = document.styles['Normal']
+    font = style.font
+    font.name = 'Arial'
+    font.size = Pt(11)
+    line_space = Pt(1.15 * 12)
+
+    for paragraph in document.paragraphs:
+        apply_paragraph_format(paragraph, style, line_space)
+
+    for table in document.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    apply_paragraph_format(paragraph, style, line_space)
+
+def apply_paragraph_format(paragraph, style, line_space):
+    paragraph.style = style
+    paragraph.paragraph_format.line_spacing = line_space
