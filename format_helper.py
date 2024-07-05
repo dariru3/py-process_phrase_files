@@ -57,16 +57,23 @@ def format_font_lines(document):
     font.name = 'Arial'
     font.size = Pt(11)
     line_space = 1.15
+    column_1_font_size = 8
 
     for paragraph in document.paragraphs:
         apply_paragraph_format(paragraph, style, line_space)
 
     for table in document.tables:
         for row in table.rows:
-            for cell in row.cells:
+            for i, cell in enumerate(row.cells):
                 for paragraph in cell.paragraphs:
-                    apply_paragraph_format(paragraph, style, line_space)
+                    if i == 0: # set font size of column 1 to 8pt
+                        apply_paragraph_format(paragraph, style, line_space, column_1_font_size)
+                    else:
+                        apply_paragraph_format(paragraph, style, line_space)
 
-def apply_paragraph_format(paragraph, style, line_space):
+def apply_paragraph_format(paragraph, style, line_space, font_size=None):
     paragraph.style = style
     paragraph.paragraph_format.line_spacing = line_space
+    if font_size:
+        run = paragraph.runs[0] if paragraph.runs else paragraph.add_run()
+        run.font.size = Pt(font_size)
