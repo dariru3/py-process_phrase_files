@@ -29,6 +29,9 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     table = doc.add_table(rows=1, cols=len(df.columns))
     table.autofit = False
 
+    # Rename column headers
+    df.rename(columns={'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+
     # Add header row
     for i, column in enumerate(df.columns):
         table.cell(0, i).text = str(column)
