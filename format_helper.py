@@ -1,23 +1,32 @@
 from docx.shared import Mm, Pt
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
+from docx.oxml.ns import nsdecls, qn
+from docx.oxml import parse_xml, OxmlElement
 from docx.enum.section import WD_ORIENT
 from config_loader import CONFIG
 
-def change_cell_color(cells, background_color=None):
+def change_cell_color(cells, background_color):
     for cell in cells:
-        if background_color:
-            shading_elm = parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
-            cell._tc.get_or_add_tcPr().append(shading_elm)
+        tcPr = cell._element.get_or_add_tcPr()
+        shd = OxmlElement('w:shd')
+        shd.set(qn('w:fill'), background_color)
+        tcPr.append(shd)
+        # shading_elm = OxmlElement('w:shd') # parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
+        # shading_elm.set(nsdecls('w'), 'w:shd')
+        # shading_elm.set('w:fill', background_color)
+        # cell._tc.get_or_add_tcPr().append(shading_elm)
 
 def format_table(table):
     t_settings = CONFIG["TableFormattingSettings"]
     table.style = 'Table Grid'
-    row_widths = t_settings["RowWidths"] # [9, 90, 110, 10, 50]
+    row_widths = t_settings["RowWidths"]
 
     for i, width in enumerate(row_widths):
         for cell in table.columns[i].cells:
             cell.width = Mm(width)
+
+    blue_color = "95B3D7"  # Hex code for blue
+    first_column_cells = table.rows[0].cells
+    change_cell_color(first_column_cells, blue_color)
 
 def apply_conditional_formatting(table):
     '''
