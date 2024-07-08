@@ -30,7 +30,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     table.autofit = False
 
     # Rename column headers
-    df.rename(columns={'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+    df.rename(columns={'Index': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
 
     # Add header row
     for i, column in enumerate(df.columns):
