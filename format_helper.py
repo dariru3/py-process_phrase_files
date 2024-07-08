@@ -1,6 +1,6 @@
 from docx.shared import Mm, Pt
-from docx.oxml.ns import nsdecls, qn
-from docx.oxml import parse_xml, OxmlElement
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 from docx.enum.section import WD_ORIENT
 from config_loader import CONFIG
 
@@ -10,11 +10,17 @@ def change_cell_color(cells, background_color):
         shd = OxmlElement('w:shd')
         shd.set(qn('w:fill'), background_color)
         tcPr.append(shd)
-        # shading_elm = OxmlElement('w:shd') # parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
-        # shading_elm.set(nsdecls('w'), 'w:shd')
-        # shading_elm.set('w:fill', background_color)
-        # cell._tc.get_or_add_tcPr().append(shading_elm)
 
+def set_column_language(table, column_index, language_code):
+    for row in table.rows:
+        cell = row.cells[column_index]
+        for paragraph in cell.paragraphs:
+            rPr = paragraph.runs[0].element.get_or_add_rPr()
+            lang = OxmlElement('w:lang')
+            lang.set(qn('w:val'), language_code)
+            rPr.append(lang)
+
+# format column widths and header row cell color
 def format_table(table):
     t_settings = CONFIG["TableFormattingSettings"]
     table.style = 'Table Grid'
@@ -60,6 +66,7 @@ def set_landscape_orientation(document):
     section.page_width = Mm(297) # A4 width
     section.page_height = Mm(210) # A4 height
 
+# set font size and line spacing
 def format_font_lines(document):
     style = document.styles['Normal']
     font = style.font
@@ -80,6 +87,7 @@ def format_font_lines(document):
                     else:
                         apply_paragraph_format(paragraph, style, line_space)
 
+# helper function for format_font_lines()
 def apply_paragraph_format(paragraph, style, line_space, font_size=None):
     paragraph.style = style
     paragraph.paragraph_format.line_spacing = line_space

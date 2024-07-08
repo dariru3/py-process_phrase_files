@@ -49,6 +49,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     help.apply_conditional_formatting(table)
     help.set_landscape_orientation(doc)
     help.format_font_lines(doc)
+    help.set_column_language(table, 1, 'ja-JP')
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
