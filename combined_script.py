@@ -66,26 +66,41 @@ def parse_mxliff_to_df(mxliff_file):
 
 
 # Start of format_helper.py
-from docx.shared import Mm
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
+from docx.shared import Mm, Pt
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 from docx.enum.section import WD_ORIENT
 from config_loader import CONFIG
 
-def change_cell_color(cells, background_color=None):
+def change_cell_color(cells, background_color):
     for cell in cells:
-        if background_color:
-            shading_elm = parse_xml(r'<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), background_color))
-            cell._tc.get_or_add_tcPr().append(shading_elm)
+        tcPr = cell._element.get_or_add_tcPr()
+        shd = OxmlElement('w:shd')
+        shd.set(qn('w:fill'), background_color)
+        tcPr.append(shd)
 
+def set_column_language(table, column_index, language_code):
+    for row in table.rows:
+        cell = row.cells[column_index]
+        for paragraph in cell.paragraphs:
+            rPr = paragraph.runs[0].element.get_or_add_rPr()
+            lang = OxmlElement('w:lang')
+            lang.set(qn('w:val'), language_code)
+            rPr.append(lang)
+
+# format column widths and header row cell color
 def format_table(table):
     t_settings = CONFIG["TableFormattingSettings"]
     table.style = 'Table Grid'
-    row_widths = t_settings["RowWidths"] # [9, 90, 110, 10, 50]
+    row_widths = t_settings["RowWidths"]
 
     for i, width in enumerate(row_widths):
         for cell in table.columns[i].cells:
             cell.width = Mm(width)
+
+    blue_color = "95B3D7"  # Hex code for blue
+    first_column_cells = table.rows[0].cells
+    change_cell_color(first_column_cells, blue_color)
 
 def apply_conditional_formatting(table):
     '''
@@ -115,10 +130,38 @@ def apply_conditional_formatting(table):
 
 def set_landscape_orientation(document):
     section = document.sections[-1]
-    new_width, new_height = section.page_height, section.page_width
     section.orientation = WD_ORIENT.LANDSCAPE
-    section.page_width = new_width
-    section.page_height = new_height
+    section.page_width = Mm(297) # A4 width
+    section.page_height = Mm(210) # A4 height
+
+# set font size and line spacing
+def format_font_lines(document):
+    style = document.styles['Normal']
+    font = style.font
+    font.name = 'Arial'
+    font.size = Pt(11)
+    line_space = 1.15
+    column_1_font_size = 8
+
+    for paragraph in document.paragraphs:
+        apply_paragraph_format(paragraph, style, line_space)
+
+    for table in document.tables:
+        for row in table.rows:
+            for i, cell in enumerate(row.cells):
+                for paragraph in cell.paragraphs:
+                    if i == 0: # set font size of column 1 to 8pt
+                        apply_paragraph_format(paragraph, style, line_space, column_1_font_size)
+                    else:
+                        apply_paragraph_format(paragraph, style, line_space)
+
+# helper function for format_font_lines()
+def apply_paragraph_format(paragraph, style, line_space, font_size=None):
+    paragraph.style = style
+    paragraph.paragraph_format.line_spacing = line_space
+    if font_size:
+        run = paragraph.runs[0] if paragraph.runs else paragraph.add_run()
+        run.font.size = Pt(font_size)
 # End of format_helper.py
 
 
@@ -234,6 +277,9 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     table = doc.add_table(rows=1, cols=len(df.columns))
     table.autofit = False
 
+    # Rename column headers
+    df.rename(columns={'Index': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+
     # Add header row
     for i, column in enumerate(df.columns):
         table.cell(0, i).text = str(column)
@@ -250,6 +296,8 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     help.format_table(table)
     help.apply_conditional_formatting(table)
     help.set_landscape_orientation(doc)
+    help.format_font_lines(doc)
+    help.set_column_language(table, 1, 'ja-JP')
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
