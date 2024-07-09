@@ -5,6 +5,14 @@ from process_mxliff import parse_mxliff_to_df
 import format_helper as help
 from merge_df import merge_dfs
 from process_word import process_word_file
+from config_loader import CONFIG
+
+def delete_column_in_table(table, column_index):
+    grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
+    for cell in table.column_cells(column_index):
+        cell._tc.getparent().remove(cell._tc)
+    col_elem = grid[column_index]
+    grid.remove(col_elem)
 
 def get_file_pairs(folder_path):
     docx_files = {}
@@ -50,6 +58,10 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     help.set_landscape_orientation(doc)
     help.format_font_lines(doc)
     help.set_column_language(table, 1, 'ja-JP')
+
+    # Drop the 'Match' column after all formatting is done
+    match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
+    delete_column_in_table(table, match_column_index)
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
