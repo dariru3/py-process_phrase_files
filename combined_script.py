@@ -1,6 +1,23 @@
+import json
+import xml.etree.ElementTree as ET
+import pandas as pd
+from docx import Document
+from process_mxliff import parse_mxliff_to_df
+import format_helper as help
+from merge_df import merge_dfs
+from process_word import process_word_file
+from df_to_word import get_file_pairs, process_files
+from docx.shared import Mm, Pt
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+from docx.enum.section import WD_ORIENT
+import pandas as pd
+from table_to_df import table_to_df
+import os
+import re
+from config_loader import CONFIG
 
 # Start of config_loader.py
-import json
 
 def load_config(config_path = 'config.json'):
     with open(config_path, 'r') as config_file:
@@ -11,8 +28,6 @@ CONFIG = load_config()
 
 
 # Start of process_mxliff.py
-import xml.etree.ElementTree as ET
-import pandas as pd
 
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
@@ -66,11 +81,6 @@ def parse_mxliff_to_df(mxliff_file):
 
 
 # Start of format_helper.py
-from docx.shared import Mm, Pt
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
-from docx.enum.section import WD_ORIENT
-from config_loader import CONFIG
 
 def change_cell_color(cells, background_color):
     for cell in cells:
@@ -166,11 +176,6 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
 
 
 # Start of process_word.py
-from docx import Document
-from table_to_df import table_to_df
-import os
-import re
-from config_loader import CONFIG
 
 def delete_first_n_tables(doc, n):
     for _ in range(n):
@@ -246,13 +251,13 @@ def adjust_columns_by_attempts(attempts, process_settings):
 
 
 # Start of df_to_word.py
-from docx import Document
-import os
-import pandas as pd
-from process_mxliff import parse_mxliff_to_df
-import format_helper as help
-from merge_df import merge_dfs
-from process_word import process_word_file
+
+def delete_column_in_table(table, column_index):
+    grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
+    for cell in table.column_cells(column_index):
+        cell._tc.getparent().remove(cell._tc)
+    col_elem = grid[column_index]
+    grid.remove(col_elem)
 
 def get_file_pairs(folder_path):
     docx_files = {}
@@ -298,6 +303,10 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     help.set_landscape_orientation(doc)
     help.format_font_lines(doc)
     help.set_column_language(table, 1, 'ja-JP')
+
+    # Drop the 'Match' column after all formatting is done
+    match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
+    delete_column_in_table(table, match_column_index)
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -324,7 +333,6 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
 
 
 # Start of merge_df.py
-import pandas as pd
 
 def merge_dfs(df1, df2):
     # Convert Index to int
@@ -350,9 +358,6 @@ def merge_dfs(df1, df2):
 
 
 # Start of main.py
-import os
-from config_loader import CONFIG
-from df_to_word import get_file_pairs, process_files
 
 def filter_unprocessed_pairs(pairs, output_folder):
     unprocessed_pairs = []
@@ -386,8 +391,6 @@ if __name__ == "__main__":
 
 
 # Start of table_to_df.py
-import pandas as pd
-from config_loader import CONFIG
 
 def table_to_df(table):
     column_headers = CONFIG["GeneralSettings"]["Column_Headers"]
