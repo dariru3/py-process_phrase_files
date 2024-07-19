@@ -57,7 +57,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     help.format_table(table)
     help.apply_conditional_formatting(table)
     help.set_column_language(table, 1, 'ja-JP')
-    help.reformat_text(table)
+    # help.reformat_text(table) #try different approach: use input files formatting
     help.set_landscape_orientation(doc)
     help.format_font_lines(doc)
 
