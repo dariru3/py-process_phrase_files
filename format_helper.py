@@ -2,7 +2,54 @@ from docx.shared import Mm, Pt
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.enum.section import WD_ORIENT
+import re
 from config_loader import CONFIG
+
+def apply_superscript(run, text):
+    """Helper function to set text as superscript"""
+    run.text = text
+    run.font.superscript = True
+
+def format_superscripts(paragraph):
+    """Helper function to format text with superscript tags"""
+    text = paragraph.text
+    parts = re.split(r'(\{\^\>.*?\<\^\}|\{.*?\>.*?\<.*?\})', text)
+
+    new_runs = []
+    for part in parts:
+        if part.startswith('{^>') and part.endswith('<^}'):
+            # This is a superscript
+            superscript_text = part[3:-3]
+            run = paragraph.add_run()
+            apply_superscript(run, superscript_text)
+            new_runs.append(run)
+        elif re.match(r'\{.*?\>.*?\<.*?\}', part):
+            # Handle other custom tags if necessary
+            inner_text = part.split('>')[1].split('<')[0]
+            run = paragraph.add_run()
+            apply_superscript(run, inner_text)
+            new_runs.append(run)
+        else:
+            # Normal text
+            run = paragraph.add_run(part)
+            new_runs.append(run)
+
+    # Remove original runs
+    for run in paragraph.runs:
+        p = run._element.getparent()
+        p.remove(run._element)
+
+    # Append new runs with formatting
+    for new_run in new_runs:
+        run = paragraph.add_run(new_run.text)
+        run.font.superscript = new_run.font.superscript
+
+def reformat_text(table):
+    """Process a single table in the document"""
+    for row in table.rows:
+        for cell in row.cells:
+            for paragraph in cell.paragraphs:
+                format_superscripts(paragraph)
 
 def change_cell_color(cells, background_color):
     for cell in cells:
@@ -12,6 +59,9 @@ def change_cell_color(cells, background_color):
         tcPr.append(shd)
 
 def set_column_language(table, column_index, language_code):
+    ''''
+    Not working as intended
+    '''
     for row in table.rows:
         cell = row.cells[column_index]
         for paragraph in cell.paragraphs:
