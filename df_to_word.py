@@ -23,7 +23,7 @@ def get_file_pairs(folder_path):
             docx_files[base_name] = filename
         elif ext == ".mxliff":
             mxliff_files[base_name] = filename
-    
+
     # Pairing files with the same base name
     pairs = []
     for base_name, docx_file in docx_files.items():
@@ -43,7 +43,7 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     # Add header row
     for i, column in enumerate(df.columns):
         table.cell(0, i).text = str(column)
-    
+
     # Add data rows
     for index, row in df.iterrows():
         cells = table.add_row().cells
@@ -52,17 +52,19 @@ def dataframe_to_word_table(docx_file, df, output_folder):
                 cells[i].text = ""
             else:
                 cells[i].text = str(value)
-    
+
+    # TODO: combine table helpers and document helpers
     help.format_table(table)
     help.apply_conditional_formatting(table)
+    help.set_column_language(table, 1, 'ja-JP')
+    # help.reformat_text(table) #try different approach: use input files formatting
     help.set_landscape_orientation(doc)
     help.format_font_lines(doc)
-    help.set_column_language(table, 1, 'ja-JP')
 
     # Drop the 'Match' column after all formatting is done
     match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
     delete_column_in_table(table, match_column_index)
-    
+
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
