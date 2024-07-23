@@ -5,6 +5,7 @@ from process_mxliff import parse_mxliff_to_df
 import format_helper as help
 from merge_df import merge_dfs
 from process_word import process_word_file
+from save_formatting import reapply_formatting_to_column
 from config_loader import CONFIG
 
 def delete_column_in_table(table, column_index):
@@ -32,7 +33,7 @@ def get_file_pairs(folder_path):
             pairs.append((docx_file, mxliff_file))
     return pairs
 
-def dataframe_to_word_table(docx_file, df, output_folder):
+def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     doc = Document()
     table = doc.add_table(rows=1, cols=len(df.columns))
     table.autofit = False
@@ -61,6 +62,9 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     help.set_landscape_orientation(doc)
     help.format_font_lines(doc)
 
+    # Reapply formatting to Enlglish text
+    reapply_formatting_to_column(table=table, table_num=0, col_num=2, formatting_info=formatting_info)
+
     # Drop the 'Match' column after all formatting is done
     match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
     delete_column_in_table(table, match_column_index)
@@ -73,9 +77,12 @@ def dataframe_to_word_table(docx_file, df, output_folder):
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
+    df_word, formatting_info = None, None
     # Process the Word and MXLIFF files
-    df_word = process_word_file(os.path.join(input_folder, docx_file), output_folder)
-    if not df_word.empty:
+    processed_data = process_word_file(os.path.join(input_folder, docx_file), output_folder)
+    if processed_data is not None:
+        df_word, formatting_info = processed_data
+    if df_word is not None and not df_word.empty:
         df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
     else:
         print("Failed to process Word file.")
@@ -85,4 +92,4 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
     merged_df = merge_dfs(df_word, df_mxliff)
 
     # Save the merged DataFrame to a Word document
-    dataframe_to_word_table(docx_file, merged_df, output_folder)
+    dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)

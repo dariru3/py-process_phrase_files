@@ -2,6 +2,7 @@ from docx import Document
 from table_to_df import table_to_df
 import os
 import re
+from save_formatting import extract_formatting_from_column
 from config_loader import CONFIG
 
 def delete_first_n_tables(doc, n):
@@ -25,6 +26,9 @@ def process_word_file(file_path, output_folder, attempts=1):
     max_attempts = p_settings["MaxAttempts"]
     doc = Document(file_path)
 
+    # Save English text formatting
+    formatting_info = extract_formatting_from_column(doc=doc, table_num=3, col_num=5)
+
     tables_to_delete = p_settings["DeleteFirstNTables"]
     delete_first_n_tables(doc=doc, n=tables_to_delete)
 
@@ -38,7 +42,7 @@ def process_word_file(file_path, output_folder, attempts=1):
     if validate_table_contents(new_table, p_settings):
         df_table = table_to_df(new_table)
         print("Success!")
-        return df_table
+        return df_table, formatting_info
     else:
         if attempts < max_attempts:
             print(f'Attempt {attempts} failed, trying again...')
@@ -60,7 +64,7 @@ def validate_table_contents(new_table, process_settings):
         if column_3_target_text and contains_japanese(column_3_target_text, process_settings):
             print(f"Invalid row {i}: {column_3_target_text}")
             valid_rows = False
-    
+
     return valid_rows
 
 def adjust_columns_by_attempts(attempts, process_settings):
