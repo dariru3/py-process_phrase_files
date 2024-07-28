@@ -29,10 +29,11 @@ def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script
             print(f"File {filename} is not a Python script and is skipped.")
 
     imports_list = sorted(imports_set)
-    combine_imports = '\n'.join(imports_list) + '\n\n'
+    combined_imports = '\n'.join(imports_list) + '\n\n'
 
     # Save the combined scripts to a new file
     with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        output_file.write(combined_imports)
         output_file.write(combined_scripts)
 
     print(f"All scripts have been combined into {output_file_path}")
