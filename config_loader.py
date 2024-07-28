@@ -1,7 +1,7 @@
 CONFIG = {
     "GeneralSettings": {
-        "InputFolderPath": "input_files/",
-        "OutputFolderPath": "output_files/",
+        "InputFolderPath": "input_files/", # "/content/drive/MyDrive/MagicBox/",
+        "OutputFolderPath": "output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
         "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
     },
     "ProcessingSettings": {

@@ -6,6 +6,9 @@ def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script
     # Save all import lines
     imports_set = set()
 
+    # Create a set of base filenames to filter out import from file lines
+    base_filenames_set = {os.path.splitext(os.path.basename(file_name))[0] for file_name in file_names}
+
     # Loop through all files in the directory
     for filename in file_names:
         if filename.endswith('.py'):
@@ -18,7 +21,8 @@ def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script
                     for line in content:
                         stripped_line = line.strip()
                         if stripped_line.startswith('import ') or stripped_line.startswith('from '):
-                            imports_set.add(stripped_line)
+                            if not (stripped_line.startswith('from') and any(base in stripped_line for base in base_filenames_set)):
+                                imports_set.add(stripped_line)
                         else:
                             combined_scripts += line
 

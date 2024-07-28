@@ -1,18 +1,9 @@
-from config_loader import CONFIG
-from df_to_word import get_file_pairs, process_files
 from docx import Document
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Mm, Pt
 from docx.shared import Pt, RGBColor
-from merge_df import merge_dfs
-from process_mxliff import parse_mxliff_to_df
-from process_word import process_word_file
-from save_formatting import extract_formatting_from_column
-from save_formatting import reapply_formatting_to_column
-from table_to_df import table_to_df
-import format_helper as help
 import os
 import pandas as pd
 import re
@@ -481,12 +472,12 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
                 cells[i].text = str(value)
 
     # TODO: combine table helpers and document helpers
-    help.format_table(table)
-    help.apply_conditional_formatting(table)
-    help.set_column_language(table, 1, 'ja-JP')
-    # help.reformat_text(table) #try different approach: use input files formatting
-    help.set_landscape_orientation(doc)
-    help.format_font_lines(doc)
+    format_table(table)
+    apply_conditional_formatting(table)
+    set_column_language(table, 1, 'ja-JP')
+    # reformat_text(table) #try different approach: use input files formatting
+    set_landscape_orientation(doc)
+    format_font_lines(doc)
 
     # Reapply formatting to Enlglish text
     reapply_formatting_to_column(table=table, table_num=0, col_num=2, formatting_info=formatting_info)
