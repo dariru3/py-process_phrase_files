@@ -21,7 +21,7 @@ def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script
                     for line in content:
                         stripped_line = line.strip()
                         if stripped_line.startswith('import ') or stripped_line.startswith('from '):
-                            if not (stripped_line.startswith('from') and any(base in stripped_line for base in base_filenames_set))
+                            if not (stripped_line.startswith('from') and any(base in stripped_line for base in base_filenames_set)):
                                 imports_set.add(stripped_line)
                         else:
                             combined_scripts += line
