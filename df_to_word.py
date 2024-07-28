@@ -2,7 +2,7 @@ from docx import Document
 import os
 import pandas as pd
 from process_mxliff import parse_mxliff_to_df
-import format_helper as help
+from format_helper import format_table, apply_conditional_formatting, set_column_language, set_landscape_orientation, format_font_lines
 from merge_df import merge_dfs
 from process_word import process_word_file
 from save_formatting import reapply_formatting_to_column
@@ -55,12 +55,12 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
                 cells[i].text = str(value)
 
     # TODO: combine table helpers and document helpers
-    help.format_table(table)
-    help.apply_conditional_formatting(table)
-    help.set_column_language(table, 1, 'ja-JP')
-    # help.reformat_text(table) #try different approach: use input files formatting
-    help.set_landscape_orientation(doc)
-    help.format_font_lines(doc)
+    format_table(table)
+    apply_conditional_formatting(table)
+    set_column_language(table, 1, 'ja-JP')
+    # reformat_text(table) #try different approach: use input files formatting
+    set_landscape_orientation(doc)
+    format_font_lines(doc)
 
     # Reapply formatting to Enlglish text
     reapply_formatting_to_column(table=table, table_num=0, col_num=2, formatting_info=formatting_info)
