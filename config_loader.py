@@ -1,7 +1,25 @@
-import json
-
-def load_config(config_path = 'config.json'):
-    with open(config_path, 'r') as config_file:
-        return json.load(config_file)
-
-CONFIG = load_config()
+CONFIG = {
+    "GeneralSettings": {
+        "InputFolderPath": "input_files/",
+        "OutputFolderPath": "output_files/",
+        "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
+    },
+    "ProcessingSettings": {
+        "DeleteFirstNTables": 3,
+        "MaxAttempts": 2,
+        "JapanesePattern": "[\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FAF]",
+        "Mapping_1": [2, 3, 5, 6, 7],
+        "Mapping_2": [2, 3, 4, 5, 6]
+    },
+    "ConditionalFormattingSettings": {
+        "TargetColumnIndex": 2,
+        "MatchColumnIndex": 3,
+        "CommentColumnIndex": 4,
+        "CommentToGray": ["lock", "locked"],
+        "MatchToGray": ["100", "101"],
+        "BackgroundColor": "D9D9D9"
+    },
+    "TableFormattingSettings": {
+        "RowWidths": [9, 81, 112, 11, 20]
+    }
+}
