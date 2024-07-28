@@ -1,8 +1,10 @@
 import os
 
 def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script.py'):
-    # This will hold the combined content of all scripts
+    # Hold the combined content of all scripts
     combined_scripts = ''
+    # Save all import lines
+    imports_set = set()
 
     # Loop through all files in the directory
     for filename in file_names():
@@ -10,14 +12,24 @@ def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script
             if os.path.isfile(filename):
                 # Open and read the content of the file
                 with open(filename, 'r', encoding='utf-8') as file:
-                    content = file.read()
+                    content = file.readlines()
                     combined_scripts += f"\n# Start of {filename}\n"
-                    combined_scripts += content
+
+                    for line in content:
+                        stripped_line = line.strip()
+                        if stripped_line.startswith('import ') or stripped_line.startswith('from '):
+                            imports_set.add(stripped_line)
+                        else:
+                            combined_scripts += line
+
                     combined_scripts += f"\n# End of {filename}\n\n"
             else:
                 print(f"File {filename} does not exist and is skipped.")
         else:
             print(f"File {filename} is not a Python script and is skipped.")
+
+    imports_list = sorted(imports_set)
+    combine_imports = '\n'.join(imports_list) + '\n\n'
 
     # Save the combined scripts to a new file
     with open(output_file_path, 'w', encoding='utf-8') as output_file:
