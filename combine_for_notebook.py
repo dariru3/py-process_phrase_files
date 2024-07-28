@@ -7,7 +7,7 @@ def combine_scripts_for_notebook(file_names, output_file_path = 'notebook_script
     imports_set = set()
 
     # Loop through all files in the directory
-    for filename in file_names():
+    for filename in file_names:
         if filename.endswith('.py'):
             if os.path.isfile(filename):
                 # Open and read the content of the file
