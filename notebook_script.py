@@ -355,7 +355,7 @@ def parse_mxliff_to_df(mxliff_file):
         source_text = trans_unit.find('m:source', namespaces).text if trans_unit.find('m:source', namespaces) is not None else ''
         target_text = trans_unit.find('m:target', namespaces).text if trans_unit.find('m:target', namespaces) is not None else ''
         match_quality = '0' # Default value
-        
+
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
         for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
             if alt_trans.attrib.get('origin') == 'memsource-tm':
@@ -545,4 +545,3 @@ def main():
 if __name__ == "__main__":
     main()
 # End of main.py
-
