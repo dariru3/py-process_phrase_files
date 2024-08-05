@@ -1,5 +1,5 @@
 CONFIG = {
-    "GeneralSettings": {
+    "GeneralSettings": { # When updating Colab, replace with commented folder paths
         "InputFolderPath": "input_files/", # "/content/drive/MyDrive/MagicBox/",
         "OutputFolderPath": "output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
         "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
