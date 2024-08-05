@@ -27,13 +27,6 @@ def extract_formatting_from_column(doc, table_num, col_num):
 
     return formatting_info
 
-# Example usage
-# file_path = 'input_files/企業価値向上（新規依頼）-ja-en-T.docx'
-# table_num = 3  # 3rd table (index starts at 0)
-# col_num = 5    # 5th column
-# formatting_info = extract_formatting_from_column(file_path, table_num, col_num)
-# print(formatting_info)
-
 def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
     # doc = Document(file_path)
     # table = doc.tables[table_num]
@@ -54,11 +47,3 @@ def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
                 run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
             run.font.superscript = run_info.get("superscript")
             run.font.subscript = run_info.get("subscript")
-
-    # doc.save('output_files/output_formatted.docx')
-
-# Example usage
-# file_path = 'output_files/企業価値向上（新規依頼）-ja-en-T_merged.docx'
-# table_num = 0  # 1st table (index starts at 0)
-# col_num = 2    # 3rd column
-# reapply_formatting_to_column(file_path, table_num, col_num, formatting_info)
