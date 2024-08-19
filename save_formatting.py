@@ -28,23 +28,22 @@ def extract_formatting_from_column(doc, table_num, col_num):
 
 def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
     for row_idx, cell_info in formatting_info.items():
-        has_previous_text = any(run_info.get("text", "").strip() for run_info in cell_info)
+        has_previous_text = any(run_info["text"] for run_info in cell_info)
+        if not has_previous_text:
+            continue
 
-        if has_previous_text:
-            cell = table.cell(row_idx + 1, col_num) # +1 = start 2nd row
-
-            cell.text = ""
-
-            for run_info in cell_info:
-                paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
-                run = paragraph.add_run(run_info["text"])
-                run.bold = run_info.get("bold")
-                run.italic = run_info.get("italic")
-                run.underline = run_info.get("underline")
-                run.font.name = run_info.get("font_name")
-                if run_info.get("font_size"):
-                    run.font.size = Pt(run_info["font_size"])
-                if run_info.get("font_color"):
-                    run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
-                run.font.superscript = run_info.get("superscript")
-                run.font.subscript = run_info.get("subscript")
+        cell = table.cell(row_idx + 1, col_num) # +1 = start 2nd row
+        cell.text = ""
+        for run_info in cell_info:
+            paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
+            run = paragraph.add_run(run_info["text"])
+            run.bold = run_info.get("bold")
+            run.italic = run_info.get("italic")
+            run.underline = run_info.get("underline")
+            run.font.name = run_info.get("font_name")
+            if run_info.get("font_size"):
+                run.font.size = Pt(run_info["font_size"])
+            if run_info.get("font_color"):
+                run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
+            run.font.superscript = run_info.get("superscript")
+            run.font.subscript = run_info.get("subscript")
