@@ -1,4 +1,4 @@
-from docx import Document
+from docx import Document, table
 import os
 import pandas as pd
 from process_mxliff import parse_mxliff_to_df
@@ -47,23 +47,36 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
 
     # Add data rows
     for index, row in df.iterrows():
+        print(f"\nProcessing row {index}...")  # Debug output for each row
+        print(row)  # Print the full row to see all values
+
         cells = table.add_row().cells
         for i, value in enumerate(row):
             if pd.isnull(value) or value == "None":
+                if index in [6, 11]:
+                    print(f"Empty value detected in column '{df.columns[i]}'")  # Indicate where empty values are found
                 cells[i].text = ""
             else:
+                if index in [6, 11]:
+                    print(f"Setting cell value in column '{df.columns[i]}' to: {value}")  # Show the value being set
                 cells[i].text = str(value)
 
     # TODO: combine table helpers and document helpers
     format_table(table)
+    print_debug("format table", table)
+
     apply_conditional_formatting(table)
+    print_debug("conditional formatting", table)
+
     set_column_language(table, 1, 'ja-JP')
-    # reformat_text(table) #try different approach: use input files formatting
+    print_debug("set_column_languageg", table)
+
     set_landscape_orientation(doc)
     format_font_lines(doc)
 
     # Reapply formatting to Enlglish text
     reapply_formatting_to_column(table=table, table_num=0, col_num=2, formatting_info=formatting_info)
+    print_debug("reapply formatting", table)
 
     # Drop the 'Match' column after all formatting is done
     match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
@@ -93,3 +106,9 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
 
     # Save the merged DataFrame to a Word document
     dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
+
+def print_debug(message_string, table):
+    print(f"\n========== {message_string} ==========")
+    for i, row in enumerate(table.rows):
+        if i in [6, 11]:
+            print([cell.text for cell in row.cells])
