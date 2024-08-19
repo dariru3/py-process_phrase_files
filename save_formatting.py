@@ -28,15 +28,15 @@ def extract_formatting_from_column(doc, table_num, col_num):
 
 def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
     for row_idx, cell_info in formatting_info.items():
-        try:
+        has_previous_text = any(run_info.get("text", "").strip() for run_info in cell_info)
+
+        if not has_previous_text:
+            print(f"No previous text in row {row_idx + 1}, column {col_num}.")
+
+        if has_previous_text:
             cell = table.cell(row_idx + 1, col_num) # +1 = start 2nd row
 
-            # cell.text = ""
-            cell.paragraphs.clear()
-            if row_idx in [5, 10]:
-                print(f"Reapplying formatting to row {row_idx + 1}, column {col_num}: {cell.text}")
-                print("Formatting info:")
-                print(cell_info)
+            cell.text = ""
 
             for run_info in cell_info:
                 paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
@@ -51,5 +51,3 @@ def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
                     run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
                 run.font.superscript = run_info.get("superscript")
                 run.font.subscript = run_info.get("subscript")
-        except Exception as e:
-            print(f"Error reapplying formatting to row {row_idx + 1}, column {col_num}: {e}")
