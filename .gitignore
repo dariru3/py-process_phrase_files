@@ -1,7 +1,7 @@
-/input_files
-/output_files
-/myenv
+input_files/*
+output_files/*
+myenv
 .DS_Store
 config.py
-/__pycache__
-/temp
+__pycache__
+temp
