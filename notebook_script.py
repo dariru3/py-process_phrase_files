@@ -1,4 +1,5 @@
 from docx import Document
+from docx import Document, table
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -12,7 +13,7 @@ import xml.etree.ElementTree as ET
 
 # Start of config_loader.py
 CONFIG = {
-    "GeneralSettings": {
+    "GeneralSettings": { # When updating Colab, replace with commented folder paths
         "InputFolderPath": "input_files/", # "/content/drive/MyDrive/MagicBox/",
         "OutputFolderPath": "output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
         "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
@@ -43,7 +44,6 @@ CONFIG = {
 # Start of save_formatting.py
 
 def extract_formatting_from_column(doc, table_num, col_num):
-    # doc = Document(file_path)
     table = doc.tables[table_num]
     formatting_info = {}
 
@@ -68,18 +68,12 @@ def extract_formatting_from_column(doc, table_num, col_num):
 
     return formatting_info
 
-# Example usage
-# file_path = 'input_files/企業価値向上（新規依頼）-ja-en-T.docx'
-# table_num = 3  # 3rd table (index starts at 0)
-# col_num = 5    # 5th column
-# formatting_info = extract_formatting_from_column(file_path, table_num, col_num)
-# print(formatting_info)
-
 def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
-    # doc = Document(file_path)
-    # table = doc.tables[table_num]
-
     for row_idx, cell_info in formatting_info.items():
+        has_previous_text = any(run_info["text"] for run_info in cell_info)
+        if not has_previous_text:
+            continue
+
         cell = table.cell(row_idx + 1, col_num) # +1 = start 2nd row
         cell.text = ""
         for run_info in cell_info:
@@ -95,14 +89,6 @@ def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
                 run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
             run.font.superscript = run_info.get("superscript")
             run.font.subscript = run_info.get("subscript")
-
-    # doc.save('output_files/output_formatted.docx')
-
-# Example usage
-# file_path = 'output_files/企業価値向上（新規依頼）-ja-en-T_merged.docx'
-# table_num = 0  # 1st table (index starts at 0)
-# col_num = 2    # 3rd column
-# reapply_formatting_to_column(file_path, table_num, col_num, formatting_info)
 
 # End of save_formatting.py
 
@@ -333,6 +319,16 @@ def adjust_columns_by_attempts(attempts, process_settings):
 
 # Start of process_mxliff.py
 
+def cleanse_text(text):
+    """
+    Remove formatting tags from the text, e.g., {b>text<b}, {i>text<i}, etc.
+    This function assumes tags are in the format {tag>text<tag}.
+    """
+    # Pattern to match tags like {b> and <b}
+    pattern = r'\{.*?>|<.*?\}' ## r'\{.*?&gt;|&lt;.*?\}' ## html encoding
+    cleansed_text = re.sub(pattern, '', text)
+    return cleansed_text
+
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
     # Register the namespace to properly handle prefixed attributes
@@ -354,8 +350,12 @@ def parse_mxliff_to_df(mxliff_file):
     for trans_unit in root.findall('.//m:trans-unit', namespaces):
         source_text = trans_unit.find('m:source', namespaces).text if trans_unit.find('m:source', namespaces) is not None else ''
         target_text = trans_unit.find('m:target', namespaces).text if trans_unit.find('m:target', namespaces) is not None else ''
-        match_quality = '0' # Default value
 
+
+        source_text = cleanse_text(source_text)
+        print(source_text)
+
+        match_quality = '0' # Default value
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
         for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
             if alt_trans.attrib.get('origin') == 'memsource-tm':
@@ -381,6 +381,7 @@ def parse_mxliff_to_df(mxliff_file):
     df['Comment'] = ""
 
     return df
+
 # End of process_mxliff.py
 
 
@@ -404,22 +405,27 @@ def merge_dfs(df1, df2):
     # Convert Index to int
     df1['Index'] = df1['Index'].astype(int)
     df2['Index'] = df2['Index'].astype(int)
+
     # Convert Match to int, with error handling
     df1['Match'] = pd.to_numeric(df1['Match'], errors='coerce').fillna(0).astype(int)
     df2['Match'] = pd.to_numeric(df2['Match'], errors='coerce').fillna(0).astype(int)
 
+    # Merge the DataFrames
     df_combined = pd.merge(df1, df2, on=['Index', 'Source'], how='outer', suffixes=('', '_df2'))
 
-    # Now, select the best values for each column based on availability and preference
+    # Select the best values for each column based on availability and preference
     df_combined['Target'] = df_combined['Target'].where(df_combined['Target'] != '', df_combined['Target_df2'])
+
     df_combined['Match'] = df_combined['Match'].fillna(0).astype(int)
     df_combined['Match'] = df_combined['Match'].where(df_combined['Match'] != 0, df_combined['Match_df2']).fillna(0).astype(int)
+
     df_combined['Comment'] = df_combined['Comment'].where(df_combined['Comment'] != '', df_combined['Comment_df2'])
 
     # Drop the temporary columns from df2
     df_combined.drop(columns=['Target_df2', 'Match_df2', 'Comment_df2'], inplace=True)
 
     return df_combined
+
 # End of merge_df.py
 
 
@@ -475,7 +481,6 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     format_table(table)
     apply_conditional_formatting(table)
     set_column_language(table, 1, 'ja-JP')
-    # reformat_text(table) #try different approach: use input files formatting
     set_landscape_orientation(doc)
     format_font_lines(doc)
 
@@ -511,6 +516,15 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
     # Save the merged DataFrame to a Word document
     dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
 
+def print_debug(message_string, table):
+    '''
+    UNUSED
+    '''
+    print(f"\n========== {message_string} ==========")
+    for i, row in enumerate(table.rows):
+        if i in [6, 11]:
+            print([cell.text for cell in row.cells])
+
 # End of df_to_word.py
 
 
@@ -545,3 +559,4 @@ def main():
 if __name__ == "__main__":
     main()
 # End of main.py
+
