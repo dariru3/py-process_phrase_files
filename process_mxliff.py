@@ -3,12 +3,8 @@ import pandas as pd
 import re
 
 def cleanse_text(text):
-    """
-    Remove formatting tags from the text, e.g., {b>text<b}, {i>text<i}, etc.
-    This function assumes tags are in the format {tag>text<tag}.
-    """
-    # Pattern to match tags like {b> and <b}
-    pattern = r'\{.*?>|<.*?\}' ## r'\{.*?&gt;|&lt;.*?\}' ## html encoding
+    # Pattern to match tags like {b>, <b}, {j}
+    pattern = r'\{.*?>|<.*?\}|\{j\}'
     cleansed_text = re.sub(pattern, '', text)
     return cleansed_text
 
