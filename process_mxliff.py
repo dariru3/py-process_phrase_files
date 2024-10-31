@@ -1,5 +1,16 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
+import re
+
+def cleanse_text(text):
+    """
+    Remove formatting tags from the text, e.g., {b>text<b}, {i>text<i}, etc.
+    This function assumes tags are in the format {tag>text<tag}.
+    """
+    # Pattern to match tags like {b> and <b}
+    pattern = r'\{.*?>|<.*?\}' ## r'\{.*?&gt;|&lt;.*?\}' ## html encoding
+    cleansed_text = re.sub(pattern, '', text)
+    return cleansed_text
 
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
@@ -22,8 +33,12 @@ def parse_mxliff_to_df(mxliff_file):
     for trans_unit in root.findall('.//m:trans-unit', namespaces):
         source_text = trans_unit.find('m:source', namespaces).text if trans_unit.find('m:source', namespaces) is not None else ''
         target_text = trans_unit.find('m:target', namespaces).text if trans_unit.find('m:target', namespaces) is not None else ''
+
+
+        source_text = cleanse_text(source_text)
+        print(source_text)
+
         match_quality = '0' # Default value
-        
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
         for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
             if alt_trans.attrib.get('origin') == 'memsource-tm':
