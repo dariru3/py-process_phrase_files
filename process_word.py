@@ -4,6 +4,7 @@ import os
 import re
 from save_formatting import extract_formatting_from_column
 from config_loader import CONFIG
+from process_mxliff import cleanse_text
 
 def delete_first_n_tables(doc, n):
     for _ in range(n):
@@ -16,7 +17,9 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         new_row = new_table.add_row()
         new_cells = new_row.cells
         for i, col_index in enumerate(columns_to_copy):
-            new_cells[i].text = row.cells[col_index].text
+            original_text = row.cells[col_index].text
+            cleansed_text = cleanse_text(original_text)
+            new_cells[i].text = cleansed_text
 
 def process_word_file(file_path, output_folder, attempts=1):
     p_settings = CONFIG["ProcessingSettings"]

@@ -4,8 +4,9 @@ import re
 
 def cleanse_text(text):
     # Pattern to match tags like {b>, <b}, {j}
-    pattern = r'\{.*?>|<.*?\}|\{j\}'
+    pattern = r"\{.?>|<.?\}|\{j\}"
     cleansed_text = re.sub(pattern, '', text)
+
     return cleansed_text
 
 def parse_mxliff_to_df(mxliff_file):
@@ -32,7 +33,6 @@ def parse_mxliff_to_df(mxliff_file):
 
 
         source_text = cleanse_text(source_text)
-        print(source_text)
 
         match_quality = '0' # Default value
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
