@@ -251,7 +251,9 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         new_row = new_table.add_row()
         new_cells = new_row.cells
         for i, col_index in enumerate(columns_to_copy):
-            new_cells[i].text = row.cells[col_index].text
+            original_text = row.cells[col_index].text
+            cleansed_text = cleanse_text(original_text)
+            new_cells[i].text = cleansed_text
 
 def process_word_file(file_path, output_folder, attempts=1):
     p_settings = CONFIG["ProcessingSettings"]
@@ -320,13 +322,10 @@ def adjust_columns_by_attempts(attempts, process_settings):
 # Start of process_mxliff.py
 
 def cleanse_text(text):
-    """
-    Remove formatting tags from the text, e.g., {b>text<b}, {i>text<i}, etc.
-    This function assumes tags are in the format {tag>text<tag}.
-    """
-    # Pattern to match tags like {b> and <b}
-    pattern = r'\{.*?>|<.*?\}' ## r'\{.*?&gt;|&lt;.*?\}' ## html encoding
+    # Pattern to match tags like {b>, <b}, {j}
+    pattern = r"\{.?>|<.?\}|\{j\}"
     cleansed_text = re.sub(pattern, '', text)
+
     return cleansed_text
 
 def parse_mxliff_to_df(mxliff_file):
@@ -353,7 +352,6 @@ def parse_mxliff_to_df(mxliff_file):
 
 
         source_text = cleanse_text(source_text)
-        print(source_text)
 
         match_quality = '0' # Default value
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
