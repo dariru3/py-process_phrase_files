@@ -1,6 +1,7 @@
 from docx import Document, table
 import os
 import pandas as pd
+from datetime import datetime
 from process_mxliff import parse_mxliff_to_df
 from format_helper import format_table, apply_conditional_formatting, set_column_language, set_landscape_orientation, format_font_lines
 from merge_df import merge_dfs
@@ -72,6 +73,8 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
         os.makedirs(output_folder)
 
     output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
+    doc.core_properties.created = datetime.now()
+    doc.core_properties.modified = datetime.now()
     doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
