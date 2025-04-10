@@ -1,3 +1,4 @@
+from datetime import datetime
 from docx import Document
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
@@ -12,8 +13,8 @@ import xml.etree.ElementTree as ET
 # Start of config_loader.py
 CONFIG = {
     "GeneralSettings": { # When updating Colab, replace with commented folder paths
-        "InputFolderPath": "input_files/", # "/content/drive/MyDrive/MagicBox/",
-        "OutputFolderPath": "output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
+        "InputFolderPath": "/content/drive/MyDrive/MagicBox/",
+        "OutputFolderPath": "/content/drive/MyDrive/MagicBox/Output_Folder/",
         "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
     },
     "ProcessingSettings": {
@@ -258,7 +259,6 @@ def process_word_file(file_path, output_folder, attempts=1):
     final_col_length = len(CONFIG["GeneralSettings"]["Column_Headers"])
     if attempts == 1:
         print("Processing .DOCX file...")
-    max_attempts = p_settings["MaxAttempts"]
     doc = Document(file_path)
 
     # Save English text formatting
@@ -273,18 +273,8 @@ def process_word_file(file_path, output_folder, attempts=1):
     new_table = doc.add_table(rows=0, cols=final_col_length)
 
     copy_content_to_table(original_table, new_table, columns_to_copy)
-
-    if validate_table_contents(new_table, p_settings):
-        df_table = table_to_df(new_table)
-        print("Success!")
-        return df_table, formatting_info
-    else:
-        if attempts < max_attempts:
-            print(f'Attempt {attempts} failed, trying again...')
-            return process_word_file(file_path, output_folder, attempts + 1)
-        else:
-            print(f'Maximum attempts reached for file {file_path}. File processing aborted.')
-            return None
+    df_table = table_to_df(new_table)
+    return df_table, formatting_info
 
 def contains_japanese(text, process_settings):
     # Regular expression for matching Japanese characters
@@ -491,6 +481,8 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
         os.makedirs(output_folder)
 
     output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
+    doc.core_properties.created = datetime.now()
+    doc.core_properties.modified = datetime.now()
     doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
