@@ -3,13 +3,7 @@ import os
 import pandas as pd
 from datetime import datetime
 from .process_mxliff import parse_mxliff_to_df
-from .format_helper import (
-    format_table,
-    apply_conditional_formatting,
-    set_column_language,
-    set_landscape_orientation,
-    format_font_lines
-)
+from .format_helper import format_table, apply_conditional_formatting, set_column_language, set_landscape_orientation, format_font_lines
 from .merge_df import merge_dfs
 from .process_word import process_word_file
 from .save_formatting import reapply_formatting_to_column
