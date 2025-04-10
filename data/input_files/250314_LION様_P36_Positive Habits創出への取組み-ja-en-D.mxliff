@@ -1,0 +1,743 @@
+<?xml version='1.0' encoding='UTF-8'?><xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:m="http://www.memsource.com/mxlf/2.0" version="1.2" m:level="6" m:version="2.12">
+<file datatype="x-undefined" original="250314_LION様_P36_Positive Habits創出への取組み.xlsx" source-language="ja" target-language="en" m:begin-group-id="0" m:end-group-id="36" m:file-format="XLS" m:job-uid="iRD4q0nRZsMF8W7xI3dQA5" m:project-uid="R8qhOw0HpiTwd2hr43lcE1" m:task-id="SHIZNVRkbaS9wJZp_dc8" m:transmem-ignore-tag-metadata="yes">
+<header>
+<m:in-ctx-preview-skel bilingual="false">
+<![CDATA[<html><head>
+<style>
+tr    {height: 20px;}
+tr.hidden {height: 0px;}
+tr.hidden td {padding: 0px; border-top: none; border-bottom: none;}
+th.hidden, td.hidden {width: 0px; padding: 0px;}
+.hidden_text {font-size: 0px; border-right: none;}
+table   {border: 1px solid black; border-top: none; border-left: none; border-collapse: collapse;}
+td   {border: 1px solid black; border-left: none;}
+th   {border: 1px solid black; border-top: none; border-left: none;}
+table td:first-child {text-align: center;}
+.comment {background-color: yellow; box-shadow: 2px 2px grey; margin: 3px}
+td.hidden_text .comment {margin: 0px}
+td  {vertical-align: middle; color: #000000; font-family: 游ゴシック; font-size: 11pt}
+.Heading {vertical-align: middle; font-weight: bold; color: #000000; font-family: 游ゴシック; font-size: 24pt}
+.Heading_20_1 {vertical-align: middle; font-weight: bold; color: #000000; font-family: 游ゴシック; font-size: 18pt}
+.Heading_20_2 {vertical-align: middle; font-weight: bold; color: #000000; font-family: 游ゴシック; font-size: 12pt}
+.Text {vertical-align: middle; color: #000000; font-family: 游ゴシック; font-size: 11pt}
+.Note {vertical-align: middle; ; color: #333333; font-family: 游ゴシック; font-size: 10pt; background-color: #ffffcc; }
+.Footnote {vertical-align: middle; color: #808080; font-family: 游ゴシック; font-style: italic; font-size: 10pt}
+.Hyperlink {vertical-align: middle; color: #0000ee; font-family: 游ゴシック; font-size: 10pt; text-decoration: underline; text-decoration-style: solid}
+.Status {vertical-align: middle; color: #000000; font-family: 游ゴシック; font-size: 11pt}
+.Good {vertical-align: middle; color: #006600; font-family: 游ゴシック; font-size: 10pt; background-color: #ccffcc; }
+.Neutral {vertical-align: middle; color: #996600; font-family: 游ゴシック; font-size: 10pt; background-color: #ffffcc; }
+.Bad {vertical-align: middle; color: #cc0000; font-family: 游ゴシック; font-size: 10pt; background-color: #ffcccc; }
+.Warning {vertical-align: middle; color: #cc0000; font-family: 游ゴシック; font-size: 10pt}
+.Error {vertical-align: middle; font-weight: bold; color: #ffffff; font-family: 游ゴシック; font-size: 10pt; background-color: #cc0000; }
+.Accent {vertical-align: middle; font-weight: bold; color: #000000; font-family: 游ゴシック; font-size: 10pt}
+.Accent_20_1 {vertical-align: middle; font-weight: bold; color: #ffffff; font-family: 游ゴシック; font-size: 10pt; background-color: #000000; }
+.Accent_20_2 {vertical-align: middle; font-weight: bold; color: #ffffff; font-family: 游ゴシック; font-size: 10pt; background-color: #808080; }
+.Accent_20_3 {vertical-align: middle; font-weight: bold; color: #000000; font-family: 游ゴシック; font-size: 10pt; background-color: #dddddd; }
+.Result {vertical-align: middle; font-weight: bold; color: #000000; font-family: 游ゴシック; font-style: italic; font-size: 10pt; text-decoration: underline; text-decoration-style: solid}
+.co1 {}
+.co2 {}
+.ta1 {}
+.ce1 {vertical-align: middle; ; ; transform: rotate(0deg); -webkit-transform: rotate(0deg);}
+.ce2 {text-align: left; vertical-align: middle; ; ; transform: rotate(0deg); -webkit-transform: rotate(0deg);; }
+</style><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta charset="UTF-8">
+</head><body><div style="font-weight: bold;">Sheet1</div><br><table>
+<tr><th></th><th style="min-width:810px">A</th><th style="min-width:72p]]><![CDATA[x">B</th><th style="min-width:64px">C</th><th style="min-width:64px">D</th><th style="min-width:64px">E</th><th style="min-width:64px">F</th><th style="min-width:64px">G</th><th style="min-width:64px">H</th><th style="min-width:64px">I</th><th style="min-width:64px">J</th><th style="min-width:]]><![CDATA[64px">K</th><th style="min-width:64px">L</th><th style="min-width:64px">M</th><th style="min-width:64px">N</th><th style="min-width:64px">O</th></tr>
+<tr><td>1</td><td title="A:1"><span id="m-tgroup_0" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>2</td><td class="ce1" title="A:2"><span id="m-tgroup_1" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>3</td><td class="ce1" title="A:3"><span id="m-tgroup_2" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>4</td><td class="ce1" title="A:4"><span id="m-tgroup_3" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>5</td><td class="ce1" title="A:5"><span id="m-tgroup_4" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>6</td><td class="ce1" title="A:6"><span id="m-tgroup_5" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>7</td><td class="ce1" title="A:7"><span id="m-tgroup_6" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>8</td><td class="ce1" title="A:8"><span id="m-tgroup_7" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>9</td><td class="ce1" title="A:9"><span id="m-tgroup_8" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>10</td><td class="ce1" title="A:10"><span id="m-tgroup_9" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>11</td><td class="ce1" title="A:11"><span id="m-tgroup_10" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>12</td><td class="ce1" title="A:12"><span id="m-tgroup_11" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>13</td><td class="ce1" title="A:13"><span id="m-tgroup_12" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>14</td><td class="ce1" title="A:14"><span id="m-tgroup_13" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>15</td><td class="ce2" title="A:15"><span id="m-tgroup_14" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>16</td><td class="ce1" title="A:16"><span id="m-tgroup_15" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>17</td><td class="ce1" title="A:17"><span id="m-tgroup_16" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>18</td]]><![CDATA[><td class="ce1" title="A:18"><span id="m-tgroup_17" class="m-tgroup"></span></td><td></td><td><]]><![CDATA[/td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>19</td><td class="ce1" title="A:19"><span id="m-tgroup_18" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>20</td><td class="ce1" title="A:20"><span id="m-tgroup_19" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>21</td><td class="ce1" title="A:21"><span id="m-tgroup_20" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>22</td><td class="ce1" title="A:22"><span id="m-tgroup_21" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>23</td><td class="ce1" title="A:23"><span id="m-tgroup_22" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>24</td><td class="ce1" title="A:24"><span id="m-tgroup_23" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>25</td><td class="ce1" title="A:25"><span id="m-tgroup_24" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>26</td><td class="ce1" title="A:26"><span id="m-tgroup_25" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>27</td><td class="ce1" title="A:27"><span id="m-tgroup_26" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>28</td><td class="ce1" title="A:28"><span id="m-tgroup_27" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>29</td><td class="ce1" title="A:29"><span id="m-tgroup_28" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>30</td><td class="ce1" title="A:30"><span id="m-tgroup_29" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>31</td><td class="ce1" title="A:31"><span id="m-tgroup_30" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>32</td><td class="ce1" title="A:32"><span id="m-tgroup_31" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>33</td><td class="ce1" title="A:33"><span id="m-tgroup_32" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>34</td><td class="ce1" title="A:34"><span id="m-tgroup_33" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>35</td><td class="ce1" title="A:35"><span id="m-tgroup_34" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><t]]><![CDATA[d>36</td><td class="ce1" title="A:36"><span id="m-tgroup_35" class="m-tgroup"></span></td><td></]]><![CDATA[td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>37</td><td class="ce1" title="A:37"><span id="m-tgroup_36" class="m-tgroup"></span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>38</td><td class="ce1" title="A:38"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>39</td><td class="ce1" title="A:39"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>40</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>41</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>42</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>43</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>44</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>45</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>46</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>47</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>48</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>49</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>50</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>51</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>52</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>53</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>54</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>55</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>56</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>57</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>58</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>59</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>60</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>]]><![CDATA[61</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td]]><![CDATA[><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>62</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>63</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>64</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>65</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>66</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>67</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>68</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>69</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>70</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>71</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>72</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>73</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>74</td><td class="ce2" title="A:74"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>75</td><td class="ce1" title="A:75"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>76</td><td class="ce2" title="A:76"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>77</td><td class="ce1" title="A:77"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>78</td><td class="ce2" title="A:78"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>79</td><td class="ce1" title="A:79"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>80</td><td class="ce2" title="A:80"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr style="height:3px"><td title="⋮" style="height:3px; font-size: 8px">⋯</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table><br><hr><br></body></html>]]>
+</m:in-ctx-preview-skel>
+</header>
+<body>
+
+<group id="0" m:para-id="2-tu1">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:0" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="0.7272727272727273" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu1" m:score="0.7272727272727273" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>Positive Habits創出への取組み</source>
+<target>Initiatives to Create Positive Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.7272727272727273" origin="memsource-tm" tm-id="3037269"><target>Creation and proposal of “Positive Habits”</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">0.7272727272727273</m:trans-prop>
+  <m:trans-prop name="gross-score">0.7272727272727273</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="1" m:para-id="2-tu2">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:1" m:confirmed="6" m:created-at="1743126993533" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu2" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>ライオンはメーカーとして製品提供に留まらない人々のより良い習慣づくりで事業を拡大してきました。</source>
+<target>Lion does more than supply the products it manufactures—we have expanded our business by helping people build better habits.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="2" m:para-id="2-tu3">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:2" m:confirmed="6" m:created-at="1743127007316" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu3" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>長年の生活者研究で得た知見をもとに、今後も人々の毎日をより良くするPositive Habitsを生み出すための仕組みづくりに注力していきます。</source>
+<target>Drawing on insights gained through years of consumer research, we will continue to focus on developing mechanisms that create Positive Habits to improve people’s everyday lives.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="3" m:para-id="2-tu4">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:3" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="0.7272727272727273" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu4" m:score="0.7272727272727273" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>Positive Habits創出の意義</source>
+<target>The Significance of Creating Positive Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.7272727272727273" origin="memsource-tm" tm-id="3037269"><target>Creation and proposal of “Positive Habits”</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">0.7272727272727273</m:trans-prop>
+  <m:trans-prop name="gross-score">0.7272727272727273</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="4" m:para-id="2-tu5">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:4" m:confirmed="6" m:created-at="1743127470123" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu5" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>ライオンは、長年、日々の生活に寄り添う製品の提供を通して歯磨き習慣、手洗い習慣などの今では当たり前になった習慣を提案し、時代ごとの社会課題を解決しながら人々の生活に貢献してまいりました。</source>
+<target>For many years, Lion has contributed to people’s daily lives and addressed evolving social issues by proposing habits, such as tooth brushing and hand washing, that are now taken for granted, through the provision of products closely integrated into everyday routines.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="5" m:para-id="2-tu6">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:5" m:confirmed="6" m:created-at="1743127552670" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu6" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>この活動の中で培ってきた生活者研究からライオンが辿り着いた“習慣づくり”の考え方がＰｏｓｉｔｉｖｅ　Habitsです。</source>
+<target>From the consumer research we have conducted in the course of these activities, we developed our own approach to habit formation, which we call Positive Habits.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="6" m:para-id="2-tu7">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:6" m:confirmed="6" m:created-at="1743127564746" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu7" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>毎日の生活には、様々な気が進まないやるべきことが存在しており、その中のいくつかは、毎日繰り返す「Reluctant Habits（気が進まない習慣）」になっていることを発見しました。</source>
+<target>Through this research, we found that daily life includes many tasks people perform reluctantly out of necessity, some of which become Reluctant Habits repeated over time.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>34869</m:editing-time>
+                            <m:thinking-time>34869</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="7" m:para-id="2-tu8">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:7" m:confirmed="6" m:created-at="1743127588644" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu8" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>この気が進まない「Reluctant Habits」を前向きな習慣に変えることを徹底的に考え、製品・サービスを通じてお客様、そして社会に提案していくこと、それがライオンの目指すPositive Habits（前向きな習慣）です。</source>
+<target>Lion is committed to turning these Reluctant Habits into Positive Habits by offering solutions through its products and services that make everyday routines more positive for customers and society.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="8" m:para-id="2-tu9">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:8" m:confirmed="6" m:created-at="1743127624484" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744246903328" m:modified-by="1336122" m:para-id="2-tu9" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>近年成熟化が進んだ一般消費財市場において、未だ解消されていない「Reluctant Habits」に目を向け、新たな競争軸（ユニークネス）を生み出し、当社ならではの価値をいち早く提案しながら磨き込むことで競争優位性を持つ新たな市場を創出してまいります。</source>
+<target>In today’s mature consumer goods markets, we will focus on unresolved Reluctant Habits as a source of unique new axes of competition, swiftly proposing and refining value that only Lion can deliver to create new markets in which we will hold a competitive advantage.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>77663</m:editing-time>
+                            <m:thinking-time>77663</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="9" m:para-id="2-tu10">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:9:0" m:confirmed="6" m:created-at="1744172530960" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu10" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>Reluctant Habits</source>
+<target>Reluctant Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:9:1" m:confirmed="6" m:created-at="1744172550348" m:created-by="1336122" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu10" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source> (気が進まない習慣)</source>
+<target>英文不要です。</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="10" m:para-id="2-tu11">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:10:0" m:confirmed="6" m:created-at="1744172613655" m:created-by="1183372" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu11" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>Positive Habits</source>
+<target>Positive Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.7142857142857143" origin="memsource-tm" tm-id="3037269"><target>Three Essential Elements of Positive Habits</target></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:10:1" m:confirmed="6" m:created-at="1744172671700" m:created-by="1336122" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu11" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source> (より良い習慣)</source>
+<target>(Better habits)</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.6666666666666666" origin="memsource-tm" tm-id="3037269"><target> Creation of better living habits</target></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="11" m:para-id="2-tu12">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:11" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="0.8888888888888888" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu12" m:score="0.8888888888888888" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>習慣による価値創出</source>
+<target>Value Creation through Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.8888888888888888" origin="memsource-tm" tm-id="3037269"><target>Value creation through habits</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">0.8888888888888888</m:trans-prop>
+  <m:trans-prop name="gross-score">0.8888888888888888</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="12" m:para-id="2-tu13">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:12" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="0.875" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu13" m:score="0.875" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>習慣の効用・質</source>
+<target>Benefit and quality of habit</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.875" origin="memsource-tm" tm-id="3037269"><target>(1) Benefit/Quality of the habit</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">0.875</m:trans-prop>
+  <m:trans-prop name="gross-score">0.875</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="13" m:para-id="2-tu14">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:13" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="1.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu14" m:score="1.0" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>実践の頻度</source>
+<target>Frequency of engaging in habit</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="1.0" origin="memsource-tm" tm-id="3037269"><target>Frequency of engaging in habit</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">1.0</m:trans-prop>
+  <m:trans-prop name="gross-score">1.0</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="14" m:para-id="2-tu15">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:14" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="1.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu15" m:score="1.0" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>定着した人数</source>
+<target>No. of people adopting habit</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="1.0" origin="memsource-tm" tm-id="3037269"><target>No. of people adopting habit</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">1.0</m:trans-prop>
+  <m:trans-prop name="gross-score">1.0</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="15" m:para-id="2-tu16">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:15" m:confirmed="6" m:created-at="1743128092574" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu16" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>PHsによる市場創出</source>
+<target>Markets Created by Positive Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="16" m:para-id="2-tu17">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:16" m:confirmed="6" m:created-at="1743128101556" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu17" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>ユニークネス</source>
+<target>Uniqueness</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="17" m:para-id="2-tu18">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:17" m:confirmed="6" m:created-at="1743133012948" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu18" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>競争優位</source>
+<target>Competitive advantage</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="18" m:para-id="2-tu19">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:18" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="0.5" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu19" m:score="0.5" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>Positive Habits創出に向けた価値開発プロセスの変革</source>
+<target>Transforming the Value Development Process to Create Positive Habits</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.5" origin="memsource-tm" tm-id="3037269"><target>Creation and proposal of “Positive Habits”</target></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">0.5</m:trans-prop>
+  <m:trans-prop name="gross-score">0.5</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="19" m:para-id="2-tu20">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:19" m:confirmed="6" m:created-at="1743138308016" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu20" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>Positive Habitsの創出に向けて、“一歩先の社会潮流の発見”を捉える新たな価値開発とその価値を磨き込むプロセスを導入し、実践に繋げていきます。</source>
+<target>We will create Positive Habits by introducing a process for new value development through which we can anticipate emerging social trends, refine that value, and put it into practice.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="20" m:para-id="2-tu21">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:20" m:confirmed="6" m:created-at="1743138417564" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu21" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>①新たな価値開発プロセス：　従来の既存の技術シーズや顧客調査を起点とした仮説立案型のプロセスだけでなく、今後は独自のAIを駆使して、 SNS等の膨大な情報を解析することで、日常生活の中でやってきた当たり前の習慣の中で、消費者自身も気づいていない一歩先の社会潮流（事業機会）を捉えるプロセスを導入していきます。</source>
+<target>1. New Value Development Process: In addition to our conventional hypothesis-based process built around existing technologies and customer surveys, we will introduce a process that uses proprietary AI to analyze vast amounts of information from social media and other sources to identify emerging social trends—new business opportunities—that are present in everyday routines and often go unnoticed by consumers themselves.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="21" m:para-id="2-tu22">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:21" m:confirmed="6" m:created-at="1743138448442" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu22" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>この新たなアプローチは日本にとどまらず、中国主要ＳＮＳやEC投稿データをAI分析するなど、国内外の消費者のインサイトを先取りして捉え、価値創出の提案力を強化していきます。</source>
+<target>Lion will not limit its new approach to Japan. We will also use AI to analyze data from posts on major social media platforms and e-commerce sites in China, along with other measures that enable us to proactively identify consumer insights both in and outside Japan, enhancing our ability to make proposals that create value.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="22" m:para-id="2-tu23">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:22" m:confirmed="6" m:created-at="1743138525160" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744246956087" m:modified-by="1336122" m:para-id="2-tu23" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>②価値を磨き込むプロセス：　メディア、リテール等の接点増加や消費者の価値観の多様化により、従来のマスを捉える一方通行の提案では、真に消費者に受け入れられる価値提供は難しくなってきています。</source>
+<target>2. Value Refining Process: As points of contact in areas such as media and retail continue to increase, and consumer values become more diverse, it is becoming more difficult to deliver value that truly connects through traditional one-way mass-market proposals.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>49622</m:editing-time>
+                            <m:thinking-time>49622</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="23" m:para-id="2-tu24">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:23" m:confirmed="6" m:created-at="1743138529580" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu24" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>私たちは、捉えた一歩先の潮流に基づく価値を、ECモールや一部リテールに限定した小規模スケールから提案をはじめ、消費者の行動パターンや嗜好を分析しながら、多様な消費者に共感を得られるものに製品・コミュニケーションを改善・改良していく価値開発プロセスを国内外で導入していきます。</source>
+<target>Through a value development process deployed both in Japan and overseas, we will begin by introducing small-scale value propositions based on emerging trends, limited to e-commerce malls and select retail outlets. By analyzing consumer behavior patterns and preferences, we will refine these offerings into products and services that resonate with a diverse range of consumers.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="24" m:para-id="2-tu25">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:24" m:confirmed="6" m:created-at="1743138550742" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744247389752" m:modified-by="1336122" m:para-id="2-tu25" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>また、日本では、すでに保有しているオウンドメディア（Lidea）を双方向のデータ検証プラットフォームとして洗練化し、直接的に消費者の反応を捉えることで、より最適なコミュニケーションや製品アクションの実現を目指していきます。</source>
+<target>In Japan in particular, Lion will further refine its Lidea media platform into a two-way data verification platform. Our objective is to directly capture consumer reactions to further improve communication and product responses.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>381665</m:editing-time>
+                            <m:thinking-time>368225</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="25" m:para-id="2-tu26">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:25" m:confirmed="6" m:created-at="1743138737279" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248038536" m:modified-by="1336122" m:para-id="2-tu26" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>一歩先の新しい価値を開発し、製品・サービスを通じて提案することで、共感して頂けるお客様の拡大につながり、使っていただける人・頻度が増え、当たり前の習慣になっていく。</source>
+<target>By proactively developing value that anticipates emerging needs and proposing it through our products and services—while deepening our understanding of consumers—we aim to grow the number of customers who resonate with our ideas, increase both the number of users and frequency of use, and help these behaviors become everyday habits.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>576120</m:editing-time>
+                            <m:thinking-time>418852</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="26" m:para-id="2-tu27">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:26" m:confirmed="6" m:created-at="1742430252164" m:created-by="1183372" m:gross-score="0.48" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu27" m:score="0.48" m:trans-origin="tm" m:trans-origin-detail="C6pXqMNaYdpf3VIR6DDLc3" xml:space="preserve">
+<source>これを連続的に生み出して社会に貢献していくことが私たちの目指すPositive Habits創出です。</source>
+<target>Continuously implementing this approach for the benefit of society is what we mean by creating Positive Habits.</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:latest-trans-props>
+  <m:trans-prop name="score">0.48</m:trans-prop>
+  <m:trans-prop name="gross-score">0.48</m:trans-prop>
+  <m:trans-prop name="origin">tm</m:trans-prop>
+  <m:trans-prop name="origin-detail">C6pXqMNaYdpf3VIR6DDLc3</m:trans-prop>
+</m:latest-trans-props>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="27" m:para-id="2-tu28">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:27:0" m:confirmed="6" m:created-at="1744189050507" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu28" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>①　新たな価値開発プロセス{j}（一歩先の社会潮流の発見）</source>
+<target>1. New Value Development Process{j} (Identify emerging social trends)</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="28" m:para-id="2-tu29">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+</group>
+<group id="29" m:para-id="2-tu30">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:29" m:confirmed="6" m:created-at="1743138790939" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu30" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>オープンデータからのデータ取得</source>
+<target>Acquire data from open data sources</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="30" m:para-id="2-tu31">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:30" m:confirmed="6" m:created-at="1743138802285" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu31" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>AIによるデータの解析</source>
+<target>Use AI to analyze data</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="31" m:para-id="2-tu32">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:31" m:confirmed="6" m:created-at="1743138815615" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu32" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>世の中の潮流・兆しベース起点のインサイトを発見する</source>
+<target>Identify insights based on emerging societal trends and signals</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="32" m:para-id="2-tu33">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:32:0" m:confirmed="6" m:created-at="1744189866430" m:created-by="1183372" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744247016808" m:modified-by="1336122" m:para-id="2-tu33" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>価値を磨き込むプロセス{j}（スモールスタート&gt;</source>
+<target>2. Value Refining Process{j} (Begin on a small scale)</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>23894</m:editing-time>
+                            <m:thinking-time>23894</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="33" m:para-id="2-tu34">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+</group>
+<group id="34" m:para-id="2-tu35">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:34" m:confirmed="6" m:created-at="1743138987234" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu35" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>ECモールや一部小売店限定でローンチ</source>
+<target>Limit launches to e-commerce malls and select retail outlets</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="35" m:para-id="2-tu36">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:35" m:confirmed="6" m:created-at="1743139017812" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu36" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>オウンド・リテールメディア等を通したデジタルマーケティングや顧客との対話によるプロトタイピング</source>
+<target>Prototype through digital marketing and customer dialogue via channels including owned and retail media</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+<group id="36" m:para-id="2-tu37">
+<context-group>
+<context context-type="x-file-part">xl/sharedStrings.xml</context>
+</context-group>
+<trans-unit id="SHIZNVRkbaS9wJZp_dc8:36" m:confirmed="6" m:created-at="1743139031085" m:created-by="1404273" m:gross-score="0.0" m:level-edited="false" m:locked="false" m:modified-at="1744248116215" m:modified-by="1336122" m:para-id="2-tu37" m:score="0.0" m:trans-origin="null" xml:space="preserve">
+<source>購買データ・行動データ・口コミ・レビュー等を活用した分析と製品・コミュニケーションの改良</source>
+<target>Analyze purchasing data, behavioral data, word of mouth, reviews, and other information to improve products and communication</target>
+<alt-trans origin="machine-trans"><target/></alt-trans>
+<alt-trans match-quality="0.0" origin="memsource-tm"><target/></alt-trans>
+<m:editing-stats>
+                            <m:editing-time>0</m:editing-time>
+                            <m:thinking-time>0</m:thinking-time>
+            </m:editing-stats>
+</trans-unit>
+</group>
+</body>
+</file>
+<m:extra>
+<m:users>
+<m:user fullname="Marika Maetani" id="1183372" uid="tUKfWkW1aTN06AuAPdDcYa" username="maetani.marika"/>
+<m:user fullname="Parkes Douglas" id="1336122" uid="3U3jant7Z6Us5FDfvIuo92" username="douglas.parkes"/>
+<m:user fullname="James Geiger" id="1404273" uid="9bbsgU3FtFqKfxzgU1UfQ7" username="geiger.james"/>
+</m:users>
+</m:extra>
+</xliff>

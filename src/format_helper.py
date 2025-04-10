@@ -3,7 +3,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.enum.section import WD_ORIENT
 import re
-from config_loader import CONFIG
+from .config_loader import CONFIG
 
 def apply_superscript(run, text):
     """Helper function to set text as superscript"""

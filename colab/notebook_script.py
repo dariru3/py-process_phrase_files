@@ -3,18 +3,18 @@ from docx import Document
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Mm, Pt, RGBColor
+from docx.shared import Mm, Pt
+from docx.shared import Pt, RGBColor
 import os
 import pandas as pd
 import re
 import xml.etree.ElementTree as ET
 
-
-# Start of config_loader.py
+# Start of src/config_loader.py
 CONFIG = {
     "GeneralSettings": { # When updating Colab, replace with commented folder paths
-        "InputFolderPath": "/content/drive/MyDrive/MagicBox/",
-        "OutputFolderPath": "/content/drive/MyDrive/MagicBox/Output_Folder/",
+        "InputFolderPath": "data/input_files/", # "/content/drive/MyDrive/MagicBox/",
+        "OutputFolderPath": "data/output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
         "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
     },
     "ProcessingSettings": {
@@ -37,10 +37,10 @@ CONFIG = {
     }
 }
 
-# End of config_loader.py
+# End of src/config_loader.py
 
 
-# Start of save_formatting.py
+# Start of src/save_formatting.py
 
 def extract_formatting_from_column(doc, table_num, col_num):
     table = doc.tables[table_num]
@@ -89,10 +89,10 @@ def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
             run.font.superscript = run_info.get("superscript")
             run.font.subscript = run_info.get("subscript")
 
-# End of save_formatting.py
+# End of src/save_formatting.py
 
 
-# Start of format_helper.py
+# Start of src/format_helper.py
 
 def apply_superscript(run, text):
     """Helper function to set text as superscript"""
@@ -234,10 +234,10 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
         run = paragraph.runs[0] if paragraph.runs else paragraph.add_run()
         run.font.size = Pt(font_size)
 
-# End of format_helper.py
+# End of src/format_helper.py
 
 
-# Start of process_word.py
+# Start of src/process_word.py
 
 def delete_first_n_tables(doc, n):
     for _ in range(n):
@@ -304,10 +304,10 @@ def adjust_columns_by_attempts(attempts, process_settings):
     print(message)
     return columns
 
-# End of process_word.py
+# End of src/process_word.py
 
 
-# Start of process_mxliff.py
+# Start of src/process_mxliff.py
 
 def cleanse_text(text):
     # Pattern to match tags like {b>, <b}, {j}
@@ -368,10 +368,10 @@ def parse_mxliff_to_df(mxliff_file):
 
     return df
 
-# End of process_mxliff.py
+# End of src/process_mxliff.py
 
 
-# Start of table_to_df.py
+# Start of src/table_to_df.py
 
 def table_to_df(table):
     column_headers = CONFIG["GeneralSettings"]["Column_Headers"]
@@ -382,10 +382,11 @@ def table_to_df(table):
             row_data.append(cell.text.strip())
         data.append(row_data)
     return pd.DataFrame(data, columns=column_headers)
-# End of table_to_df.py
+
+# End of src/table_to_df.py
 
 
-# Start of merge_df.py
+# Start of src/merge_df.py
 
 def merge_dfs(df1, df2):
     # Convert Index to int
@@ -412,10 +413,10 @@ def merge_dfs(df1, df2):
 
     return df_combined
 
-# End of merge_df.py
+# End of src/merge_df.py
 
 
-# Start of df_to_word.py
+# Start of src/df_to_word.py
 
 def delete_column_in_table(table, column_index):
     grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
@@ -513,10 +514,10 @@ def print_debug(message_string, table):
         if i in [6, 11]:
             print([cell.text for cell in row.cells])
 
-# End of df_to_word.py
+# End of src/df_to_word.py
 
 
-# Start of main.py
+# Start of scripts/main.py
 
 def filter_unprocessed_pairs(pairs, output_folder):
     unprocessed_pairs = []
@@ -544,6 +545,9 @@ def main():
         print(f"File pair:\n{docx_file}\n{mxliff_file}")
         process_files(docx_file, mxliff_file,input_folder, output_folder)
 
+# Use `python3 -m scripts.main` to run file from console
 if __name__ == "__main__":
     main()
-# End of main.py
+
+# End of scripts/main.py
+

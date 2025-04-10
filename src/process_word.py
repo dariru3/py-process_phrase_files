@@ -1,9 +1,9 @@
 from docx import Document
-from table_to_df import table_to_df
 import re
-from save_formatting import extract_formatting_from_column
-from config_loader import CONFIG
-from process_mxliff import cleanse_text
+from .table_to_df import table_to_df
+from .save_formatting import extract_formatting_from_column
+from .process_mxliff import cleanse_text
+from .config_loader import CONFIG
 
 def delete_first_n_tables(doc, n):
     for _ in range(n):

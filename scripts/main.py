@@ -1,6 +1,6 @@
 import os
-from config_loader import CONFIG
-from df_to_word import get_file_pairs, process_files
+from src.config_loader import CONFIG
+from src.df_to_word import get_file_pairs, process_files
 
 def filter_unprocessed_pairs(pairs, output_folder):
     unprocessed_pairs = []
@@ -28,5 +28,6 @@ def main():
         print(f"File pair:\n{docx_file}\n{mxliff_file}")
         process_files(docx_file, mxliff_file,input_folder, output_folder)
 
+# Use `python3 -m scripts.main` to run file from console
 if __name__ == "__main__":
     main()
