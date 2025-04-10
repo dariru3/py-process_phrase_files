@@ -1,5 +1,5 @@
 import pandas as pd
-from config_loader import CONFIG
+from .config_loader import CONFIG
 
 def table_to_df(table):
     column_headers = CONFIG["GeneralSettings"]["Column_Headers"]

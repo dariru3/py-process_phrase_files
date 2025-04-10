@@ -1,5 +1,5 @@
-input_files/*
-output_files/*
+data/input_files/*
+data/output_files/*
 myenv
 .DS_Store
 config.py
