@@ -1,10 +1,8 @@
 from docx import Document
-from docx import Document, table
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Mm, Pt
-from docx.shared import Pt, RGBColor
+from docx.shared import Mm, Pt, RGBColor
 import os
 import pandas as pd
 import re
@@ -557,4 +555,3 @@ def main():
 if __name__ == "__main__":
     main()
 # End of main.py
-

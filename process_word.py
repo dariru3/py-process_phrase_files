@@ -1,6 +1,5 @@
 from docx import Document
 from table_to_df import table_to_df
-import os
 import re
 from save_formatting import extract_formatting_from_column
 from config_loader import CONFIG
@@ -26,7 +25,6 @@ def process_word_file(file_path, output_folder, attempts=1):
     final_col_length = len(CONFIG["GeneralSettings"]["Column_Headers"])
     if attempts == 1:
         print("Processing .DOCX file...")
-    # max_attempts = p_settings["MaxAttempts"]
     doc = Document(file_path)
 
     # Save English text formatting
@@ -43,19 +41,6 @@ def process_word_file(file_path, output_folder, attempts=1):
     copy_content_to_table(original_table, new_table, columns_to_copy)
     df_table = table_to_df(new_table)
     return df_table, formatting_info
-    '''
-    if validate_table_contents(new_table, p_settings):
-        df_table = table_to_df(new_table)
-        print("Success!")
-        return df_table, formatting_info
-    else:
-        if attempts < max_attempts:
-            print(f'Attempt {attempts} failed, trying again...')
-            return process_word_file(file_path, output_folder, attempts + 1)
-        else:
-            print(f'Maximum attempts reached for file {file_path}. File processing aborted.')
-            return None
-    '''
 
 def contains_japanese(text, process_settings):
     # Regular expression for matching Japanese characters

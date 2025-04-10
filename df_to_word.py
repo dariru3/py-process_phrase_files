@@ -1,4 +1,4 @@
-from docx import Document, table
+from docx import Document
 import os
 import pandas as pd
 from datetime import datetime
