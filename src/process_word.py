@@ -4,15 +4,6 @@ from .save_formatting import extract_formatting_from_column
 from .process_mxliff import remove_tags
 from .config_loader import CONFIG
 
-def save_dataframe_to_csv(df, label, folder="data"):
-    import os
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-    filename = os.path.join(folder, f"comparison_{label}.csv")
-    df.to_csv(filename, index=False, encoding='utf-8')
-    print(f"Saved {label} DataFrame to {filename}")
-
 def delete_first_n_tables(doc, n):
     for _ in range(n):
         if len(doc.tables) > 0:
@@ -50,11 +41,3 @@ def process_word_file(file_path, output_folder, attempts=1):
     copy_content_to_table(original_table, new_table, columns_to_copy)
     df_table = table_to_df(new_table)
     return df_table, formatting_info
-
-if __name__ == "__main__":
-    table, info = process_word_file(
-        file_path="data/input_files/250314_LION様_P36_Positive Habits創出への取組み-ja-en-D.docx",
-        output_folder="data/output_files"
-    )
-
-    save_dataframe_to_csv(table, "Word")

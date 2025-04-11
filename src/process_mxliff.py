@@ -2,15 +2,6 @@ import xml.etree.ElementTree as ET
 import pandas as pd
 import re
 
-def save_dataframe_to_csv(df, label, folder="data"):
-    import os
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-    filename = os.path.join(folder, f"comparison_{label}.csv")
-    df.to_csv(filename, index=False, encoding='utf-8')
-    print(f"Saved {label} DataFrame to {filename}")
-
 def remove_tags(text):
     """
     Remove custom tags such as {b>, <b}, {j} from the input text.
@@ -87,8 +78,3 @@ def parse_mxliff_to_df(mxliff_file):
     df['Comment'] = ""
 
     return df
-
-if __name__ == "__main__":
-    df = parse_mxliff_to_df('data/input_files/250314_LION様_P36_Positive Habits創出への取組み-ja-en-D.mxliff')
-
-    save_dataframe_to_csv(df, "mxliff")

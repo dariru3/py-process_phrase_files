@@ -20,19 +20,3 @@ def merge_dfs(df_word, df_mxliff):
     df_combined.drop(columns=['Source_df2', 'Target_df2', 'Match_df2', 'Comment_df2'], inplace=True)
 
     return df_combined
-
-def save_dataframe_to_csv(df, label, folder="data"):
-    import os
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-    filename = os.path.join(folder, f"comparison_{label}.csv")
-    df.to_csv(filename, index=False, encoding='utf-8')
-    print(f"Saved {label} DataFrame to {filename}")
-
-if __name__ == "__main__":
-    word_df = pd.read_csv("data/comparison_Word.csv")
-    mxliff_df = pd.read_csv("data/comparison_mxliff.csv")
-
-    merged_df = merge_dfs(word_df, mxliff_df)
-    save_dataframe_to_csv(merged_df, "Merged")
