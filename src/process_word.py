@@ -1,7 +1,7 @@
 from docx import Document
 from .table_to_df import table_to_df
 from .save_formatting import extract_formatting_from_column
-from .process_mxliff import cleanse_text
+from .process_mxliff import remove_tags
 from .config_loader import CONFIG
 
 def delete_first_n_tables(doc, n):
@@ -17,7 +17,7 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         for i, col_index in enumerate(columns_to_copy):
             original_text = row.cells[col_index].text
             # print(f"Col index: {col_index}, content: {original_text}")
-            cleansed_text = cleanse_text(original_text)
+            cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
 
 def process_word_file(file_path, output_folder, attempts=1):

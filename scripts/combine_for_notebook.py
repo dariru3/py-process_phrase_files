@@ -48,17 +48,19 @@ def combine_scripts_for_notebook(file_names, output_file_path="colab/notebook_sc
 
 if __name__ == "__main__":
     src_path = "src/"
-    script_path = "scripts/"
-    file_list = [
-        f"{src_path}config_loader.py",
-        f"{src_path}save_formatting.py",
-        f"{src_path}format_helper.py",
-        f"{src_path}process_word.py",
-        f"{src_path}process_mxliff.py",
-        f"{src_path}table_to_df.py",
-        f"{src_path}merge_df.py",
-        f"{src_path}df_to_word.py",
-        f"{script_path}main.py"
+    src_file_names = [
+        "config_loader.py",
+        "save_formatting.py",
+        "format_helper.py",
+        "process_word.py",
+        "process_mxliff.py",
+        "table_to_df.py",
+        "merge_df.py",
+        "df_to_word.py",
     ]
+    script_path = "scripts/" # f"{script_path}main.py"
+
+    file_list = [ f"{src_path}{file_name}" for file_name in src_file_names]
+    file_list.append(f"{script_path}main.py")
 
     combine_scripts_for_notebook(file_list)
