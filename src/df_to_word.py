@@ -41,6 +41,8 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
 
     # Rename column headers
     df.rename(columns={'ID': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+    # Reassign the 'p' column
+    df['p'] = range(1, len(df) + 1)
 
     # Add header row
     for i, column in enumerate(df.columns):
