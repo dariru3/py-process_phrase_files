@@ -2,7 +2,7 @@ CONFIG = {
     "GeneralSettings": { # When updating Colab, replace with commented folder paths
         "InputFolderPath": "data/input_files/", # "/content/drive/MyDrive/MagicBox/",
         "OutputFolderPath": "data/output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
-        "Column_Headers": ["ID", "Index", "Source", "Target", "Match", "Comment"]
+        "Column_Headers": ["ID", "Source", "Target", "Match", "Comment"]
     },
     "ProcessingSettings": {
         "DeleteFirstNTables": 3,
