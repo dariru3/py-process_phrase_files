@@ -78,3 +78,8 @@ def parse_mxliff_to_df(mxliff_file):
     df['Comment'] = ""
 
     return df
+
+if __name__ == "__main__":
+    df = parse_mxliff_to_df('data/input_files/250314_LION様_P36_Positive Habits創出への取組み-ja-en-D.mxliff')
+
+    print(df.head())
