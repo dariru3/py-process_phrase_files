@@ -16,28 +16,29 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         new_cells = new_row.cells
         for i, col_index in enumerate(columns_to_copy):
             original_text = row.cells[col_index].text
-            # print(f"Col index: {col_index}, content: {original_text}")
             cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
 
-def process_word_file(file_path, output_folder, attempts=1):
-    p_settings = CONFIG["ProcessingSettings"]
+def process_word_file(file_path, output_folder):
+    # Load settings
+    p_settings = CONFIG["ProcessingDocSettings"]
     final_col_length = len(CONFIG["GeneralSettings"]["Column_Headers"])
-    if attempts == 1:
-        print("Processing .DOCX file...")
+
+    print("Processing .DOCX file...")
     doc = Document(file_path)
 
-    # Save English text formatting
+    # Save text formatting to reapply later
     formatting_info = extract_formatting_from_column(doc=doc, table_num=3, col_num=5)
 
+    # Format tables
     tables_to_delete = p_settings["DeleteFirstNTables"]
-    delete_first_n_tables(doc=doc, n=tables_to_delete)
+    delete_first_n_tables(doc, tables_to_delete)
+    columns_to_copy = p_settings["ColumnsToKeep"]
 
-    columns_to_copy = [0, 3, 5, 6, 7]
-
+    # Create new table
     original_table = doc.tables[0]
     new_table = doc.add_table(rows=0, cols=final_col_length)
-
     copy_content_to_table(original_table, new_table, columns_to_copy)
+
     df_table = table_to_df(new_table)
     return df_table, formatting_info

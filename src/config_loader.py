@@ -4,9 +4,9 @@ CONFIG = {
         "OutputFolderPath": "data/output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
         "Column_Headers": ["ID", "Source", "Target", "Match", "Comment"]
     },
-    "ProcessingSettings": {
+    "ProcessingDocSettings": {
         "DeleteFirstNTables": 3,
-        "MaxAttempts": 2,
+        "ColumnsToKeep": [0, 3, 5, 6, 7]
     },
     "ConditionalFormattingSettings": {
         "TargetColumnIndex": 2,
