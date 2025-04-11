@@ -49,13 +49,13 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
         table.cell(0, i).text = str(column)
 
     # Add data rows
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         cells = table.add_row().cells
-        for i, value in enumerate(row):
+        for j, value in enumerate(row):
             if pd.isnull(value) or value == "None":
-                cells[i].text = ""
+                cells[j].text = ""
             else:
-                cells[i].text = str(value)
+                cells[j].text = str(value)
 
     # TODO: combine table helpers and document helpers
     format_table(table)
