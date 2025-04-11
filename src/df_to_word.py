@@ -40,20 +40,22 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     table.autofit = False
 
     # Rename column headers
-    df.rename(columns={'Index': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+    df.rename(columns={'ID': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+    # Reassign the 'p' column
+    df['p'] = range(1, len(df) + 1)
 
     # Add header row
     for i, column in enumerate(df.columns):
         table.cell(0, i).text = str(column)
 
     # Add data rows
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         cells = table.add_row().cells
-        for i, value in enumerate(row):
+        for j, value in enumerate(row):
             if pd.isnull(value) or value == "None":
-                cells[i].text = ""
+                cells[j].text = ""
             else:
-                cells[i].text = str(value)
+                cells[j].text = str(value)
 
     # TODO: combine table helpers and document helpers
     format_table(table)
@@ -95,12 +97,3 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
 
     # Save the merged DataFrame to a Word document
     dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
-
-def print_debug(message_string, table):
-    '''
-    UNUSED
-    '''
-    print(f"\n========== {message_string} ==========")
-    for i, row in enumerate(table.rows):
-        if i in [6, 11]:
-            print([cell.text for cell in row.cells])
