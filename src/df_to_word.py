@@ -40,7 +40,7 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     table.autofit = False
 
     # Rename column headers
-    df.rename(columns={'Index': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+    df.rename(columns={'ID': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
 
     # Add header row
     for i, column in enumerate(df.columns):
@@ -95,12 +95,3 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
 
     # Save the merged DataFrame to a Word document
     dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
-
-def print_debug(message_string, table):
-    '''
-    UNUSED
-    '''
-    print(f"\n========== {message_string} ==========")
-    for i, row in enumerate(table.rows):
-        if i in [6, 11]:
-            print([cell.text for cell in row.cells])
