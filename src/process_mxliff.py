@@ -41,6 +41,7 @@ def parse_mxliff_to_df(mxliff_file):
     namespaces = {'m': xliff_namespace}
 
     # Initialize lists to hold the extracted data
+    ids = []
     sources = []
     targets = []
     match_qualities = []
@@ -49,6 +50,7 @@ def parse_mxliff_to_df(mxliff_file):
     find_text = lambda trans_unit, m : trans_unit.find(m, namespaces).text if trans_unit.find(m, namespaces) is not None else ''
 
     for trans_unit in root.findall('.//m:trans-unit', namespaces):
+        unit_id = trans_unit.attrib.get('id', '')
         source_text = find_text(trans_unit, 'm:source')
         source_text = remove_tags(source_text)
         target_text = find_text(trans_unit, 'm:target')
@@ -60,20 +62,18 @@ def parse_mxliff_to_df(mxliff_file):
             if match_quality != 0:
                 break  # Assuming we only need the first matching alt-trans entry
 
+        ids.append(unit_id)
         sources.append(source_text)
         targets.append(target_text)
         match_qualities.append(match_quality)
 
     # Create a DataFrame from the extracted data
     df = pd.DataFrame({
+        'ID': ids,
         'Source': sources,
         'Target': targets,
         'Match': match_qualities
     })
-
-    df.index += 1
-    df.reset_index(inplace=True)
-    df.rename(columns={'index': 'Index'}, inplace=True)
 
     df['Comment'] = ""
 
