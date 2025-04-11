@@ -15,14 +15,11 @@ CONFIG = {
     "GeneralSettings": { # When updating Colab, replace with commented folder paths
         "InputFolderPath": "data/input_files/", # "/content/drive/MyDrive/MagicBox/",
         "OutputFolderPath": "data/output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
-        "Column_Headers": ["Index", "Source", "Target", "Match", "Comment"]
+        "Column_Headers": ["ID", "Index", "Source", "Target", "Match", "Comment"]
     },
     "ProcessingSettings": {
         "DeleteFirstNTables": 3,
         "MaxAttempts": 2,
-        "JapanesePattern": "[\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FAF]",
-        "Mapping_1": [2, 3, 5, 6, 7],
-        "Mapping_2": [2, 3, 4, 5, 6]
     },
     "ConditionalFormattingSettings": {
         "TargetColumnIndex": 2,
@@ -251,7 +248,8 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         new_cells = new_row.cells
         for i, col_index in enumerate(columns_to_copy):
             original_text = row.cells[col_index].text
-            cleansed_text = cleanse_text(original_text)
+            # print(f"Col index: {col_index}, content: {original_text}")
+            cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
 
 def process_word_file(file_path, output_folder, attempts=1):
@@ -267,7 +265,7 @@ def process_word_file(file_path, output_folder, attempts=1):
     tables_to_delete = p_settings["DeleteFirstNTables"]
     delete_first_n_tables(doc=doc, n=tables_to_delete)
 
-    columns_to_copy = adjust_columns_by_attempts(attempts, p_settings)
+    columns_to_copy = [0, 2, 3, 5, 6, 7]
 
     original_table = doc.tables[0]
     new_table = doc.add_table(rows=0, cols=final_col_length)
@@ -276,40 +274,20 @@ def process_word_file(file_path, output_folder, attempts=1):
     df_table = table_to_df(new_table)
     return df_table, formatting_info
 
-def contains_japanese(text, process_settings):
-    # Regular expression for matching Japanese characters
-    pattern = process_settings["JapanesePattern"]
-    return re.search(pattern, text) is not None
+if __name__ == "__main__":
+    table, info = process_word_file(
+        file_path="data/input_files/250314_LION様_P36_Positive Habits創出への取組み-ja-en-D.docx",
+        output_folder="data/output_files"
+    )
 
-def validate_table_contents(new_table, process_settings):
-    valid_rows = True
-    for i, row in enumerate(new_table.rows[1:11]):
-        column_3_target_text = row.cells[2].text
-
-        if column_3_target_text and contains_japanese(column_3_target_text, process_settings):
-            print(f"Invalid row {i}: {column_3_target_text}")
-            valid_rows = False
-
-    return valid_rows
-
-def adjust_columns_by_attempts(attempts, process_settings):
-    attempt_1_col = process_settings["Mapping_1"]
-    attempt_2_col = process_settings["Mapping_2"]
-    attempts_mapping = {
-        1: ("First attempt", attempt_1_col),
-        2: ("Second attempt", attempt_2_col),
-    }
-
-    message, columns = attempts_mapping.get(attempts, ("Second attempt failed", None))
-    print(message)
-    return columns
+    print(table)
 
 # End of src/process_word.py
 
 
 # Start of src/process_mxliff.py
 
-def cleanse_text(text):
+def remove_tags(text):
     # Pattern to match tags like {b>, <b}, {j}
     pattern = r"\{.?>|<.?\}|\{j\}"
     cleansed_text = re.sub(pattern, '', text)
@@ -318,15 +296,17 @@ def cleanse_text(text):
 
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
+    xliff_namespace = 'urn:oasis:names:tc:xliff:document:1.2'
+
     # Register the namespace to properly handle prefixed attributes
-    ET.register_namespace('m', 'urn:oasis:names:tc:xliff:document:1.2')
+    ET.register_namespace('m', xliff_namespace)
 
     # Parse the MXLIFF file
     tree = ET.parse(mxliff_file)
     root = tree.getroot()
 
     # Define the namespaces used in your MXLIFF file
-    namespaces = {'m': 'urn:oasis:names:tc:xliff:document:1.2'}
+    namespaces = {'m': xliff_namespace}
 
     # Initialize lists to hold the extracted data
     sources = []
@@ -334,12 +314,13 @@ def parse_mxliff_to_df(mxliff_file):
     match_qualities = []
 
     # Loop through each translation unit in the MXLIFF file
+    find_text = lambda trans_unit, m : trans_unit.find(m, namespaces).text if trans_unit.find(m, namespaces) is not None else ''
+
     for trans_unit in root.findall('.//m:trans-unit', namespaces):
-        source_text = trans_unit.find('m:source', namespaces).text if trans_unit.find('m:source', namespaces) is not None else ''
-        target_text = trans_unit.find('m:target', namespaces).text if trans_unit.find('m:target', namespaces) is not None else ''
+        source_text = find_text(trans_unit, 'm:source')
+        target_text = find_text(trans_unit, 'm:target')
 
-
-        source_text = cleanse_text(source_text)
+        source_text = remove_tags(source_text)
 
         match_quality = '0' # Default value
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality

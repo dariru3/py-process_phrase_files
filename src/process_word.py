@@ -1,8 +1,7 @@
 from docx import Document
-import re
 from .table_to_df import table_to_df
 from .save_formatting import extract_formatting_from_column
-from .process_mxliff import cleanse_text
+from .process_mxliff import remove_tags
 from .config_loader import CONFIG
 
 def delete_first_n_tables(doc, n):
@@ -17,7 +16,8 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         new_cells = new_row.cells
         for i, col_index in enumerate(columns_to_copy):
             original_text = row.cells[col_index].text
-            cleansed_text = cleanse_text(original_text)
+            # print(f"Col index: {col_index}, content: {original_text}")
+            cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
 
 def process_word_file(file_path, output_folder, attempts=1):
@@ -33,7 +33,7 @@ def process_word_file(file_path, output_folder, attempts=1):
     tables_to_delete = p_settings["DeleteFirstNTables"]
     delete_first_n_tables(doc=doc, n=tables_to_delete)
 
-    columns_to_copy = adjust_columns_by_attempts(attempts, p_settings)
+    columns_to_copy = [0, 2, 3, 5, 6, 7]
 
     original_table = doc.tables[0]
     new_table = doc.add_table(rows=0, cols=final_col_length)
@@ -42,30 +42,10 @@ def process_word_file(file_path, output_folder, attempts=1):
     df_table = table_to_df(new_table)
     return df_table, formatting_info
 
-def contains_japanese(text, process_settings):
-    # Regular expression for matching Japanese characters
-    pattern = process_settings["JapanesePattern"]
-    return re.search(pattern, text) is not None
+if __name__ == "__main__":
+    table, info = process_word_file(
+        file_path="data/input_files/250314_LION様_P36_Positive Habits創出への取組み-ja-en-D.docx",
+        output_folder="data/output_files"
+    )
 
-def validate_table_contents(new_table, process_settings):
-    valid_rows = True
-    for i, row in enumerate(new_table.rows[1:11]):
-        column_3_target_text = row.cells[2].text
-
-        if column_3_target_text and contains_japanese(column_3_target_text, process_settings):
-            print(f"Invalid row {i}: {column_3_target_text}")
-            valid_rows = False
-
-    return valid_rows
-
-def adjust_columns_by_attempts(attempts, process_settings):
-    attempt_1_col = process_settings["Mapping_1"]
-    attempt_2_col = process_settings["Mapping_2"]
-    attempts_mapping = {
-        1: ("First attempt", attempt_1_col),
-        2: ("Second attempt", attempt_2_col),
-    }
-
-    message, columns = attempts_mapping.get(attempts, ("Second attempt failed", None))
-    print(message)
-    return columns
+    print(table)
