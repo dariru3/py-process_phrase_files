@@ -8,6 +8,10 @@ CONFIG = {
         "DeleteFirstNTables": 3,
         "ColumnsToKeep": [0, 3, 5, 6, 7]
     },
+    "ProcessingXliffSettings": {
+        "TagPatterns": r"\{.?>|<.?\}|\{j\}", # Remove custom tags such as {b>, <b}, {j} from the input text.
+        "XliffNamespace": "urn:oasis:names:tc:xliff:document:1.2",
+    },
     "ConditionalFormattingSettings": {
         "TargetColumnIndex": 2,
         "MatchColumnIndex": 3,

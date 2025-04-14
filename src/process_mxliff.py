@@ -1,13 +1,11 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 import re
+from .config_loader import CONFIG
 
 def remove_tags(text):
-    """
-    Remove custom tags such as {b>, <b}, {j} from the input text.
-    """
-    pattern = r"\{.?>|<.?\}|\{j\}"
-    cleansed_text = re.sub(pattern, '', text)
+    patterns = CONFIG["ProcessingXliffSettings"]["TagPatterns"]
+    cleansed_text = re.sub(patterns, '', text)
 
     return cleansed_text
 
@@ -23,7 +21,6 @@ def setup_root(mxliff_file, xliff_namespace):
 def get_match_quality(alt_trans):
     """
     Extract and calculate the match quality from an alt-trans element.
-
     Returns the match quality as an integer percentage.
     """
     if alt_trans.attrib.get('origin') == 'memsource-tm':
@@ -34,7 +31,7 @@ def get_match_quality(alt_trans):
 
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
-    xliff_namespace = 'urn:oasis:names:tc:xliff:document:1.2'
+    xliff_namespace = CONFIG["ProcessingXliffSettings"]["XliffNamespace"]
     root = setup_root(mxliff_file, xliff_namespace)
 
     # Define the namespaces used in your MXLIFF file
