@@ -144,3 +144,10 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
     if font_size:
         run = paragraph.runs[0] if paragraph.runs else paragraph.add_run()
         run.font.size = Pt(font_size)
+
+def apply_formatting_pipe(table, doc):
+    format_table(table)
+    apply_conditional_formatting(table)
+    set_column_language(table, 1, "ja-JP")
+    set_landscape_orientation(doc)
+    format_font_lines(doc)

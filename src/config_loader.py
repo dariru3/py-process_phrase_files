@@ -21,6 +21,7 @@ CONFIG = {
         "BackgroundColor": "D9D9D9"
     },
     "TableFormattingSettings": {
-        "RowWidths": [9, 81, 112, 11, 21]
+        "RowWidths": [9, 81, 112, 11, 21],
+        "NewColumnNames": {'ID': 'p', 'Source': 'Japanese', 'Target': 'English'}
     }
 }
