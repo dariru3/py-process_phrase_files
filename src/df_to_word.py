@@ -34,17 +34,14 @@ def get_file_pairs(folder_path):
             pairs.append((docx_file, mxliff_file))
     return pairs
 
-def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
+def setup_table(df, table):
     t_settings = CONFIG["TableFormattingSettings"]
-    # Create new .docx file with a new blank table
-    doc = Document()
-    table = doc.add_table(rows=1, cols=len(df.columns))
-    table.autofit = False
+    line_num_col = "p"
 
     # Rename column headers
     df.rename(columns=t_settings["NewColumnNames"], inplace=True)
     # Reassign the 'p' column from id numbers to index numbers
-    df['p'] = range(1, len(df) + 1)
+    df[line_num_col] = range(1, len(df) + 1)
 
     # Add header row to new table
     for i, column in enumerate(df.columns):
@@ -59,10 +56,18 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
             else:
                 cells[j].text = str(value)
 
+def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
+    # Create new .docx file with a new blank table
+    doc = Document()
+    table = doc.add_table(rows=1, cols=len(df.columns))
+    table.autofit = False
+
+    setup_table(df, table)
+
     apply_formatting_pipe(table, doc)
 
     # Reapply formatting to Enlglish text
-    reapply_formatting_to_column(table=table, table_num=0, col_num=2, formatting_info=formatting_info)
+    reapply_formatting_to_column(table, formatting_info)
 
     # Drop the 'Match' column after all formatting is done
     match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
