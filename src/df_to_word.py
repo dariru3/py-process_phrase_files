@@ -72,7 +72,7 @@ def save_doc_file(docx_file, new_doc, output_folder):
     new_doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
-def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
+def dataframe_to_word_table(docx_file, df, output_folder, formatting_info_en, formatting_info_ja):
     # Create new .docx file with a new blank table
     new_doc = Document()
     table = new_doc.add_table(rows=1, cols=len(df.columns))
@@ -81,10 +81,9 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     setup_table(df, table)
     apply_formatting_pipe(table, new_doc) # Format table
 
-    # Reapply formatting to Enlglish text
-    reapply_formatting_to_column(table, formatting_info)
-
-    # TODO: Reapply formatting to Japanese text
+    # Reapply formatting to Japanese and English text
+    reapply_formatting_to_column(table, formatting_info_ja, 1)
+    reapply_formatting_to_column(table, formatting_info_en, 2)
 
     # Drop the 'Match' column after all formatting is done
     delete_column_in_table(table)
@@ -93,10 +92,10 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     save_doc_file(docx_file, new_doc, output_folder)
 
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
-    df_word, formatting_info = None, None
+    df_word, formatting_info_en, formatting_info_ja = None, None, None
 
     # Process the Word and MXLIFF files
-    df_word, formatting_info = process_word_file(os.path.join(input_folder, docx_file), output_folder)
+    df_word, formatting_info_en, formatting_info_ja = process_word_file(os.path.join(input_folder, docx_file), output_folder)
 
     # Check Word data, then process MXLIFF files
     if df_word is not None and not df_word.empty:
@@ -109,4 +108,4 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
     merged_df = merge_dfs(df_word, df_mxliff)
 
     # Save the merged DataFrame to a Word document
-    dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
+    dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info_en, formatting_info_ja)
