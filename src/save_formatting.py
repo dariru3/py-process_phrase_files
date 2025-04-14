@@ -29,7 +29,7 @@ def extract_formatting_from_column(doc, table_num, col_nums):
     return formatting_info
 
 def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
-    col_mapping = { 3: 1, 5: 2 }
+    col_mapping = { 3: 1, 5: 2 } # Maps original column indices (3 and 5) to new column indices (1 and 2)
     for row_idx, cols_info in formatting_info.items():
         for orig_col, new_col in col_mapping.items():
             cell_info = cols_info.get(orig_col, [])
