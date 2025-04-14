@@ -1,4 +1,3 @@
-from docx import Document
 from docx.shared import Pt, RGBColor
 
 def extract_formatting_from_column(doc, table_num, col_num):
