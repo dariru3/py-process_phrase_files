@@ -9,8 +9,7 @@ from .process_word import process_word_file
 from .save_formatting import reapply_formatting_to_column
 from .config_loader import CONFIG
 
-def delete_column_in_table(table):
-    column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
+def delete_column_in_table(table, column_index=CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]):
     grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
     for cell in table.column_cells(column_index):
         cell._tc.getparent().remove(cell._tc)
