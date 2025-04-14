@@ -25,7 +25,7 @@ def extract_formatting_from_column(doc, table_num, col_num):
 
     return formatting_info
 
-def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
+def reapply_formatting_to_column(table, formatting_info, table_num=0, col_num=2):
     for row_idx, cell_info in formatting_info.items():
         has_previous_text = any(run_info["text"] for run_info in cell_info)
         if not has_previous_text:
