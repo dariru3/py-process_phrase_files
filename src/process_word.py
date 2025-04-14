@@ -28,8 +28,7 @@ def process_word_file(file_path, output_folder):
     doc = Document(file_path)
 
     # Save text formatting to reapply later
-    formatting_info_en = extract_formatting_from_column(doc, 3, 5)
-    formatting_info_ja = extract_formatting_from_column(doc, 3, 3)
+    formatting_info = extract_formatting_from_column(doc, 3, [3, 5])
 
     # Remove other tables
     tables_to_delete = p_settings["DeleteFirstNTables"]
@@ -42,4 +41,4 @@ def process_word_file(file_path, output_folder):
     copy_content_to_table(original_table, new_table, columns_to_copy)
 
     df_table = table_to_df(new_table)
-    return df_table, formatting_info_en, formatting_info_ja
+    return df_table, formatting_info
