@@ -18,6 +18,7 @@ def sort_imports(line, imports_set):
     return False
 
 def combine_scripts_for_notebook(file_names, output_file_path="colab/notebook_script.py"):
+    colab_snippet = "# @title Step 2: Run Magic Box\n"
     combined_scripts = "" # Hold the combined content of all scripts
     imports_set = set() # Save all import lines
 
@@ -39,10 +40,11 @@ def combine_scripts_for_notebook(file_names, output_file_path="colab/notebook_sc
     imports_list = sorted(imports_set)
     combined_imports = "\n".join(imports_list) + "\n"
 
+    combined_output = colab_snippet + combined_imports + combined_scripts
+
     # Save the combined scripts to a new file
     with open(output_file_path, "w", encoding="utf-8") as output_file:
-        output_file.write(combined_imports)
-        output_file.write(combined_scripts)
+        output_file.write(combined_output)
 
     print(f"All scripts have been combined into {output_file_path}")
 

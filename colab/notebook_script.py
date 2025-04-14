@@ -1,3 +1,4 @@
+# @title Step 2: Run Magic Box
 from datetime import datetime
 from docx import Document
 from docx.enum.section import WD_ORIENT
@@ -15,11 +16,15 @@ CONFIG = {
     "GeneralSettings": { # When updating Colab, replace with commented folder paths
         "InputFolderPath": "data/input_files/", # "/content/drive/MyDrive/MagicBox/",
         "OutputFolderPath": "data/output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
-        "Column_Headers": ["ID", "Index", "Source", "Target", "Match", "Comment"]
+        "Column_Headers": ["ID", "Source", "Target", "Match", "Comment"]
     },
-    "ProcessingSettings": {
+    "ProcessingDocSettings": {
         "DeleteFirstNTables": 3,
-        "MaxAttempts": 2,
+        "ColumnsToKeep": [0, 3, 5, 6, 7]
+    },
+    "ProcessingXliffSettings": {
+        "TagPatterns": r"\{.?>|<.?\}|\{j\}", # Remove custom tags such as {b>, <b}, {j} from the input text.
+        "XliffNamespace": "urn:oasis:names:tc:xliff:document:1.2",
     },
     "ConditionalFormattingSettings": {
         "TargetColumnIndex": 2,
@@ -30,7 +35,8 @@ CONFIG = {
         "BackgroundColor": "D9D9D9"
     },
     "TableFormattingSettings": {
-        "RowWidths": [9, 81, 112, 11, 20]
+        "RowWidths": [9, 81, 112, 11, 21],
+        "NewColumnNames": {'ID': 'p', 'Source': 'Japanese', 'Target': 'English'}
     }
 }
 
@@ -39,52 +45,58 @@ CONFIG = {
 
 # Start of src/save_formatting.py
 
-def extract_formatting_from_column(doc, table_num, col_num):
+def extract_formatting_from_column(doc, table_num, col_nums):
     table = doc.tables[table_num]
     formatting_info = {}
 
     for row_idx, row in enumerate(table.rows):
-        cell = row.cells[col_num]
-        cell_info = []
-        for paragraph in cell.paragraphs:
-            for run in paragraph.runs:
-                run_info = {
-                    "text": run.text,
-                    "bold": run.bold,
-                    "italic": run.italic,
-                    "underline": run.underline,
-                    "font_name": run.font.name,
-                    "font_size": run.font.size.pt if run.font.size else None,
-                    "font_color": run.font.color.rgb if run.font.color else None,
-                    "superscript": run.font.superscript,
-                    "subscript": run.font.subscript,
-                }
-                cell_info.append(run_info)
-        formatting_info[row_idx] = cell_info
+        row_format = {}
+        for col in col_nums:
+            cell = row.cells[col]
+            cell_info = []
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run_info = {
+                        "text": run.text,
+                        "bold": run.bold,
+                        "italic": run.italic,
+                        "underline": run.underline,
+                        "font_name": run.font.name,
+                        "font_size": run.font.size.pt if run.font.size else None,
+                        "font_color": run.font.color.rgb if run.font.color else None,
+                        "superscript": run.font.superscript,
+                        "subscript": run.font.subscript,
+                    }
+                    cell_info.append(run_info)
+            row_format[col] = cell_info
+        formatting_info[row_idx] = row_format
 
     return formatting_info
 
-def reapply_formatting_to_column(table, table_num, col_num, formatting_info):
-    for row_idx, cell_info in formatting_info.items():
-        has_previous_text = any(run_info["text"] for run_info in cell_info)
-        if not has_previous_text:
-            continue
+def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
+    col_mapping = { 3: 1, 5: 2 } # Maps original column indices (3 and 5) to new column indices (1 and 2)
+    for row_idx, cols_info in formatting_info.items():
+        for orig_col, new_col in col_mapping.items():
+            cell_info = cols_info.get(orig_col, [])
+            has_previous_text = any(run_info["text"] for run_info in cell_info)
+            if not has_previous_text:
+                continue
 
-        cell = table.cell(row_idx + 1, col_num) # +1 = start 2nd row
-        cell.text = ""
-        for run_info in cell_info:
-            paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
-            run = paragraph.add_run(run_info["text"])
-            run.bold = run_info.get("bold")
-            run.italic = run_info.get("italic")
-            run.underline = run_info.get("underline")
-            run.font.name = run_info.get("font_name")
-            if run_info.get("font_size"):
-                run.font.size = Pt(run_info["font_size"])
-            if run_info.get("font_color"):
-                run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
-            run.font.superscript = run_info.get("superscript")
-            run.font.subscript = run_info.get("subscript")
+            cell = table.cell(row_idx + 1, new_col) # Skip header row
+            cell.text = ""
+            for run_info in cell_info:
+                paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
+                run = paragraph.add_run(run_info["text"])
+                run.bold = run_info.get("bold")
+                run.italic = run_info.get("italic")
+                run.underline = run_info.get("underline")
+                run.font.name = run_info.get("font_name")
+                if run_info.get("font_size"):
+                    run.font.size = Pt(run_info["font_size"])
+                if run_info.get("font_color"):
+                    run.font.color.rgb = RGBColor.from_string(run_info["font_color"])
+                run.font.superscript = run_info.get("superscript")
+                run.font.subscript = run_info.get("subscript")
 
 # End of src/save_formatting.py
 
@@ -231,6 +243,13 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
         run = paragraph.runs[0] if paragraph.runs else paragraph.add_run()
         run.font.size = Pt(font_size)
 
+def apply_formatting_pipe(table, doc):
+    format_table(table)
+    apply_conditional_formatting(table)
+    set_column_language(table, 1, "ja-JP")
+    set_landscape_orientation(doc)
+    format_font_lines(doc)
+
 # End of src/format_helper.py
 
 
@@ -248,39 +267,32 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
         new_cells = new_row.cells
         for i, col_index in enumerate(columns_to_copy):
             original_text = row.cells[col_index].text
-            # print(f"Col index: {col_index}, content: {original_text}")
             cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
 
-def process_word_file(file_path, output_folder, attempts=1):
-    p_settings = CONFIG["ProcessingSettings"]
+def process_word_file(file_path, output_folder):
+    # Load settings
+    p_settings = CONFIG["ProcessingDocSettings"]
     final_col_length = len(CONFIG["GeneralSettings"]["Column_Headers"])
-    if attempts == 1:
-        print("Processing .DOCX file...")
+
+    print("Processing .DOCX file...")
     doc = Document(file_path)
 
-    # Save English text formatting
-    formatting_info = extract_formatting_from_column(doc=doc, table_num=3, col_num=5)
+    # Save text formatting to reapply later
+    formatting_info = extract_formatting_from_column(doc, 3, [3, 5])
 
+    # Remove other tables
     tables_to_delete = p_settings["DeleteFirstNTables"]
-    delete_first_n_tables(doc=doc, n=tables_to_delete)
+    delete_first_n_tables(doc, tables_to_delete)
 
-    columns_to_copy = [0, 2, 3, 5, 6, 7]
-
+    # Get contents from source table from certain columns
     original_table = doc.tables[0]
     new_table = doc.add_table(rows=0, cols=final_col_length)
-
+    columns_to_copy = p_settings["ColumnsToKeep"]
     copy_content_to_table(original_table, new_table, columns_to_copy)
+
     df_table = table_to_df(new_table)
     return df_table, formatting_info
-
-if __name__ == "__main__":
-    table, info = process_word_file(
-        file_path="data/input_files/250314_LION様_P36_Positive Habits創出への取組み-ja-en-D.docx",
-        output_folder="data/output_files"
-    )
-
-    print(table)
 
 # End of src/process_word.py
 
@@ -288,27 +300,41 @@ if __name__ == "__main__":
 # Start of src/process_mxliff.py
 
 def remove_tags(text):
-    # Pattern to match tags like {b>, <b}, {j}
-    pattern = r"\{.?>|<.?\}|\{j\}"
-    cleansed_text = re.sub(pattern, '', text)
+    patterns = CONFIG["ProcessingXliffSettings"]["TagPatterns"]
+    cleansed_text = re.sub(patterns, '', text)
 
     return cleansed_text
 
+def setup_root(mxliff_file, xliff_namespace):
+    """
+    Register the given namespace and parse the MXLIFF file,
+    returning the root element.
+    """
+    ET.register_namespace('m', xliff_namespace)
+    tree = ET.parse(mxliff_file)
+    return tree.getroot()
+
+def get_match_quality(alt_trans):
+    """
+    Extract and calculate the match quality from an alt-trans element.
+    Returns the match quality as an integer percentage.
+    """
+    if alt_trans.attrib.get('origin') == 'memsource-tm':
+        match_quality = alt_trans.attrib.get('match-quality', '0')
+        return int(float(match_quality) * 100)
+    else:
+        return 0
+
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
-    xliff_namespace = 'urn:oasis:names:tc:xliff:document:1.2'
-
-    # Register the namespace to properly handle prefixed attributes
-    ET.register_namespace('m', xliff_namespace)
-
-    # Parse the MXLIFF file
-    tree = ET.parse(mxliff_file)
-    root = tree.getroot()
+    xliff_namespace = CONFIG["ProcessingXliffSettings"]["XliffNamespace"]
+    root = setup_root(mxliff_file, xliff_namespace)
 
     # Define the namespaces used in your MXLIFF file
     namespaces = {'m': xliff_namespace}
 
     # Initialize lists to hold the extracted data
+    ids = []
     sources = []
     targets = []
     match_qualities = []
@@ -317,33 +343,30 @@ def parse_mxliff_to_df(mxliff_file):
     find_text = lambda trans_unit, m : trans_unit.find(m, namespaces).text if trans_unit.find(m, namespaces) is not None else ''
 
     for trans_unit in root.findall('.//m:trans-unit', namespaces):
+        unit_id = trans_unit.attrib.get('id', '')
         source_text = find_text(trans_unit, 'm:source')
+        source_text = remove_tags(source_text)
         target_text = find_text(trans_unit, 'm:target')
 
-        source_text = remove_tags(source_text)
-
-        match_quality = '0' # Default value
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
+        match_quality = 0 # Default value
         for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
-            if alt_trans.attrib.get('origin') == 'memsource-tm':
-                match_quality = alt_trans.attrib.get('match-quality', '0')
-                match_quality = int(float(match_quality) * 100)
+            match_quality = get_match_quality(alt_trans)
+            if match_quality != 0:
                 break  # Assuming we only need the first matching alt-trans entry
 
+        ids.append(unit_id)
         sources.append(source_text)
         targets.append(target_text)
         match_qualities.append(match_quality)
 
     # Create a DataFrame from the extracted data
     df = pd.DataFrame({
+        'ID': ids,
         'Source': sources,
         'Target': targets,
         'Match': match_qualities
     })
-
-    df.index += 1
-    df.reset_index(inplace=True)
-    df.rename(columns={'index': 'Index'}, inplace=True)
 
     df['Comment'] = ""
 
@@ -369,17 +392,13 @@ def table_to_df(table):
 
 # Start of src/merge_df.py
 
-def merge_dfs(df1, df2):
-    # Convert Index to int
-    df1['Index'] = df1['Index'].astype(int)
-    df2['Index'] = df2['Index'].astype(int)
-
+def merge_dfs(df_word, df_mxliff):
     # Convert Match to int, with error handling
-    df1['Match'] = pd.to_numeric(df1['Match'], errors='coerce').fillna(0).astype(int)
-    df2['Match'] = pd.to_numeric(df2['Match'], errors='coerce').fillna(0).astype(int)
+    df_word['Match'] = pd.to_numeric(df_word['Match'], errors='coerce').fillna(0).astype(int)
+    df_mxliff['Match'] = pd.to_numeric(df_mxliff['Match'], errors='coerce').fillna(0).astype(int)
 
     # Merge the DataFrames
-    df_combined = pd.merge(df1, df2, on=['Index', 'Source'], how='outer', suffixes=('', '_df2'))
+    df_combined = pd.merge(df_word, df_mxliff, on=['ID'], how='outer', suffixes=('', '_df2'))
 
     # Select the best values for each column based on availability and preference
     df_combined['Target'] = df_combined['Target'].where(df_combined['Target'] != '', df_combined['Target_df2'])
@@ -390,7 +409,7 @@ def merge_dfs(df1, df2):
     df_combined['Comment'] = df_combined['Comment'].where(df_combined['Comment'] != '', df_combined['Comment_df2'])
 
     # Drop the temporary columns from df2
-    df_combined.drop(columns=['Target_df2', 'Match_df2', 'Comment_df2'], inplace=True)
+    df_combined.drop(columns=['Source_df2', 'Target_df2', 'Match_df2', 'Comment_df2'], inplace=True)
 
     return df_combined
 
@@ -399,7 +418,7 @@ def merge_dfs(df1, df2):
 
 # Start of src/df_to_word.py
 
-def delete_column_in_table(table, column_index):
+def delete_column_in_table(table, column_index=CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]):
     grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
     for cell in table.column_cells(column_index):
         cell._tc.getparent().remove(cell._tc)
@@ -424,57 +443,70 @@ def get_file_pairs(folder_path):
             pairs.append((docx_file, mxliff_file))
     return pairs
 
-def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
-    doc = Document()
-    table = doc.add_table(rows=1, cols=len(df.columns))
-    table.autofit = False
+def setup_table(df, table):
+    t_settings = CONFIG["TableFormattingSettings"]
+    line_num_col = "p"
 
     # Rename column headers
-    df.rename(columns={'Index': 'p', 'Source': 'Japanese', 'Target': 'English'}, inplace=True)
+    df.rename(columns=t_settings["NewColumnNames"], inplace=True)
+    # Reassign the 'p' column from id numbers to index numbers
+    df[line_num_col] = range(1, len(df) + 1)
 
-    # Add header row
+    # Add header row to new table
     for i, column in enumerate(df.columns):
         table.cell(0, i).text = str(column)
 
-    # Add data rows
-    for index, row in df.iterrows():
+    # Add data rows to new table
+    for i, row in df.iterrows():
         cells = table.add_row().cells
-        for i, value in enumerate(row):
+        for j, value in enumerate(row):
             if pd.isnull(value) or value == "None":
-                cells[i].text = ""
+                cells[j].text = ""
             else:
-                cells[i].text = str(value)
+                cells[j].text = str(value)
 
-    # TODO: combine table helpers and document helpers
-    format_table(table)
-    apply_conditional_formatting(table)
-    set_column_language(table, 1, 'ja-JP')
-    set_landscape_orientation(doc)
-    format_font_lines(doc)
-
-    # Reapply formatting to Enlglish text
-    reapply_formatting_to_column(table=table, table_num=0, col_num=2, formatting_info=formatting_info)
-
-    # Drop the 'Match' column after all formatting is done
-    match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
-    delete_column_in_table(table, match_column_index)
-
+def save_doc_file(docx_file, new_doc, output_folder):
+    # Check output folder
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
+    # Use original .docx file name, add "_merged"
     output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
-    doc.core_properties.created = datetime.now()
-    doc.core_properties.modified = datetime.now()
-    doc.save(output_file_path)
+
+    # Add metadata
+    new_doc.core_properties.created = datetime.now()
+    new_doc.core_properties.modified = datetime.now()
+
+    # Save file and notify in console
+    new_doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
+
+def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
+    # Create new .docx file with a new blank table
+    new_doc = Document()
+    table = new_doc.add_table(rows=1, cols=len(df.columns))
+    table.autofit = False
+
+    setup_table(df, table)
+    apply_formatting_pipe(table, new_doc) # Format table
+
+    # Reapply formatting to Japanese and English text
+    reapply_formatting_to_column(table, formatting_info, [3, 5])
+
+    # Drop the 'Match' column after all formatting is done
+    delete_column_in_table(table)
+
+    # Save new .docx file
+    save_doc_file(docx_file, new_doc, output_folder)
 
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
     df_word, formatting_info = None, None
-    # Process the Word and MXLIFF files
-    processed_data = process_word_file(os.path.join(input_folder, docx_file), output_folder)
-    if processed_data is not None:
-        df_word, formatting_info = processed_data
-    if df_word is not None and not df_word.empty:
+
+    # Process the Word files
+    df_word, formatting_info = process_word_file(os.path.join(input_folder, docx_file), output_folder)
+
+    # Check Word data, then process MXLIFF files
+    if df_word is not None and not df_word.empty and formatting_info is not None:
         df_mxliff = parse_mxliff_to_df(os.path.join(input_folder, mxliff_file))
     else:
         print("Failed to process Word file.")
@@ -485,15 +517,6 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
 
     # Save the merged DataFrame to a Word document
     dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
-
-def print_debug(message_string, table):
-    '''
-    UNUSED
-    '''
-    print(f"\n========== {message_string} ==========")
-    for i, row in enumerate(table.rows):
-        if i in [6, 11]:
-            print([cell.text for cell in row.cells])
 
 # End of src/df_to_word.py
 
