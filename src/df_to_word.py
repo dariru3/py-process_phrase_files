@@ -9,7 +9,8 @@ from .process_word import process_word_file
 from .save_formatting import reapply_formatting_to_column
 from .config_loader import CONFIG
 
-def delete_column_in_table(table, column_index):
+def delete_column_in_table(table):
+    column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
     grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
     for cell in table.column_cells(column_index):
         cell._tc.getparent().remove(cell._tc)
@@ -56,24 +57,7 @@ def setup_table(df, table):
             else:
                 cells[j].text = str(value)
 
-def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
-    # Create new .docx file with a new blank table
-    doc = Document()
-    table = doc.add_table(rows=1, cols=len(df.columns))
-    table.autofit = False
-
-    setup_table(df, table)
-
-    apply_formatting_pipe(table, doc)
-
-    # Reapply formatting to Enlglish text
-    reapply_formatting_to_column(table, formatting_info)
-
-    # Drop the 'Match' column after all formatting is done
-    match_column_index = CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
-    delete_column_in_table(table, match_column_index)
-
-    # Save new .docx file
+def save_doc_file(docx_file, new_doc, output_folder):
     # Check output folder
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -82,12 +66,32 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
 
     # Add metadata
-    doc.core_properties.created = datetime.now()
-    doc.core_properties.modified = datetime.now()
+    new_doc.core_properties.created = datetime.now()
+    new_doc.core_properties.modified = datetime.now()
 
     # Save file and notify in console
-    doc.save(output_file_path)
+    new_doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
+
+def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
+    # Create new .docx file with a new blank table
+    new_doc = Document()
+    table = new_doc.add_table(rows=1, cols=len(df.columns))
+    table.autofit = False
+
+    setup_table(df, table)
+    apply_formatting_pipe(table, new_doc) # Format table
+
+    # Reapply formatting to Enlglish text
+    reapply_formatting_to_column(table, formatting_info)
+
+    # TODO: Reapply formatting to Japanese text
+
+    # Drop the 'Match' column after all formatting is done
+    delete_column_in_table(table)
+
+    # Save new .docx file
+    save_doc_file(docx_file, new_doc, output_folder)
 
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
     df_word, formatting_info = None, None
