@@ -49,10 +49,8 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
                 if run_info.get("font_size"):
                     run.font.size = Pt(run_info["font_size"])
                 if run_info.get("font_color"):
-                    font_color_str = str(run_info["font_color"])
-                    if font_color_str and font_color_str.startswith('(') and font_color_str.endswith(')'):
-                        font_color_str = ''.join(filter(str.isdigit, font_color_str))
-                        font_color_str = font_color_str.zfill(6)
-                    run.font.color.rgb = RGBColor.from_string(font_color_str) if font_color_str else None
+                    run.font.color.rgb = RGBColor.from_string(str(run_info["font_color"]))
+                else:
+                    run.font.color.rgb = None
                 run.font.superscript = run_info.get("superscript")
                 run.font.subscript = run_info.get("subscript")
