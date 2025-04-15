@@ -50,7 +50,5 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
                     run.font.size = Pt(run_info["font_size"])
                 if run_info.get("font_color"):
                     run.font.color.rgb = RGBColor.from_string(str(run_info["font_color"]))
-                else:
-                    run.font.color.rgb = None
                 run.font.superscript = run_info.get("superscript")
                 run.font.subscript = run_info.get("subscript")
