@@ -19,8 +19,7 @@ class TestDocxMerge(unittest.TestCase):
     COL_MAP = {
         3: 1,  # input col 3 → output col 1 (Source/Japanese)
         5: 2,  # input col 5 → output col 2 (Target/English)
-        6: 3,  # input col 6 → output col 3 (Match)
-        7: 4   # input col 7 → output col 4 (Comment)
+        7: 3   # input col 7 → output col 4 (Comment)
     }
 
     def setUp(self):
@@ -42,7 +41,7 @@ class TestDocxMerge(unittest.TestCase):
 
     def test_cell_texts_mirror(self):
         for row_idx, (in_row, out_row) in enumerate(
-            zip(self.in_table.rows, self.out_table.rows)
+            zip(self.in_table.rows, self.out_table.rows[1:])
         ):
             for in_col, out_col in self.col_map.items():
                 in_text  = in_row.cells[in_col].text.strip()
@@ -64,7 +63,7 @@ class TestDocxMerge(unittest.TestCase):
         for row_idx in in_fmt:
             for in_col, out_col in self.col_map.items():
                 runs_in  = in_fmt[row_idx][in_col]
-                runs_out = out_fmt[row_idx][out_col]
+                runs_out = out_fmt[row_idx + 1][out_col]
                 self.assertEqual(
                     runs_in, runs_out,
                     f"Formatting mismatch at row {row_idx}, "
