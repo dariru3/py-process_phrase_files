@@ -6,7 +6,7 @@ def merge_dfs(df_word, df_mxliff):
     df_mxliff['Match'] = pd.to_numeric(df_mxliff['Match'], errors='coerce').fillna(0).astype(int)
 
     # Merge the DataFrames
-    df_combined = pd.merge(df_word, df_mxliff, on=['ID'], how='outer', suffixes=('', '_df2'))
+    df_combined = pd.merge(df_word, df_mxliff, on=['ID'], how='left',sort=False, suffixes=('', '_df2'))
 
     # Select the best values for each column based on availability and preference
     df_combined['Target'] = df_combined['Target'].where(df_combined['Target'] != '', df_combined['Target_df2'])
