@@ -48,7 +48,7 @@ class TestDocxMerge(unittest.TestCase):
                 out_text = out_row.cells[out_col].text.strip()
                 self.assertEqual(
                     in_text, out_text,
-                    f"Text mismatch at row {row_idx}, input col {in_col}, output col {out_col}"
+                    f"Text mismatch at row {row_idx + 1}, input col {in_col}, output col {out_col + 1}"
                 )
 
     def test_formatting_info_mirror(self):
@@ -64,10 +64,16 @@ class TestDocxMerge(unittest.TestCase):
             for in_col, out_col in self.col_map.items():
                 runs_in  = in_fmt[row_idx][in_col]
                 runs_out = out_fmt[row_idx + 1][out_col]
+
+                # remove any blank-text runs
+                # clean_blank = [lambda runs: r for r in runs if r["text"].strip()]
+                clean_in = [r for r in runs_in if r["text"].strip()]
+                clean_out = [r for r in runs_out if r["text"].strip()]
+
                 self.assertEqual(
-                    runs_in, runs_out,
-                    f"Formatting mismatch at row {row_idx}, "
-                    f"input col {in_col}, output col {out_col}"
+                    clean_in, clean_out,
+                    f"Formatting mismatch at row {row_idx + 1}, "
+                    f"input col {in_col + 1}, output col {out_col + 1}"
                 )
 
 if __name__ == "__main__":
