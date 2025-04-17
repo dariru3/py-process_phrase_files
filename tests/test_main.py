@@ -66,9 +66,9 @@ class TestDocxMerge(unittest.TestCase):
                 runs_out = out_fmt[row_idx + 1][out_col]
 
                 # remove any blank-text runs
-                # clean_blank = [lambda runs: r for r in runs if r["text"].strip()]
-                clean_in = [r for r in runs_in if r["text"].strip()]
-                clean_out = [r for r in runs_out if r["text"].strip()]
+                clean_blank = lambda runs: [r for r in runs if r["text"].strip()]
+                clean_in = clean_blank(runs_in)
+                clean_out = clean_blank(runs_out)
 
                 self.assertEqual(
                     clean_in, clean_out,
