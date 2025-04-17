@@ -6,52 +6,70 @@ from src.save_formatting import extract_formatting_from_column
 class TestDocxMerge(unittest.TestCase):
     INPUT_PATH = "data/input_files/250403_三井海洋開発様_P.13_ビジネスモデル-ja-en-D.docx"
     OUTPUT_FOLDER = "data/output_files"
-    OUTPUT_PATH = os.path.join(OUTPUT_FOLDER, f"{os.path.splitext(os.path.basename(INPUT_PATH))[0]}_merged.docx")
-    INPUT_TABLE_INDEX = 2   # 3rd table in the input
-    OUTPUT_TABLE_INDEX = 0  # 1st table in the output
+    OUTPUT_PATH = os.path.join(
+        OUTPUT_FOLDER,
+        f"{os.path.splitext(os.path.basename(INPUT_PATH))[0]}_merged.docx"
+    )
+
+    # 3rd table in input, 1st table in output
+    INPUT_TABLE_INDEX = 3
+    OUTPUT_TABLE_INDEX = 0
+
+    # map input‐table cols → output‐table cols
+    COL_MAP = {
+        3: 1,  # input col 3 → output col 1 (Source/Japanese)
+        5: 2,  # input col 5 → output col 2 (Target/English)
+        6: 3,  # input col 6 → output col 3 (Match)
+        7: 4   # input col 7 → output col 4 (Comment)
+    }
 
     def setUp(self):
         self.input_doc = Document(self.INPUT_PATH)
         self.output_doc = Document(self.OUTPUT_PATH)
-        # point at the tables we actually care about
-        self.input_table = self.input_doc.tables[self.INPUT_TABLE_INDEX]
-        self.output_table = self.output_doc.tables[self.OUTPUT_TABLE_INDEX]
 
-        # assume these two tables have the same number of columns
-        self.n_cols = len(self.input_table.columns)
-        self.col_nums = list(range(self.n_cols))
+        self.in_table  = self.input_doc.tables[self.INPUT_TABLE_INDEX]
+        self.out_table = self.output_doc.tables[self.OUTPUT_TABLE_INDEX]
+
+        self.col_map = TestDocxMerge.COL_MAP
 
     def test_row_count(self):
-        in_rows  = len(self.input_table.rows)
-        out_rows = len(self.output_table.rows)
         self.assertEqual(
-            in_rows, out_rows,
-            f"Row count mismatch: input has {in_rows}, output has {out_rows}"
+            len(self.in_table.rows) + 1, # Input table does not have the header row
+            len(self.out_table.rows),
+            f"Row count mismatch: input has {len(self.in_table.rows)}, "
+            f"output has {len(self.out_table.rows)}"
         )
 
     def test_cell_texts_mirror(self):
-        for idx, (in_row, out_row) in enumerate(zip(self.input_table.rows,
-                                                   self.output_table.rows), start=1):
-            in_texts  = [cell.text.strip() for cell in in_row.cells]
-            out_texts = [cell.text.strip() for cell in out_row.cells]
-            self.assertListEqual(
-                in_texts, out_texts,
-                f"Row {idx} text mismatch:\n  input:  {in_texts}\n  output: {out_texts}"
-            )
+        for row_idx, (in_row, out_row) in enumerate(
+            zip(self.in_table.rows, self.out_table.rows)
+        ):
+            for in_col, out_col in self.col_map.items():
+                in_text  = in_row.cells[in_col].text.strip()
+                out_text = out_row.cells[out_col].text.strip()
+                self.assertEqual(
+                    in_text, out_text,
+                    f"Text mismatch at row {row_idx}, input col {in_col}, output col {out_col}"
+                )
 
     def test_formatting_info_mirror(self):
-        # extract run‐level formatting from both tables
-        in_fmt  = extract_formatting_from_column(
-            self.input_doc, self.INPUT_TABLE_INDEX, self.col_nums
+        # pull run‐level formatting for just those cols
+        in_fmt = extract_formatting_from_column(
+            self.input_doc,  self.INPUT_TABLE_INDEX, list(self.col_map.keys())
         )
         out_fmt = extract_formatting_from_column(
-            self.output_doc, self.OUTPUT_TABLE_INDEX, self.col_nums
+            self.output_doc, self.OUTPUT_TABLE_INDEX, list(self.col_map.values())
         )
-        # compare the nested dicts straight‑up
-        self.assertDictEqual(
-            in_fmt, out_fmt,
-            "Run‑level formatting info differs between input (3rd table) and output (1st table)"
-        )
+
+        for row_idx in in_fmt:
+            for in_col, out_col in self.col_map.items():
+                runs_in  = in_fmt[row_idx][in_col]
+                runs_out = out_fmt[row_idx][out_col]
+                self.assertEqual(
+                    runs_in, runs_out,
+                    f"Formatting mismatch at row {row_idx}, "
+                    f"input col {in_col}, output col {out_col}"
+                )
 
 if __name__ == "__main__":
     unittest.main()
