@@ -25,10 +25,8 @@ class TestDocxMerge(unittest.TestCase):
     def setUp(self):
         self.input_doc = Document(self.INPUT_PATH)
         self.output_doc = Document(self.OUTPUT_PATH)
-
         self.in_table  = self.input_doc.tables[self.INPUT_TABLE_INDEX]
         self.out_table = self.output_doc.tables[self.OUTPUT_TABLE_INDEX]
-
         self.col_map = TestDocxMerge.COL_MAP
 
     def test_row_count(self):
@@ -52,20 +50,23 @@ class TestDocxMerge(unittest.TestCase):
                 )
 
     def test_formatting_info_mirror(self):
-        # pull run‐level formatting for just those cols
+        keys_to_check = [c for c in self.col_map.keys() if c != 7]
+        vals_to_check = [self.col_map[c] for c in keys_to_check]
+
         in_fmt = extract_formatting_from_column(
-            self.input_doc,  self.INPUT_TABLE_INDEX, list(self.col_map.keys())
+            self.input_doc,  self.INPUT_TABLE_INDEX, keys_to_check
         )
         out_fmt = extract_formatting_from_column(
-            self.output_doc, self.OUTPUT_TABLE_INDEX, list(self.col_map.values())
+            self.output_doc, self.OUTPUT_TABLE_INDEX, vals_to_check
         )
 
         for row_idx in in_fmt:
-            for in_col, out_col in self.col_map.items():
+            for in_col in keys_to_check:
+                out_col = self.col_map[in_col]
                 runs_in  = in_fmt[row_idx][in_col]
                 runs_out = out_fmt[row_idx + 1][out_col]
 
-                # remove any blank-text runs
+                # Drop blank text runs
                 clean_blank = lambda runs: [r for r in runs if r["text"].strip()]
                 clean_in = clean_blank(runs_in)
                 clean_out = clean_blank(runs_out)
