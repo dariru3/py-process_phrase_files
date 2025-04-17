@@ -1,10 +1,12 @@
+import os
 import unittest
 from docx import Document
 from src.save_formatting import extract_formatting_from_column
 
 class TestDocxMerge(unittest.TestCase):
     INPUT_PATH = "data/input_files/250403_三井海洋開発様_P.13_ビジネスモデル-ja-en-D.docx"
-    OUTPUT_PATH = "data/output_files/250403_三井海洋開発様_P.13_ビジネスモデル-ja-en-D_merged.docx"
+    OUTPUT_FOLDER = "data/output_files"
+    OUTPUT_PATH = os.path.join(OUTPUT_FOLDER, f"{os.path.splitext(os.path.basename(INPUT_PATH))[0]}_merged.docx")
     INPUT_TABLE_INDEX = 2   # 3rd table in the input
     OUTPUT_TABLE_INDEX = 0  # 1st table in the output
 
