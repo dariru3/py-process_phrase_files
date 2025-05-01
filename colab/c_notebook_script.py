@@ -10,38 +10,27 @@ import os
 import pandas as pd
 import re
 import xml.etree.ElementTree as ET
-
-# Start of src/config_loader.py
-CONFIG = {
-    "GeneralSettings": { # When updating Colab, replace with commented folder paths
-        "InputFolderPath": "data/input_files/", # "/content/drive/MyDrive/MagicBox/",
-        "OutputFolderPath": "data/output_files/", # "/content/drive/MyDrive/MagicBox/Output_Folder/",
-        "Column_Headers": ["ID", "Source", "Target", "Match", "Comment"]
-    },
-    "ProcessingDocSettings": {
-        "DeleteFirstNTables": 3,
-        "ColumnsToKeep": [0, 3, 5, 6, 7]
-    },
-    "ProcessingXliffSettings": {
-        "TagPatterns": r"\{.?>|<.?\}|\{j\}", # Remove custom tags such as {b>, <b}, {j} from the input text.
-        "XliffNamespace": "urn:oasis:names:tc:xliff:document:1.2",
-    },
-    "ConditionalFormattingSettings": {
-        "TargetColumnIndex": 2,
-        "MatchColumnIndex": 3,
-        "CommentColumnIndex": 4,
-        "CommentToGray": ["lock", "locked"],
-        "MatchToGray": ["100", "101"],
-        "BackgroundColor": "D9D9D9"
-    },
-    "TableFormattingSettings": {
-        "RowWidths": [9, 81, 112, 11, 21],
-        "NewColumnNames": {'ID': 'p', 'Source': 'Japanese', 'Target': 'English'}
-    }
-}
-
-# End of src/config_loader.py
-
+CONFIG = {'ConditionalFormattingSettings': {'BackgroundColor': 'D9D9D9',
+                                   'CommentColumnIndex': 4,
+                                   'CommentToGray': ['lock', 'locked'],
+                                   'MatchColumnIndex': 3,
+                                   'MatchToGray': ['100', '101'],
+                                   'TargetColumnIndex': 2},
+ 'GeneralSettings': {'Column_Headers': ['ID',
+                                        'Source',
+                                        'Target',
+                                        'Match',
+                                        'Comment'],
+                     'InputFolderPath': '/content/drive/MyDrive/MagicBox/',
+                     'OutputFolderPath': '/content/drive/MyDrive/MagicBox/Output_Folder/'},
+ 'ProcessingDocSettings': {'ColumnsToKeep': [0, 3, 5, 6, 7],
+                           'DeleteFirstNTables': 3},
+ 'ProcessingXliffSettings': {'TagPatterns': '\\{.?>|<.?\\}|\\{j\\}',
+                             'XliffNamespace': 'urn:oasis:names:tc:xliff:document:1.2'},
+ 'TableFormattingSettings': {'NewColumnNames': {'ID': 'p',
+                                                'Source': 'Japanese',
+                                                'Target': 'English'},
+                             'RowWidths': [9, 81, 112, 11, 21]}}
 
 # Start of src/save_formatting.py
 
@@ -56,8 +45,9 @@ def extract_formatting_from_column(doc, table_num, col_nums):
             cell_info = []
             for paragraph in cell.paragraphs:
                 for run in paragraph.runs:
+                    clean_text = remove_tags(run.text)
                     run_info = {
-                        "text": run.text,
+                        "text": clean_text,
                         "bold": run.bold,
                         "italic": run.italic,
                         "underline": run.underline,
@@ -292,6 +282,7 @@ def process_word_file(file_path, output_folder):
     copy_content_to_table(original_table, new_table, columns_to_copy)
 
     df_table = table_to_df(new_table)
+
     return df_table, formatting_info
 
 # End of src/process_word.py

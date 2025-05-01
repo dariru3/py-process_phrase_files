@@ -1,4 +1,6 @@
 import os
+import ast
+import pprint
 
 def get_file_content(filename):
     if os.path.isfile(filename):
@@ -17,14 +19,51 @@ def sort_imports(line, imports_set):
         return True
     return False
 
-def combine_scripts_for_notebook(file_names, output_file_path="colab/notebook_script.py"):
+def process_config_loader(file_path):
+    """
+    Reads, updates, and returns the CONFIG dictionary assignment string from config_loader.py.
+    """
+    new_input_path = "/content/drive/MyDrive/MagicBox/"
+    new_output_path=  "/content/drive/MyDrive/MagicBox/Output_Folder/"
+
+    content = get_file_content(file_path)
+    file_str = "".join(content)
+
+    tree = ast.parse(file_str)
+    config_dict_node = None
+    for node in tree.body:
+        if (
+            isinstance(node, ast.Assign) and
+            any(isinstance(target, ast.Name) and target.id == "CONFIG" for target in node.targets)
+        ):
+            config_dict_node = node.value
+            break
+
+    if config_dict_node is None:
+        raise RuntimeError("Could not find CONFIG dictionary assignment in config_loader.py")
+
+    config_dict = ast.literal_eval(config_dict_node)
+
+    # Update paths
+    if "GeneralSettings" in config_dict:
+        config_dict["GeneralSettings"]["InputFolderPath"] = new_input_path
+        config_dict["GeneralSettings"]["OutputFolderPath"] = new_output_path
+
+    pretty_config = pprint.pformat(config_dict)
+    return f"CONFIG = {pretty_config}\n"
+
+
+def combine_scripts_for_notebook(file_names, output_file_path):
     colab_snippet = "# @title Step 2: Run Magic Box\n"
     combined_scripts = "" # Hold the combined content of all scripts
     imports_set = set() # Save all import lines
 
     # Loop through all files in the directory
     for filename in file_names:
-        if filename.endswith(".py"):
+        if filename.endswith("config_loader.py"):
+            updated_config_code = process_config_loader(filename)
+            combined_scripts += updated_config_code
+        elif filename.endswith(".py"):
             content = get_file_content(filename) or []
             combined_scripts += f"\n# Start of {filename}\n"
 
@@ -49,6 +88,7 @@ def combine_scripts_for_notebook(file_names, output_file_path="colab/notebook_sc
     print(f"All scripts have been combined into {output_file_path}")
 
 if __name__ == "__main__":
+    output_file_path="colab/c_notebook_script.py"
     src_path = "src/"
     src_file_names = [
         "config_loader.py",
@@ -60,9 +100,9 @@ if __name__ == "__main__":
         "merge_df.py",
         "df_to_word.py",
     ]
-    script_path = "scripts/" # f"{script_path}main.py"
 
-    file_list = [ f"{src_path}{file_name}" for file_name in src_file_names]
-    file_list.append(f"{script_path}main.py")
+    file_list = [f"{src_path}{file_name}" for file_name in src_file_names]
+    # Add main.py to end of list
+    file_list.append("scripts/main.py")
 
-    combine_scripts_for_notebook(file_list)
+    combine_scripts_for_notebook(file_list, output_file_path)
