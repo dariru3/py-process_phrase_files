@@ -40,7 +40,6 @@ def process_word_file(file_path, output_folder):
     columns_to_copy = p_settings["ColumnsToKeep"]
     copy_content_to_table(original_table, new_table, columns_to_copy)
 
-
     df_table = table_to_df(new_table)
 
     return df_table, formatting_info
