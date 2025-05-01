@@ -31,7 +31,6 @@ def check_for_files(directory_path):
   # Iterate over the items in the directory
   for item in os.listdir(directory_path):
     item_path = os.path.join(directory_path, item)
-    print(f"DEBUG: {item_path}")
     if os.path.isfile(item_path):  # Ensure the item is a file
       if item.endswith('.docx'):
         has_docx = True
