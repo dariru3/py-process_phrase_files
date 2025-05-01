@@ -27,6 +27,9 @@ def process_word_file(file_path, output_folder):
     print("Processing .DOCX file...")
     doc = Document(file_path)
 
+    # Save text formatting to reapply later
+    formatting_info = extract_formatting_from_column(doc, 3, [3, 5])
+
     # Remove other tables
     tables_to_delete = p_settings["DeleteFirstNTables"]
     delete_first_n_tables(doc, tables_to_delete)
@@ -37,13 +40,6 @@ def process_word_file(file_path, output_folder):
     columns_to_copy = p_settings["ColumnsToKeep"]
     copy_content_to_table(original_table, new_table, columns_to_copy)
 
-    # Save text formatting to reapply later
-    formatting_info = extract_formatting_from_column(doc, 1, [1, 2])
-
-    print("Preview of new_table via python-docx:")
-    for i, row in enumerate(new_table.rows[:5]):
-        cell_texts = [cell.text for cell in row.cells]
-        print(f" Row {i}: {cell_texts}")
 
     df_table = table_to_df(new_table)
 

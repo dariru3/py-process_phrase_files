@@ -1,4 +1,5 @@
 from docx.shared import Pt, RGBColor
+from src.process_mxliff import remove_tags
 
 def extract_formatting_from_column(doc, table_num, col_nums):
     table = doc.tables[table_num]
@@ -11,8 +12,9 @@ def extract_formatting_from_column(doc, table_num, col_nums):
             cell_info = []
             for paragraph in cell.paragraphs:
                 for run in paragraph.runs:
+                    clean_text = remove_tags(run.text)
                     run_info = {
-                        "text": run.text,
+                        "text": clean_text,
                         "bold": run.bold,
                         "italic": run.italic,
                         "underline": run.underline,
