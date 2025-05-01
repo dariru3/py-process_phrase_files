@@ -4,7 +4,7 @@ from docx import Document
 from src.save_formatting import extract_formatting_from_column
 
 class TestDocxMerge(unittest.TestCase):
-    INPUT_PATH = "data/input_files/250403_三井海洋開発様_P.13_ビジネスモデル-ja-en-D.docx"
+    INPUT_PATH = "data/input_files/250411_ヤマハ発動機様_P63-65_コーポレートガバナンス②-ja-en-D.docx"
     OUTPUT_FOLDER = "data/output_files"
     OUTPUT_PATH = os.path.join(
         OUTPUT_FOLDER,
@@ -77,5 +77,6 @@ class TestDocxMerge(unittest.TestCase):
                     f"input col {in_col + 1}, output col {out_col + 1}"
                 )
 
+# Use `python3 -m unittest tests/test_main` to run file from console
 if __name__ == "__main__":
     unittest.main()
