@@ -19,12 +19,10 @@ def sort_imports(line, imports_set):
         return True
     return False
 
-def process_config_loader(file_path):
+def process_config_loader(file_path, colab_input_path, colab_output_path):
     """
     Reads, updates, and returns the CONFIG dictionary assignment string from config_loader.py.
     """
-    new_input_path = "/content/drive/MyDrive/MagicBox/"
-    new_output_path=  "/content/drive/MyDrive/MagicBox/Output_Folder/"
 
     content = get_file_content(file_path)
     file_str = "".join(content)
@@ -46,14 +44,14 @@ def process_config_loader(file_path):
 
     # Update paths
     if "GeneralSettings" in config_dict:
-        config_dict["GeneralSettings"]["InputFolderPath"] = new_input_path
-        config_dict["GeneralSettings"]["OutputFolderPath"] = new_output_path
+        config_dict["GeneralSettings"]["InputFolderPath"] = colab_input_path
+        config_dict["GeneralSettings"]["OutputFolderPath"] = colab_output_path
 
     pretty_config = pprint.pformat(config_dict)
     return f"CONFIG = {pretty_config}\n"
 
 
-def combine_scripts_for_notebook(file_names, output_file_path):
+def combine_scripts_for_notebook(file_names, output_file_path, colab_input_path, colab_output_path):
     colab_snippet = "# @title Step 2: Run Magic Box\n"
     combined_scripts = "" # Hold the combined content of all scripts
     imports_set = set() # Save all import lines
@@ -61,7 +59,7 @@ def combine_scripts_for_notebook(file_names, output_file_path):
     # Loop through all files in the directory
     for filename in file_names:
         if filename.endswith("config_loader.py"):
-            updated_config_code = process_config_loader(filename)
+            updated_config_code = process_config_loader(filename, colab_input_path, colab_output_path)
             combined_scripts += updated_config_code
         elif filename.endswith(".py"):
             content = get_file_content(filename) or []
@@ -88,7 +86,11 @@ def combine_scripts_for_notebook(file_names, output_file_path):
     print(f"All scripts have been combined into {output_file_path}")
 
 if __name__ == "__main__":
+    colab_input_path = "/content/drive/MyDrive/MagicBox/"
+    colab_output_path=  "/content/drive/MyDrive/MagicBox/Output_Folder/"
+
     output_file_path="colab/c_notebook_script.py"
+
     src_path = "src/"
     src_file_names = [
         "config_loader.py",
@@ -102,7 +104,8 @@ if __name__ == "__main__":
     ]
 
     file_list = [f"{src_path}{file_name}" for file_name in src_file_names]
+
     # Add main.py to end of list
     file_list.append("scripts/main.py")
 
-    combine_scripts_for_notebook(file_list, output_file_path)
+    combine_scripts_for_notebook(file_list, output_file_path, colab_input_path, colab_output_path)
