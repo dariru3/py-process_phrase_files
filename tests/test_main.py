@@ -4,10 +4,11 @@ from docx import Document
 from src.save_formatting import extract_formatting_from_column
 
 class TestDocxMerge(unittest.TestCase):
-    INPUT_PATH = "data/input_files/250411_ヤマハ発動機様_P63-65_コーポレートガバナンス②-ja-en-D.docx"
-    OUTPUT_FOLDER = "data/output_files"
+    input_folder = "data/input_files"
+    input_files = [f for f in os.listdir(input_folder) if f.endswith(".docx")]
+    INPUT_PATH = os.path.join(input_folder, input_files[0])
     OUTPUT_PATH = os.path.join(
-        OUTPUT_FOLDER,
+        "data/output_files",
         f"{os.path.splitext(os.path.basename(INPUT_PATH))[0]}_merged.docx"
     )
 
