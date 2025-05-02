@@ -2,6 +2,10 @@
 
 _last updated: 05/01/2025_
 
+Fixed: Remove {j} tags from Japanese text
+
+last working backup: version [04/17/24](https://colab.research.google.com/drive/1jeYMCoKJuVadAj5uwTtJGniq7Hx3o7yU?usp=sharing)
+
 ## Instructions
 
 1. Create a folder in Google Drive named `MagicBox`\*
