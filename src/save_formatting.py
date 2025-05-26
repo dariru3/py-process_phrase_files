@@ -49,7 +49,7 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
         Currently unused but kept for backward compatibility.
     """
 
-    col_mapping = {orig_col: idx + 1 for idx, orig_col in enumerate(col_nums)}
+    col_mapping = {orig_col: idx + 1 for idx, orig_col in enumerate(col_nums)} # { 3: 1, 5: 2 }
     for row_idx, cols_info in formatting_info.items():
         for orig_col, new_col in col_mapping.items():
             cell_info = cols_info.get(orig_col, [])
