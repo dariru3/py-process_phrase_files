@@ -31,7 +31,25 @@ def extract_formatting_from_column(doc, table_num, col_nums):
     return formatting_info
 
 def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
-    col_mapping = { 3: 1, 5: 2 } # Maps original column indices (3 and 5) to new column indices (1 and 2)
+    """Reapply saved formatting to the target table.
+
+    Parameters
+    ----------
+    table : docx.table.Table
+        Destination table where formatting should be restored.
+    formatting_info : dict
+        Mapping of row and column indices to formatting attributes as
+        returned by ``extract_formatting_from_column``.
+    col_nums : Iterable[int]
+        Original column indices that ``formatting_info`` was extracted from.
+        The order of ``col_nums`` determines the target columns in ``table``
+        starting from column ``1`` (column ``0`` is reserved for the index
+        column created during processing).
+    table_num : int, optional
+        Currently unused but kept for backward compatibility.
+    """
+
+    col_mapping = {orig_col: idx + 1 for idx, orig_col in enumerate(col_nums)} # { 3: 1, 5: 2 }
     for row_idx, cols_info in formatting_info.items():
         for orig_col, new_col in col_mapping.items():
             cell_info = cols_info.get(orig_col, [])
