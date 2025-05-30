@@ -9,7 +9,7 @@ CONFIG = {
         "ColumnsToKeep": [0, 3, 5, 6, 7]
     },
     "ProcessingXliffSettings": {
-        "TagPatterns": r"\{.?>|<.?\}|\{j\}", # Remove custom tags such as {b>, <b}, {j} from the input text.
+        "TagPatterns": r"\{.?>|<.?\}|\{j\}", # |\{_>|<_}",
         "XliffNamespace": "urn:oasis:names:tc:xliff:document:1.2",
     },
     "ConditionalFormattingSettings": {

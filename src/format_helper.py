@@ -5,13 +5,44 @@ from docx.enum.section import WD_ORIENT
 import re
 from .config_loader import CONFIG
 
-def apply_superscript(run, text):
-    """Helper function to set text as superscript"""
-    run.text = text
-    run.font.superscript = True
+def format_subscripts(paragraph):
+    """Helper function to format text with subscript tags"""
+    text = paragraph.text
+    # Split on subscript tags: {_{>number<}_{}} as example, adapt pattern to whatever subscript tags are
+    # Using {_{>...<}_} style would be similar to superscript but with subscript tags, example assumed {v>2<v} or similar
+    # Your current tags to remove are {_> number <_}, so here we look for those to format subscript
+    parts = re.split(r'(\{_>.*?<_\})', text)
+
+    new_runs = []
+    for part in parts:
+        if part.startswith('{_>') and part.endswith('<_}'):
+            # This is a subscript tag
+            subscript_text = part[3:-3]  # Remove the tags to get the number/text inside
+            run = paragraph.add_run()
+            run.text = subscript_text
+            run.font.subscript = True
+            new_runs.append(run)
+        else:
+            run = paragraph.add_run(part)
+            new_runs.append(run)
+
+    # Remove original runs
+    for run in paragraph.runs:
+        p = run._element.getparent()
+        p.remove(run._element)
+
+    # Append new runs with formatting
+    for new_run in new_runs:
+        run = paragraph.add_run(new_run.text)
+        run.font.subscript = new_run.font.subscript if hasattr(new_run.font, 'subscript') else False
 
 def format_superscripts(paragraph):
     """Helper function to format text with superscript tags"""
+    def apply_superscript(run, text):
+        """Helper function to set text as superscript"""
+        run.text = text
+        run.font.superscript = True
+
     text = paragraph.text
     parts = re.split(r'(\{\^\>.*?\<\^\}|\{.*?\>.*?\<.*?\})', text)
 
@@ -49,7 +80,8 @@ def reformat_text(table):
     for row in table.rows:
         for cell in row.cells:
             for paragraph in cell.paragraphs:
-                format_superscripts(paragraph)
+                # format_superscripts(paragraph)
+                format_subscripts(paragraph)
 
 def change_cell_color(cells, background_color):
     for cell in cells:
@@ -148,6 +180,7 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
 def apply_formatting_pipe(table, doc):
     format_table(table)
     apply_conditional_formatting(table)
+    reformat_text(table) # apply subscript
     set_column_language(table, 1, "ja-JP")
     set_landscape_orientation(doc)
     format_font_lines(doc)
