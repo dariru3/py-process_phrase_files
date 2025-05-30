@@ -51,7 +51,7 @@ def parse_mxliff_to_df(mxliff_file):
         source_text = find_text(trans_unit, 'm:source')
         source_text = remove_tags(source_text)
         target_text = find_text(trans_unit, 'm:target')
-        target_text = remove_tags(target_text)
+        # target_text = remove_tags(target_text)
 
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
         match_quality = 0 # Default value
