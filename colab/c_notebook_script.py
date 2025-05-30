@@ -5,7 +5,7 @@ from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Mm, Pt
-from docx.shared import Pt, RGBColor
+from docx.shared import RGBColor
 import os
 import pandas as pd
 import re
@@ -64,7 +64,25 @@ def extract_formatting_from_column(doc, table_num, col_nums):
     return formatting_info
 
 def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
-    col_mapping = { 3: 1, 5: 2 } # Maps original column indices (3 and 5) to new column indices (1 and 2)
+    """Reapply saved formatting to the target table.
+
+    Parameters
+    ----------
+    table : docx.table.Table
+        Destination table where formatting should be restored.
+    formatting_info : dict
+        Mapping of row and column indices to formatting attributes as
+        returned by ``extract_formatting_from_column``.
+    col_nums : Iterable[int]
+        Original column indices that ``formatting_info`` was extracted from.
+        The order of ``col_nums`` determines the target columns in ``table``
+        starting from column ``1`` (column ``0`` is reserved for the index
+        column created during processing).
+    table_num : int, optional
+        Currently unused but kept for backward compatibility.
+    """
+
+    col_mapping = {orig_col: idx + 1 for idx, orig_col in enumerate(col_nums)} # { 3: 1, 5: 2 }
     for row_idx, cols_info in formatting_info.items():
         for orig_col, new_col in col_mapping.items():
             cell_info = cols_info.get(orig_col, [])
@@ -93,13 +111,44 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
 
 # Start of src/format_helper.py
 
-def apply_superscript(run, text):
-    """Helper function to set text as superscript"""
-    run.text = text
-    run.font.superscript = True
+def format_subscripts(paragraph):
+    """Helper function to format text with subscript tags"""
+    text = paragraph.text
+    # Split on subscript tags: {_{>number<}_{}} as example, adapt pattern to whatever subscript tags are
+    # Using {_{>...<}_} style would be similar to superscript but with subscript tags, example assumed {v>2<v} or similar
+    # Your current tags to remove are {_> number <_}, so here we look for those to format subscript
+    parts = re.split(r'(\{_>.*?<_\})', text)
+
+    new_runs = []
+    for part in parts:
+        if part.startswith('{_>') and part.endswith('<_}'):
+            # This is a subscript tag
+            subscript_text = part[3:-3]  # Remove the tags to get the number/text inside
+            run = paragraph.add_run()
+            run.text = subscript_text
+            run.font.subscript = True
+            new_runs.append(run)
+        else:
+            run = paragraph.add_run(part)
+            new_runs.append(run)
+
+    # Remove original runs
+    for run in paragraph.runs:
+        p = run._element.getparent()
+        p.remove(run._element)
+
+    # Append new runs with formatting
+    for new_run in new_runs:
+        run = paragraph.add_run(new_run.text)
+        run.font.subscript = new_run.font.subscript if hasattr(new_run.font, 'subscript') else False
 
 def format_superscripts(paragraph):
     """Helper function to format text with superscript tags"""
+    def apply_superscript(run, text):
+        """Helper function to set text as superscript"""
+        run.text = text
+        run.font.superscript = True
+
     text = paragraph.text
     parts = re.split(r'(\{\^\>.*?\<\^\}|\{.*?\>.*?\<.*?\})', text)
 
@@ -137,7 +186,8 @@ def reformat_text(table):
     for row in table.rows:
         for cell in row.cells:
             for paragraph in cell.paragraphs:
-                format_superscripts(paragraph)
+                # format_superscripts(paragraph)
+                format_subscripts(paragraph)
 
 def change_cell_color(cells, background_color):
     for cell in cells:
@@ -236,6 +286,7 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
 def apply_formatting_pipe(table, doc):
     format_table(table)
     apply_conditional_formatting(table)
+    reformat_text(table) # apply subscript
     set_column_language(table, 1, "ja-JP")
     set_landscape_orientation(doc)
     format_font_lines(doc)
@@ -338,6 +389,7 @@ def parse_mxliff_to_df(mxliff_file):
         source_text = find_text(trans_unit, 'm:source')
         source_text = remove_tags(source_text)
         target_text = find_text(trans_unit, 'm:target')
+        # target_text = remove_tags(target_text)
 
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
         match_quality = 0 # Default value
@@ -545,4 +597,3 @@ if __name__ == "__main__":
     main()
 
 # End of scripts/main.py
-
