@@ -1,81 +1,66 @@
 '''
-Copy/paste script below into cell before main cell in Google Colab
+Copy/paste this script into the cell before *Step 1* in Google Colab
 '''
-# @title Step 1: Connect to Google Drive > MagicBox {display-mode: "form"}
+# @title Step 1: Upload Files {display-mode: "form"}
 !pip install python-docx
 import os
-from google.colab import drive
-drive.mount('/content/drive')
+from google.colab import files
+import shutil
 
 # Path to 'MagicBox' folder
-magic_box_path = '/content/drive/MyDrive/MagicBox/'
+magic_box_path = '/content/MagicBox/'
 # Path to output folder
-output_folder_path = '/content/drive/MyDrive/MagicBox/Output_Folder'
-
-def check_point(checkpoint_count):
-  check_counter = [1, 2, 3]
-  return f"Check {check_counter[checkpoint_count - 1]} of {len(check_counter)}"
+output_folder_path = '/content/MagicBox/Output_Folder'
 
 def ensure_folder_exists(folder_path):
   if not os.path.exists(folder_path):
-    print(f"Missing folder: {folder_path}")
     os.makedirs(folder_path)
-    print(f"Created folder: {folder_path}")
-  else:
-    print(f"Folder confirmed: {folder_path}")
 
-def check_for_files(directory_path):
-  has_docx = False
-  has_mxliff = False
+def clear_folder(folder_path):
+    if os.path.exists(folder_path):
+        for filename in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print(f'Error: failed to clear {file_path}. Reason: {e}')
 
-  # Iterate over the items in the directory
-  for item in os.listdir(directory_path):
-    item_path = os.path.join(directory_path, item)
-    if os.path.isfile(item_path):  # Ensure the item is a file
-      if item.endswith('.docx'):
-        has_docx = True
-      elif item.endswith('.mxliff'):
-        has_mxliff = True
+def upload_files(upload_path):
+    # Clear the folder before uploading new files
+    clear_folder(upload_path)
+    ensure_folder_exists(upload_path)
 
-    # If both file types are found, no need to continue checking
-    if has_docx and has_mxliff:
-      break
+    print("\nPlease upload one .docx and one .mxliff file.")
+    uploaded = files.upload()
 
-  # Communicate the findings directly within the function
-  file_confirmation_message(has_docx, has_mxliff)
+    docx_files = [fn for fn in uploaded.keys() if fn.endswith('.docx')]
+    mxliff_files = [fn for fn in uploaded.keys() if fn.endswith('.mxliff')]
 
-  return has_docx and has_mxliff
+    # Validate file counts
+    if len(docx_files) != 1 or len(mxliff_files) != 1:
+        print("Error: Please upload exactly one .docx and one .mxliff file.")
+        # Clean up any uploaded files
+        for fn in uploaded.keys():
+            os.remove(fn)
+        return False
 
-def file_confirmation_message(has_docx, has_mxliff):
-  if has_docx and has_mxliff:
-    print(f"OK. MagicBox contains at least one .docx file and one .mxliff file.")
+    docx_file = docx_files[0]
+    mxliff_file = mxliff_files[0]
+
+    # Move the uploaded files to the magic_box_path
+    shutil.move(docx_file, os.path.join(upload_path, docx_file))
+    shutil.move(mxliff_file, os.path.join(upload_path, mxliff_file))
+
     return True
-  else:
-    print(f"Warning:")
-    if not has_docx:
-        print("No .docx file found. Add file(s) to MagicBox.")
-    if not has_mxliff:
-        print("No .mxliff file found. Add files(s) to MagicBox.")
-    return False
 
 if __name__ == "__main__":
-  # Check for folders and files
-  print(f"\n{check_point(1)}") # Checkpoint 1
-  ensure_folder_exists(magic_box_path)
-  ensure_folder_exists(output_folder_path)
+    ensure_folder_exists(magic_box_path)
+    ensure_folder_exists(output_folder_path)
 
-  print(f"\n{check_point(2)}") # Checkpoint 2
-  has_files = check_for_files(magic_box_path)
-
-  # Loop through the contents of the 'MagicBox' folder and print filenames for confirmation
-  if (has_files):
-    print("Files and folders in MagicBox:")
-    for item in os.listdir(magic_box_path):
-      print(f"- {item}")
-
-  # Check if Output_Folder is empty
-  print(f"\n{check_point(3)}") # Checkpoint 3
-  if not os.listdir(output_folder_path):
-      print(f"OK: Output_Folder is empty.")
-  else:
-      print(f"Warning: Output_Folder is NOT empty. Consider deleting unnecessary files.")
+    if upload_files(magic_box_path):
+        print("\nFile upload successful.")
+    else:
+        print("\nFile upload failed. Please follow the instructions and try again.")
