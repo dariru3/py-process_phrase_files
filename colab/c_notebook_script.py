@@ -1,11 +1,10 @@
-# @title Step 2: Run Magic Box
+# @title Step 2: Process Files
 from datetime import datetime
 from docx import Document
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Mm, Pt
-from docx.shared import RGBColor
+from docx.shared import Mm, Pt, RGBColor
 import os
 import pandas as pd
 import re
@@ -21,8 +20,8 @@ CONFIG = {'ConditionalFormattingSettings': {'BackgroundColor': 'D9D9D9',
                                         'Target',
                                         'Match',
                                         'Comment'],
-                     'InputFolderPath': '/content/drive/MyDrive/MagicBox/',
-                     'OutputFolderPath': '/content/drive/MyDrive/MagicBox/Output_Folder/'},
+                     'InputFolderPath': '/content/MagicBox/',
+                     'OutputFolderPath': '/content/MagicBox/Output_Folder/'},
  'ProcessingDocSettings': {'ColumnsToKeep': [0, 3, 5, 6, 7],
                            'DeleteFirstNTables': 3},
  'ProcessingXliffSettings': {'TagPatterns': '\\{.?>|<.?\\}|\\{j\\}',
