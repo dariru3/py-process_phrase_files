@@ -31,8 +31,9 @@ def process_config_loader(file_path, colab_input_path, colab_output_path):
     config_dict_node = None
     for node in tree.body:
         if (
-            isinstance(node, ast.Assign) and
-            any(isinstance(target, ast.Name) and target.id == "CONFIG" for target in node.targets)
+            isinstance(node, ast.Assign)
+            and any(isinstance(target, ast.Name)
+            and target.id == "CONFIG" for target in node.targets)
         ):
             config_dict_node = node.value
             break
