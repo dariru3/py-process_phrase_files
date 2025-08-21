@@ -1,26 +1,21 @@
 # Phrase Files Formatter (Magic Box)
 
-_last updated: 05/01/2025_
+_last updated: 2025/08/21_
 
-Fixed: Remove {j} tags from Japanese text
+Feature: upload files directly in Colab
 
-last working backup: version [04/17/24](https://colab.research.google.com/drive/1jeYMCoKJuVadAj5uwTtJGniq7Hx3o7yU?usp=sharing)
+last working backup: version [250530](https://colab.research.google.com/drive/1oDZ1Q4swgIkstp9wR93Tto67YkmeIcBs?usp=sharing)
 
 ## Instructions
 
-1. Create a folder in Google Drive named `MagicBox`\*
-2. In the `MagicBox` folder, create the output folder named `Output_Folder`\*
-
-- OR let "Step 1" create the folders for you!
-
-3. Save the `.docx` and `.mxliff` from Phrase into the Magic Box folder
-
-\* Note: be sure the folder names are spelled and capitalized _exactly_ as directed.
+1. Click the play button on **Step 1: Upload Files** below.
+2. Click the **Choose Files** button that appears and select both\* the `.docx` and `.mxliff` files you want to process.
+3. Wait for the files to upload. You will see a confirmation message when the upload is complete.
+4. Click the play button on **Step 2: Process Files** to merge and format the files.
+5. The processed file will be automatically downloaded.
 
 ---
 
-Your MagicBox is ready to go!
-
-Click the play buttons below Step 1 and Step 2 to merge and format the files into one Word file.
+\* Use `ctrl` + click to select multiple files
 
 The manual can be viewed [HERE](https://docs.google.com/document/d/1AqTFtdjTfSfBpLP20RfFnIjYY6BOLfTbuoviTqzlwxc/edit?usp=sharing)
