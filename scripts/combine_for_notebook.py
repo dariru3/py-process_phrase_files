@@ -52,7 +52,7 @@ def process_config_loader(file_path, colab_input_path, colab_output_path):
 
 
 def combine_scripts_for_notebook(file_names, output_file_path, colab_input_path, colab_output_path):
-    colab_snippet = "# @title Step 2: Run Magic Box\n"
+    colab_snippet = "# @title Step 2: Process Files\n"
     combined_scripts = "" # Hold the combined content of all scripts
     imports_set = set() # Save all import lines
 
@@ -86,8 +86,8 @@ def combine_scripts_for_notebook(file_names, output_file_path, colab_input_path,
     print(f"All scripts have been combined into {output_file_path}")
 
 if __name__ == "__main__":
-    colab_input_path = "/content/drive/MyDrive/MagicBox/"
-    colab_output_path=  "/content/drive/MyDrive/MagicBox/Output_Folder/"
+    colab_input_path = "/content/MagicBox/"
+    colab_output_path=  "/content/MagicBox/Output_Folder/"
 
     output_file_path="colab/c_notebook_script.py"
 
