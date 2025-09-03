@@ -67,8 +67,9 @@ def upload_files(upload_path):
         shutil.move(mxliff_file, os.path.join(upload_path, mxliff_file))
 
     # Clean up any non-paired uploads left in the working directory
+    paired_files = set(docx_map[b] for b in paired_basenames) | set(mxliff_map[b] for b in paired_basenames)
     for fn in uploaded.keys():
-        if fn not in [docx_map[b] for b in paired_basenames] and fn not in [mxliff_map[b] for b in paired_basenames]:
+        if fn not in paired_files:
             try:
                 os.remove(fn)
             except FileNotFoundError:
