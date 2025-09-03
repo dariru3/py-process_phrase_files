@@ -22,9 +22,9 @@ A small toolchain to merge paired `.docx` and `.mxliff` files into a single, for
   - `main.py`: CLI entry point for local runs.
   - `combine_for_notebook.py`: Builds a single Colab-friendly script from `src/`.
 - `colab/`
-  - `a_header_cell.md`: Instructions (include browser auto-download note).
-  - `b_upload_to_colab.py`: Step 1 (upload pairs in Colab).
-  - `c_notebook_script.py`: Step 2 (process pairs in Colab).
+  - `a_header_cell.md`: Instructions
+  - `b_upload_to_colab.py`: Step 1 (upload pairs in Colab)
+  - `c_notebook_script.py`: Step 2 (process pairs in Colab)
 - `data/`
   - `input_files/`: Place source pairs here for local runs.
   - `output_files/`: Merged results are written here.
@@ -33,9 +33,14 @@ A small toolchain to merge paired `.docx` and `.mxliff` files into a single, for
 ## Requirements
 
 - Python 3.8+
-- Python packages: `python-docx`, `pandas`
 
-Install locally:
+Install dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+Alternative (explicit packages):
 
 ```
 pip install python-docx pandas
@@ -49,6 +54,7 @@ pip install python-docx pandas
 3. Find results in `data/output_files/` as `<base>_merged.docx`.
 
 Notes
+
 - Update input/output paths or formatting options in `src/config_loader.py` if your folders differ.
 - Existing merged files are skipped to avoid reprocessing.
 
@@ -62,6 +68,7 @@ Use the prepared cells in `colab/` to run without setting up Python locally.
 4. Add a code cell with the contents of `colab/c_notebook_script.py` and run “Step 2: Process Files”.
 
 Important
+
 - When prompted by the browser, allow multiple automatic downloads for `colab.research.google.com` so Colab can save multiple merged files. See the note in `colab/a_header_cell.md` and the manual screenshot.
 
 ## Running Tests
