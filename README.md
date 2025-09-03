@@ -1,45 +1,77 @@
-# Exported Documents Processing and Merging Tool
+# Phrase Files Formatter (Magic Box)
 
-This Python tool automates the processing and merging of paired `.docx` and `.mxliff` files, applying conditional formatting to the resulting Word tables. It's designed to streamline workflows that involve handling translations and comments across different document formats.
+A small toolchain to merge paired `.docx` and `.mxliff` files into a single, formatted Word document per pair. It auto-pairs files by base name, preserves key text formatting, and applies conditional styles for quick review.
 
 ## Features
 
-- **Automatic File Pairing**: Identifies and pairs `.docx` and `.mxliff` files based on their base names.
-- **Conditional Formatting**: Applies gray background color to rows based on specific content criteria.
-- **Document Merging**: Combines content from paired files into a single Word document with formatted tables.
+- **Auto pairing**: Matches `.docx` and `.mxliff` by the same base filename.
+- **Merge to Word**: Produces one `<base>_merged.docx` per valid pair.
+- **Formatting preservation**: Reapplies bold/italic, color, superscript/subscript where available for Japanese/English columns.
+- **Conditional styling**: Grays rows based on configured match quality and/or comment hints.
 
-## Prerequisites
+## Project Layout
 
-- Python 3.6 or later
-- `python-docx` library for reading and writing `.docx` files
-- `pandas` library for data manipulation
+- `src/` — Processing pipeline
+  - `config_loader.py`: Central configuration (paths, formatting rules).
+  - `process_word.py`: Extracts tables and formatting from input `.docx`.
+  - `process_mxliff.py`: Parses `.mxliff` to a DataFrame.
+  - `merge_df.py`: Aligns and merges Word/XLIFF data.
+  - `df_to_word.py`: Builds the output Word table and saves files.
+  - `format_helper.py`, `save_formatting.py`, `table_to_df.py`: Formatting helpers.
+- `scripts/`
+  - `main.py`: CLI entry point for local runs.
+  - `combine_for_notebook.py`: Builds a single Colab-friendly script from `src/`.
+- `colab/`
+  - `a_header_cell.md`: Instructions (include browser auto-download note).
+  - `b_upload_to_colab.py`: Step 1 (upload pairs in Colab).
+  - `c_notebook_script.py`: Step 2 (process pairs in Colab).
+- `data/`
+  - `input_files/`: Place source pairs here for local runs.
+  - `output_files/`: Merged results are written here.
+- `tests/`: Basic sanity tests for formatting and content mirroring.
 
-## Installation
+## Requirements
 
-1. Ensure Python 3.6 or later is installed on your system.
-2. Install required Python packages:
-   ```sh
-   pip install python-docx pandas
-   ```
+- Python 3.8+
+- Python packages: `python-docx`, `pandas`
 
-## Usage
+Install locally:
 
-1. Place `.docx` and `.mxliff` files in the `input_files/` directory. Files should be named such that each `.docx` file has a corresponding `.mxliff` file with the same base name.
-2. Run the script:
-   ```sh
-   python df_to_word.py
-   ```
-3. Processed files will be saved in the `output_files/` directory, with `_merged.docx` appended to the base name.
+```
+pip install python-docx pandas
+```
 
-## Structure
+## Local Usage
 
-- **`df_to_word.py`**: The main script that orchestrates the file processing, merging, and output.
-- **`process_word.py`**: Handles `.docx` file processing.
-- **`process_mxliff.py`**: Handles `.mxliff` file processing.
-- **`merge_df.py`**: Merges data frames obtained from `.docx` and `.mxliff` files.
-- **`table_to_df.py`**: Converts tables in `.docx` files to pandas DataFrames.
-- **`help_format_tables.py`**: Contains helper functions for table formatting and conditional coloring.
+1. Put your `.docx` and `.mxliff` files into `data/input_files/` with matching base names (e.g., `Example.docx` and `Example.mxliff`).
+2. Run the CLI:
+   - `python3 -m scripts.main`
+3. Find results in `data/output_files/` as `<base>_merged.docx`.
+
+Notes
+- Update input/output paths or formatting options in `src/config_loader.py` if your folders differ.
+- Existing merged files are skipped to avoid reprocessing.
+
+## Google Colab Usage
+
+Use the prepared cells in `colab/` to run without setting up Python locally.
+
+1. Create a new Colab notebook.
+2. Add a text cell and paste the contents of `colab/a_header_cell.md`.
+3. Add a code cell with the contents of `colab/b_upload_to_colab.py` and run “Step 1: Upload Files”.
+4. Add a code cell with the contents of `colab/c_notebook_script.py` and run “Step 2: Process Files”.
+
+Important
+- When prompted by the browser, allow multiple automatic downloads for `colab.research.google.com` so Colab can save multiple merged files. See the note in `colab/a_header_cell.md` and the manual screenshot.
+
+## Running Tests
+
+Use the built-in unittest suite:
+
+```
+python3 -m unittest tests/test_main.py
+```
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT — see `LICENSE` for details.
