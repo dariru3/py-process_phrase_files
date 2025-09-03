@@ -2,7 +2,7 @@
 
 _last updated: 2025/09/03_
 
-Feature: upload files directly in Colab
+Feature: upload multiple file pairs directly in Colab
 
 last working backup: version [250530](https://colab.research.google.com/drive/1oDZ1Q4swgIkstp9wR93Tto67YkmeIcBs?usp=sharing)
 
