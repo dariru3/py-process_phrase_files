@@ -1,5 +1,5 @@
 '''
-Copy/paste this script into the cell before *Step 1* in Google Colab
+Copy/paste this script into a code cell after the instructions in Google Colab
 '''
 # @title Step 1: Upload Files {display-mode: "form"}
 !pip install python-docx

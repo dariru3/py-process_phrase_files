@@ -10,9 +10,9 @@ last working backup: version [250530](https://colab.research.google.com/drive/1o
 
 1. Click the play button on **Step 1: Upload Files** below.
 2. Click the **Choose Files** button and select one or more pairs of `.docx` and `.mxliff` files. Pairs are matched by the same base filename (example: `Example.docx` ↔ `Example.mxliff`).
-3. Wait for the upload summary. Only valid pairs are moved into `/content/MagicBox/`; unmatched files are ignored and cleaned up.
+3. Wait for the upload summary. Only valid pairs are saved; unmatched files are ignored and cleaned up.
 4. Click the play button on **Step 2: Process Files** to merge and format all matched pairs.
-5. One merged Word file per pair is saved to `/content/MagicBox/Output_Folder/` with the name `<base>_merged.docx`.
+5. One merged Word file per pair is saved with the name `<base>_merged.docx`.
 
 —
 
