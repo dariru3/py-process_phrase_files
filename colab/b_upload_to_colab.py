@@ -33,26 +33,46 @@ def upload_files(upload_path):
     clear_folder(upload_path)
     ensure_folder_exists(upload_path)
 
-    print("\nPlease upload one .docx and one .mxliff file.")
+    print("\nUpload one or more .docx and .mxliff files.")
+    print("Pairs are matched by the same base filename.\n")
     uploaded = files.upload()
 
-    docx_files = [fn for fn in uploaded.keys() if fn.endswith('.docx')]
-    mxliff_files = [fn for fn in uploaded.keys() if fn.endswith('.mxliff')]
-
-    # Validate file counts
-    if len(docx_files) != 1 or len(mxliff_files) != 1:
-        print("Error: Please upload exactly one .docx and one .mxliff file.")
-        # Clean up any uploaded files
-        for fn in uploaded.keys():
-            os.remove(fn)
+    if not uploaded:
+        print("No files uploaded.")
         return False
 
-    docx_file = docx_files[0]
-    mxliff_file = mxliff_files[0]
+    # Build maps of base name -> filename for each extension
+    docx_map = {os.path.splitext(fn)[0]: fn for fn in uploaded.keys() if fn.lower().endswith('.docx')}
+    mxliff_map = {os.path.splitext(fn)[0]: fn for fn in uploaded.keys() if fn.lower().endswith('.mxliff')}
 
-    # Move the uploaded files to the magic_box_path
-    shutil.move(docx_file, os.path.join(upload_path, docx_file))
-    shutil.move(mxliff_file, os.path.join(upload_path, mxliff_file))
+    paired_basenames = sorted(set(docx_map.keys()) & set(mxliff_map.keys()))
+
+    if len(paired_basenames) == 0:
+        print("Error: No valid pairs found. Ensure each .docx has a matching .mxliff with the same base name.")
+        # Clean up any uploaded files from working directory
+        for fn in uploaded.keys():
+            try:
+                os.remove(fn)
+            except FileNotFoundError:
+                pass
+        return False
+
+    # Move only valid pairs to the upload path
+    print(f"Found {len(paired_basenames)} pair(s):")
+    for base in paired_basenames:
+        docx_file = docx_map[base]
+        mxliff_file = mxliff_map[base]
+        print(f"- {docx_file}  <->  {mxliff_file}")
+        shutil.move(docx_file, os.path.join(upload_path, docx_file))
+        shutil.move(mxliff_file, os.path.join(upload_path, mxliff_file))
+
+    # Clean up any non-paired uploads left in the working directory
+    for fn in uploaded.keys():
+        if fn not in [docx_map[b] for b in paired_basenames] and fn not in [mxliff_map[b] for b in paired_basenames]:
+            try:
+                os.remove(fn)
+            except FileNotFoundError:
+                pass
 
     return True
 
