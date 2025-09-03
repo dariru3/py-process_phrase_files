@@ -4,3 +4,5 @@ data/input_files/*
 data/output_files/*
 myenv
 __pycache__
+*.ipynb
+.ipynb_checkpoints/
