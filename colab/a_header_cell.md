@@ -13,7 +13,8 @@ last working backup: version [250530](https://colab.research.google.com/drive/1o
 3. Wait for the upload summary. Only valid pairs are saved; unmatched files are ignored and cleaned up.
 4. Click the play button on **Step 2: Process Files** to merge and format all matched pairs.
 5. One merged Word file per pair is saved with the name `<base>_merged.docx`.
-   Note: If prompted by your browser, allow multiple automatic downloads. Some browsers block this by default; see the manual for an example screenshot.
+
+_Note: If prompted by your browser, allow multiple automatic downloads. Some browsers block this by default; see the manual for an example screenshot._
 
 —
 
