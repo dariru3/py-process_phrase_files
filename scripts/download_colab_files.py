@@ -3,7 +3,7 @@ TODO: add this to the end of c_notebook?
 """
 
 # @title Download merged file
-# import os
+import os
 
 from google.colab import files
 
