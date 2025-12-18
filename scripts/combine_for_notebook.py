@@ -10,12 +10,18 @@ def get_file_content(filename):
         print(f"File {filename} does not exist and is skipped.")
         return []
 
-def sort_imports(line, imports_set):
+def sort_imports(line, from_imports, regular_imports):
     stripped_line = line.strip()
     if stripped_line.startswith("from .") or stripped_line.startswith("from src."):
         return True
     if (stripped_line.startswith("from ") or stripped_line.startswith("import ")):
-        imports_set.add(stripped_line)
+        if stripped_line.startswith("from "):
+            # Collect names per module to allow merging duplicate imports
+            module, names = stripped_line[5:].split(" import ", 1)
+            name_parts = [name.strip() for name in names.split(",")]
+            from_imports.setdefault(module, set()).update(name_parts)
+        else:
+            regular_imports.add(stripped_line)
         return True
     return False
 
@@ -55,7 +61,8 @@ def process_config_loader(file_path, colab_input_path, colab_output_path):
 def combine_scripts_for_notebook(file_names, output_file_path, colab_input_path, colab_output_path):
     colab_snippet = "# @title Step 2: Process Files\n"
     combined_scripts = "" # Hold the combined content of all scripts
-    imports_set = set() # Save all import lines
+    from_imports = {}
+    regular_imports = set()
 
     # Loop through all files in the directory
     for filename in file_names:
@@ -67,7 +74,7 @@ def combine_scripts_for_notebook(file_names, output_file_path, colab_input_path,
             combined_scripts += f"\n# Start of {filename}\n"
 
             for line in content:
-                is_import = sort_imports(line, imports_set)
+                is_import = sort_imports(line, from_imports, regular_imports)
                 if is_import == False:
                     combined_scripts += line
 
@@ -75,7 +82,11 @@ def combine_scripts_for_notebook(file_names, output_file_path, colab_input_path,
         else:
             print(f"File {filename} is not a Python script and is skipped.")
 
-    imports_list = sorted(imports_set)
+    merged_from_imports = [
+        f"from {module} import {', '.join(sorted(names))}"
+        for module, names in sorted(from_imports.items())
+    ]
+    imports_list = sorted(regular_imports) + merged_from_imports
     combined_imports = "\n".join(imports_list) + "\n"
 
     combined_output = colab_snippet + combined_imports + combined_scripts

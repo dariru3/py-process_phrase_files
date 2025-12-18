@@ -1,8 +1,8 @@
 # Phrase Files Formatter (Magic Box)
 
-_last updated: 2025/09/03_
+_last updated: 2025/12/18_
 
-Feature: upload multiple file pairs directly in Colab
+Fix: handle empty mxliff source text
 
 last working backup: version [250530](https://colab.research.google.com/drive/1oDZ1Q4swgIkstp9wR93Tto67YkmeIcBs?usp=sharing)
 

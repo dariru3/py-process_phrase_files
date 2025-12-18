@@ -1,6 +1,3 @@
-'''
-Copy/paste this script into a code cell after the instructions in Google Colab
-'''
 # @title Step 1: Upload Files {display-mode: "form"}
 !pip install python-docx
 import os

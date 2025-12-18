@@ -1,37 +1,46 @@
 # @title Step 2: Process Files
+import os
+import re
+import xml.etree.ElementTree as ET
 from datetime import datetime
+
+import pandas as pd
 from docx import Document
 from docx.enum.section import WD_ORIENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Mm, Pt, RGBColor
-import os
-import pandas as pd
-import re
-import xml.etree.ElementTree as ET
-CONFIG = {'ConditionalFormattingSettings': {'BackgroundColor': 'D9D9D9',
-                                   'CommentColumnIndex': 4,
-                                   'CommentToGray': ['lock', 'locked'],
-                                   'MatchColumnIndex': 3,
-                                   'MatchToGray': ['100', '101'],
-                                   'TargetColumnIndex': 2},
- 'GeneralSettings': {'Column_Headers': ['ID',
-                                        'Source',
-                                        'Target',
-                                        'Match',
-                                        'Comment'],
-                     'InputFolderPath': '/content/MagicBox/',
-                     'OutputFolderPath': '/content/MagicBox/Output_Folder/'},
- 'ProcessingDocSettings': {'ColumnsToKeep': [0, 3, 5, 6, 7],
-                           'DeleteFirstNTables': 3},
- 'ProcessingXliffSettings': {'TagPatterns': '\\{.?>|<.?\\}|\\{j\\}',
-                             'XliffNamespace': 'urn:oasis:names:tc:xliff:document:1.2'},
- 'TableFormattingSettings': {'NewColumnNames': {'ID': 'p',
-                                                'Source': 'Japanese',
-                                                'Target': 'English'},
-                             'RowWidths': [9, 81, 112, 11, 21]}}
+
+CONFIG = {
+    "ConditionalFormattingSettings": {
+        "BackgroundColor": "D9D9D9",
+        "CommentColumnIndex": 4,
+        "CommentToGray": ["lock", "locked"],
+        "MatchColumnIndex": 3,
+        "MatchToGray": ["100", "101"],
+        "TargetColumnIndex": 2,
+    },
+    "GeneralSettings": {
+        "Column_Headers": ["ID", "Source", "Target", "Match", "Comment"],
+        "InputFolderPath": "/content/MagicBox/",
+        "OutputFolderPath": "/content/MagicBox/Output_Folder/",
+    },
+    "ProcessingDocSettings": {
+        "ColumnsToKeep": [0, 3, 5, 6, 7],
+        "DeleteFirstNTables": 3,
+    },
+    "ProcessingXliffSettings": {
+        "TagPatterns": "\\{.?>|<.?\\}|\\{j\\}",
+        "XliffNamespace": "urn:oasis:names:tc:xliff:document:1.2",
+    },
+    "TableFormattingSettings": {
+        "NewColumnNames": {"ID": "p", "Source": "Japanese", "Target": "English"},
+        "RowWidths": [9, 81, 112, 11, 21],
+    },
+}
 
 # Start of src/save_formatting.py
+
 
 def extract_formatting_from_column(doc, table_num, col_nums):
     table = doc.tables[table_num]
@@ -62,6 +71,7 @@ def extract_formatting_from_column(doc, table_num, col_nums):
 
     return formatting_info
 
+
 def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
     """Reapply saved formatting to the target table.
 
@@ -81,7 +91,9 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
         Currently unused but kept for backward compatibility.
     """
 
-    col_mapping = {orig_col: idx + 1 for idx, orig_col in enumerate(col_nums)} # { 3: 1, 5: 2 }
+    col_mapping = {
+        orig_col: idx + 1 for idx, orig_col in enumerate(col_nums)
+    }  # { 3: 1, 5: 2 }
     for row_idx, cols_info in formatting_info.items():
         for orig_col, new_col in col_mapping.items():
             cell_info = cols_info.get(orig_col, [])
@@ -89,10 +101,12 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
             if not has_previous_text:
                 continue
 
-            cell = table.cell(row_idx + 1, new_col) # Skip header row
+            cell = table.cell(row_idx + 1, new_col)  # Skip header row
             cell.text = ""
             for run_info in cell_info:
-                paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
+                paragraph = (
+                    cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
+                )
                 run = paragraph.add_run(run_info["text"])
                 run.bold = run_info.get("bold")
                 run.italic = run_info.get("italic")
@@ -101,14 +115,18 @@ def reapply_formatting_to_column(table, formatting_info, col_nums, table_num=0):
                 if run_info.get("font_size"):
                     run.font.size = Pt(run_info["font_size"])
                 if run_info.get("font_color"):
-                    run.font.color.rgb = RGBColor.from_string(str(run_info["font_color"]))
+                    run.font.color.rgb = RGBColor.from_string(
+                        str(run_info["font_color"])
+                    )
                 run.font.superscript = run_info.get("superscript")
                 run.font.subscript = run_info.get("subscript")
+
 
 # End of src/save_formatting.py
 
 
 # Start of src/format_helper.py
+
 
 def format_subscripts(paragraph):
     """Helper function to format text with subscript tags"""
@@ -116,11 +134,11 @@ def format_subscripts(paragraph):
     # Split on subscript tags: {_{>number<}_{}} as example, adapt pattern to whatever subscript tags are
     # Using {_{>...<}_} style would be similar to superscript but with subscript tags, example assumed {v>2<v} or similar
     # Your current tags to remove are {_> number <_}, so here we look for those to format subscript
-    parts = re.split(r'(\{_>.*?<_\})', text)
+    parts = re.split(r"(\{_>.*?<_\})", text)
 
     new_runs = []
     for part in parts:
-        if part.startswith('{_>') and part.endswith('<_}'):
+        if part.startswith("{_>") and part.endswith("<_}"):
             # This is a subscript tag
             subscript_text = part[3:-3]  # Remove the tags to get the number/text inside
             run = paragraph.add_run()
@@ -139,29 +157,33 @@ def format_subscripts(paragraph):
     # Append new runs with formatting
     for new_run in new_runs:
         run = paragraph.add_run(new_run.text)
-        run.font.subscript = new_run.font.subscript if hasattr(new_run.font, 'subscript') else False
+        run.font.subscript = (
+            new_run.font.subscript if hasattr(new_run.font, "subscript") else False
+        )
+
 
 def format_superscripts(paragraph):
     """Helper function to format text with superscript tags"""
+
     def apply_superscript(run, text):
         """Helper function to set text as superscript"""
         run.text = text
         run.font.superscript = True
 
     text = paragraph.text
-    parts = re.split(r'(\{\^\>.*?\<\^\}|\{.*?\>.*?\<.*?\})', text)
+    parts = re.split(r"(\{\^\>.*?\<\^\}|\{.*?\>.*?\<.*?\})", text)
 
     new_runs = []
     for part in parts:
-        if part.startswith('{^>') and part.endswith('<^}'):
+        if part.startswith("{^>") and part.endswith("<^}"):
             # This is a superscript
             superscript_text = part[3:-3]
             run = paragraph.add_run()
             apply_superscript(run, superscript_text)
             new_runs.append(run)
-        elif re.match(r'\{.*?\>.*?\<.*?\}', part):
+        elif re.match(r"\{.*?\>.*?\<.*?\}", part):
             # Handle other custom tags if necessary
-            inner_text = part.split('>')[1].split('<')[0]
+            inner_text = part.split(">")[1].split("<")[0]
             run = paragraph.add_run()
             apply_superscript(run, inner_text)
             new_runs.append(run)
@@ -180,6 +202,7 @@ def format_superscripts(paragraph):
         run = paragraph.add_run(new_run.text)
         run.font.superscript = new_run.font.superscript
 
+
 def reformat_text(table):
     """Process a single table in the document"""
     for row in table.rows:
@@ -188,29 +211,32 @@ def reformat_text(table):
                 # format_superscripts(paragraph)
                 format_subscripts(paragraph)
 
+
 def change_cell_color(cells, background_color):
     for cell in cells:
         tcPr = cell._element.get_or_add_tcPr()
-        shd = OxmlElement('w:shd')
-        shd.set(qn('w:fill'), background_color)
+        shd = OxmlElement("w:shd")
+        shd.set(qn("w:fill"), background_color)
         tcPr.append(shd)
 
+
 def set_column_language(table, column_index, language_code):
-    ''''
+    """'
     Not working as intended
-    '''
+    """
     for row in table.rows:
         cell = row.cells[column_index]
         for paragraph in cell.paragraphs:
             rPr = paragraph.runs[0].element.get_or_add_rPr()
-            lang = OxmlElement('w:lang')
-            lang.set(qn('w:val'), language_code)
+            lang = OxmlElement("w:lang")
+            lang.set(qn("w:val"), language_code)
             rPr.append(lang)
+
 
 # format column widths and header row cell color
 def format_table(table):
     t_settings = CONFIG["TableFormattingSettings"]
-    table.style = 'Table Grid'
+    table.style = "Table Grid"
     row_widths = t_settings["RowWidths"]
 
     for i, width in enumerate(row_widths):
@@ -221,19 +247,20 @@ def format_table(table):
     first_column_cells = table.rows[0].cells
     change_cell_color(first_column_cells, blue_color)
 
+
 def apply_conditional_formatting(table):
-    '''
+    """
     Change row cell colors to gray if either condition is met.
     Condition 1: There is text in the target cell and the match is either "100" or "101"
     Condition 2: There is text in the target cell and the comment is "lock" or "locked"
-    '''
+    """
     c_settings = CONFIG["ConditionalFormattingSettings"]
-    target_column_index = c_settings["TargetColumnIndex"] # 2
-    match_column_index = c_settings["MatchColumnIndex"] #3
-    comment_column_index = c_settings["CommentColumnIndex"] # 4
-    comment_to_gray = c_settings["CommentToGray"] # ['lock', 'locked']
-    match_to_gray = c_settings["MatchToGray"] # ['100', '101']
-    background_color= c_settings["BackgroundColor"] # "D9D9D9"
+    target_column_index = c_settings["TargetColumnIndex"]  # 2
+    match_column_index = c_settings["MatchColumnIndex"]  # 3
+    comment_column_index = c_settings["CommentColumnIndex"]  # 4
+    comment_to_gray = c_settings["CommentToGray"]  # ['lock', 'locked']
+    match_to_gray = c_settings["MatchToGray"]  # ['100', '101']
+    background_color = c_settings["BackgroundColor"]  # "D9D9D9"
 
     for row in table.rows:
         target_value = row.cells[target_column_index].text.strip()
@@ -247,17 +274,19 @@ def apply_conditional_formatting(table):
             cells_to_color = [cell for cell in row.cells]
             change_cell_color(cells_to_color, background_color)
 
+
 def set_landscape_orientation(document):
     section = document.sections[-1]
     section.orientation = WD_ORIENT.LANDSCAPE
-    section.page_width = Mm(297) # A4 width
-    section.page_height = Mm(210) # A4 height
+    section.page_width = Mm(297)  # A4 width
+    section.page_height = Mm(210)  # A4 height
+
 
 # set font size and line spacing
 def format_font_lines(document):
-    style = document.styles['Normal']
+    style = document.styles["Normal"]
     font = style.font
-    font.name = 'Arial'
+    font.name = "Arial"
     font.size = Pt(11)
     line_space = 1.15
     column_1_font_size = 8
@@ -269,10 +298,13 @@ def format_font_lines(document):
         for row in table.rows:
             for i, cell in enumerate(row.cells):
                 for paragraph in cell.paragraphs:
-                    if i == 0: # set font size of column 1 to 8pt
-                        apply_paragraph_format(paragraph, style, line_space, column_1_font_size)
+                    if i == 0:  # set font size of column 1 to 8pt
+                        apply_paragraph_format(
+                            paragraph, style, line_space, column_1_font_size
+                        )
                     else:
                         apply_paragraph_format(paragraph, style, line_space)
+
 
 # helper function for format_font_lines()
 def apply_paragraph_format(paragraph, style, line_space, font_size=None):
@@ -282,24 +314,28 @@ def apply_paragraph_format(paragraph, style, line_space, font_size=None):
         run = paragraph.runs[0] if paragraph.runs else paragraph.add_run()
         run.font.size = Pt(font_size)
 
+
 def apply_formatting_pipe(table, doc):
     format_table(table)
     apply_conditional_formatting(table)
-    reformat_text(table) # apply subscript
+    reformat_text(table)  # apply subscript
     set_column_language(table, 1, "ja-JP")
     set_landscape_orientation(doc)
     format_font_lines(doc)
+
 
 # End of src/format_helper.py
 
 
 # Start of src/process_word.py
 
+
 def delete_first_n_tables(doc, n):
     for _ in range(n):
         if len(doc.tables) > 0:
             table = doc.tables[0]
             table._element.getparent().remove(table._element)
+
 
 def copy_content_to_table(original_table, new_table, columns_to_copy):
     for row in original_table.rows:
@@ -309,6 +345,7 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
             original_text = row.cells[col_index].text
             cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
+
 
 def process_word_file(file_path, output_folder):
     # Load settings
@@ -335,36 +372,43 @@ def process_word_file(file_path, output_folder):
 
     return df_table, formatting_info
 
+
 # End of src/process_word.py
 
 
 # Start of src/process_mxliff.py
 
+
 def remove_tags(text):
+    if text is None:
+        return ""
     patterns = CONFIG["ProcessingXliffSettings"]["TagPatterns"]
-    cleansed_text = re.sub(patterns, '', text)
+    cleansed_text = re.sub(patterns, "", text)
 
     return cleansed_text
+
 
 def setup_root(mxliff_file, xliff_namespace):
     """
     Register the given namespace and parse the MXLIFF file,
     returning the root element.
     """
-    ET.register_namespace('m', xliff_namespace)
+    ET.register_namespace("m", xliff_namespace)
     tree = ET.parse(mxliff_file)
     return tree.getroot()
+
 
 def get_match_quality(alt_trans):
     """
     Extract and calculate the match quality from an alt-trans element.
     Returns the match quality as an integer percentage.
     """
-    if alt_trans.attrib.get('origin') == 'memsource-tm':
-        match_quality = alt_trans.attrib.get('match-quality', '0')
+    if alt_trans.attrib.get("origin") == "memsource-tm":
+        match_quality = alt_trans.attrib.get("match-quality", "0")
         return int(float(match_quality) * 100)
     else:
         return 0
+
 
 def parse_mxliff_to_df(mxliff_file):
     print("Processing .MXLIFF file...")
@@ -372,7 +416,7 @@ def parse_mxliff_to_df(mxliff_file):
     root = setup_root(mxliff_file, xliff_namespace)
 
     # Define the namespaces used in your MXLIFF file
-    namespaces = {'m': xliff_namespace}
+    namespaces = {"m": xliff_namespace}
 
     # Initialize lists to hold the extracted data
     ids = []
@@ -381,18 +425,22 @@ def parse_mxliff_to_df(mxliff_file):
     match_qualities = []
 
     # Loop through each translation unit in the MXLIFF file
-    find_text = lambda trans_unit, m : trans_unit.find(m, namespaces).text if trans_unit.find(m, namespaces) is not None else ''
+    find_text = (
+        lambda trans_unit, m: trans_unit.find(m, namespaces).text
+        if trans_unit.find(m, namespaces) is not None
+        else ""
+    )
 
-    for trans_unit in root.findall('.//m:trans-unit', namespaces):
-        unit_id = trans_unit.attrib.get('id', '')
-        source_text = find_text(trans_unit, 'm:source')
+    for trans_unit in root.findall(".//m:trans-unit", namespaces):
+        unit_id = trans_unit.attrib.get("id", "")
+        source_text = find_text(trans_unit, "m:source")
         source_text = remove_tags(source_text)
-        target_text = find_text(trans_unit, 'm:target')
+        target_text = find_text(trans_unit, "m:target")
         # target_text = remove_tags(target_text)
 
         # Check for alt-trans elements with origin="memsource-tm" and extract match-quality
-        match_quality = 0 # Default value
-        for alt_trans in trans_unit.findall('.//m:alt-trans', namespaces):
+        match_quality = 0  # Default value
+        for alt_trans in trans_unit.findall(".//m:alt-trans", namespaces):
             match_quality = get_match_quality(alt_trans)
             if match_quality != 0:
                 break  # Assuming we only need the first matching alt-trans entry
@@ -403,21 +451,20 @@ def parse_mxliff_to_df(mxliff_file):
         match_qualities.append(match_quality)
 
     # Create a DataFrame from the extracted data
-    df = pd.DataFrame({
-        'ID': ids,
-        'Source': sources,
-        'Target': targets,
-        'Match': match_qualities
-    })
+    df = pd.DataFrame(
+        {"ID": ids, "Source": sources, "Target": targets, "Match": match_qualities}
+    )
 
-    df['Comment'] = ""
+    df["Comment"] = ""
 
     return df
+
 
 # End of src/process_mxliff.py
 
 
 # Start of src/table_to_df.py
+
 
 def table_to_df(table):
     column_headers = CONFIG["GeneralSettings"]["Column_Headers"]
@@ -429,43 +476,67 @@ def table_to_df(table):
         data.append(row_data)
     return pd.DataFrame(data, columns=column_headers)
 
+
 # End of src/table_to_df.py
 
 
 # Start of src/merge_df.py
 
+
 def merge_dfs(df_word, df_mxliff):
     # Convert Match to int, with error handling
-    df_word['Match'] = pd.to_numeric(df_word['Match'], errors='coerce').fillna(0).astype(int)
-    df_mxliff['Match'] = pd.to_numeric(df_mxliff['Match'], errors='coerce').fillna(0).astype(int)
+    df_word["Match"] = (
+        pd.to_numeric(df_word["Match"], errors="coerce").fillna(0).astype(int)
+    )
+    df_mxliff["Match"] = (
+        pd.to_numeric(df_mxliff["Match"], errors="coerce").fillna(0).astype(int)
+    )
 
     # Merge the DataFrames
-    df_combined = pd.merge(df_word, df_mxliff, on=['ID'], how='left',sort=False, suffixes=('', '_df2'))
+    df_combined = pd.merge(
+        df_word, df_mxliff, on=["ID"], how="left", sort=False, suffixes=("", "_df2")
+    )
 
     # Select the best values for each column based on availability and preference
-    df_combined['Target'] = df_combined['Target'].where(df_combined['Target'] != '', df_combined['Target_df2'])
+    df_combined["Target"] = df_combined["Target"].where(
+        df_combined["Target"] != "", df_combined["Target_df2"]
+    )
 
-    df_combined['Match'] = df_combined['Match'].fillna(0).astype(int)
-    df_combined['Match'] = df_combined['Match'].where(df_combined['Match'] != 0, df_combined['Match_df2']).fillna(0).astype(int)
+    df_combined["Match"] = df_combined["Match"].fillna(0).astype(int)
+    df_combined["Match"] = (
+        df_combined["Match"]
+        .where(df_combined["Match"] != 0, df_combined["Match_df2"])
+        .fillna(0)
+        .astype(int)
+    )
 
-    df_combined['Comment'] = df_combined['Comment'].where(df_combined['Comment'] != '', df_combined['Comment_df2'])
+    df_combined["Comment"] = df_combined["Comment"].where(
+        df_combined["Comment"] != "", df_combined["Comment_df2"]
+    )
 
     # Drop the temporary columns from df2
-    df_combined.drop(columns=['Source_df2', 'Target_df2', 'Match_df2', 'Comment_df2'], inplace=True)
+    df_combined.drop(
+        columns=["Source_df2", "Target_df2", "Match_df2", "Comment_df2"], inplace=True
+    )
 
     return df_combined
+
 
 # End of src/merge_df.py
 
 
 # Start of src/df_to_word.py
 
-def delete_column_in_table(table, column_index=CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]):
+
+def delete_column_in_table(
+    table, column_index=CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]
+):
     grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
     for cell in table.column_cells(column_index):
         cell._tc.getparent().remove(cell._tc)
     col_elem = grid[column_index]
     grid.remove(col_elem)
+
 
 def get_file_pairs(folder_path):
     docx_files = {}
@@ -484,6 +555,7 @@ def get_file_pairs(folder_path):
         if mxliff_file:
             pairs.append((docx_file, mxliff_file))
     return pairs
+
 
 def setup_table(df, table):
     t_settings = CONFIG["TableFormattingSettings"]
@@ -507,13 +579,16 @@ def setup_table(df, table):
             else:
                 cells[j].text = str(value)
 
+
 def save_doc_file(docx_file, new_doc, output_folder):
     # Check output folder
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     # Use original .docx file name, add "_merged"
-    output_file_path = os.path.join(output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx")
+    output_file_path = os.path.join(
+        output_folder, f"{os.path.splitext(docx_file)[0]}_merged.docx"
+    )
 
     # Add metadata
     new_doc.core_properties.created = datetime.now()
@@ -523,6 +598,7 @@ def save_doc_file(docx_file, new_doc, output_folder):
     new_doc.save(output_file_path)
     print(f"Merged tables saved as Word document: {output_file_path}.")
 
+
 def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     # Create new .docx file with a new blank table
     new_doc = Document()
@@ -530,7 +606,7 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     table.autofit = False
 
     setup_table(df, table)
-    apply_formatting_pipe(table, new_doc) # Format table
+    apply_formatting_pipe(table, new_doc)  # Format table
 
     # Reapply formatting to Japanese and English text
     reapply_formatting_to_column(table, formatting_info, [3, 5])
@@ -541,11 +617,14 @@ def dataframe_to_word_table(docx_file, df, output_folder, formatting_info):
     # Save new .docx file
     save_doc_file(docx_file, new_doc, output_folder)
 
+
 def process_files(docx_file, mxliff_file, input_folder, output_folder):
     df_word, formatting_info = None, None
 
     # Process the Word files
-    df_word, formatting_info = process_word_file(os.path.join(input_folder, docx_file), output_folder)
+    df_word, formatting_info = process_word_file(
+        os.path.join(input_folder, docx_file), output_folder
+    )
 
     # Check Word data, then process MXLIFF files
     if df_word is not None and not df_word.empty and formatting_info is not None:
@@ -560,10 +639,12 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
     # Save the merged DataFrame to a Word document
     dataframe_to_word_table(docx_file, merged_df, output_folder, formatting_info)
 
+
 # End of src/df_to_word.py
 
 
 # Start of scripts/main.py
+
 
 def filter_unprocessed_pairs(pairs, output_folder):
     unprocessed_pairs = []
@@ -577,19 +658,23 @@ def filter_unprocessed_pairs(pairs, output_folder):
         if not os.path.exists(merged_file_path):
             unprocessed_pairs.append((docx_file, mxliff_file))
         else:
-            print(f"Skipped processing for {base_name} because the merged file already exists.")
+            print(
+                f"Skipped processing for {base_name} because the merged file already exists."
+            )
     return unprocessed_pairs
+
 
 def main():
     g_settings = CONFIG["GeneralSettings"]
-    input_folder = g_settings["InputFolderPath"] # "input_files/"
-    output_folder = g_settings["OutputFolderPath"] # "output_files/"
+    input_folder = g_settings["InputFolderPath"]  # "input_files/"
+    output_folder = g_settings["OutputFolderPath"]  # "output_files/"
 
     pairs = get_file_pairs(input_folder)
     unprocessed_pairs = filter_unprocessed_pairs(pairs, output_folder)
     for docx_file, mxliff_file in unprocessed_pairs:
         print(f"File pair:\n{docx_file}\n{mxliff_file}")
-        process_files(docx_file, mxliff_file,input_folder, output_folder)
+        process_files(docx_file, mxliff_file, input_folder, output_folder)
+
 
 # Use `python3 -m scripts.main` to run file from console
 if __name__ == "__main__":
