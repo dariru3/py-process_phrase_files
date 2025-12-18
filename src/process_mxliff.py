@@ -4,6 +4,8 @@ import re
 from .config_loader import CONFIG
 
 def remove_tags(text):
+    if text is None:
+        return ""
     patterns = CONFIG["ProcessingXliffSettings"]["TagPatterns"]
     cleansed_text = re.sub(patterns, '', text)
 

@@ -1,8 +1,12 @@
-'''
+"""
 TODO: add this to the end of c_notebook?
-'''
+"""
+
+# @title Download merged file
 import os
+
 from google.colab import files
+
 
 def download_all_files(directory_path):
     """Downloads all files from the specified directory in Colab."""
@@ -20,6 +24,7 @@ def download_all_files(directory_path):
             except Exception as e:
                 print(f"Error downloading {filename}: {e}")
 
+
 # Specify the directory you want to download files from
-directory_to_download = "/content/sample_data"
+directory_to_download = "/content/MagicBox/Output_Folder"
 download_all_files(directory_to_download)
