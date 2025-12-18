@@ -221,7 +221,7 @@ def change_cell_color(cells, background_color):
 
 
 def set_column_language(table, column_index, language_code):
-    """'
+    """
     Not working as intended
     """
     for row in table.rows:
