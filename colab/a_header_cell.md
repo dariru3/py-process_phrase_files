@@ -2,7 +2,8 @@
 
 _last updated: 2025/12/18_
 
-Fix: handle empty mxliff source text
+- Fix: Handle empty mxliff source text
+- Feature: Add Download merged file cell
 
 last working [backup](https://colab.research.google.com/drive/14benrOkAHuKSvRCaoaxImEuIC3mlPGKT?usp=sharing)
 
