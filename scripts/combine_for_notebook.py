@@ -2,6 +2,10 @@ import ast
 import os
 import pprint
 
+"""
+Run the CLI: `python3 -m scripts.combine_for_notebook`
+"""
+
 
 def get_file_content(filename):
     if os.path.isfile(filename):
