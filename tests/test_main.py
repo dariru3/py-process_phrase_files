@@ -70,12 +70,10 @@ class TestDocxMerge(unittest.TestCase):
 
                 # Drop blank text runs
                 def clean_runs(runs):
-                    cleaned = []
-                    for run in runs:
-                        text = remove_tags(run["text"])
-                        if text.strip():
-                            cleaned.append({**run, "text": text})
-                    return cleaned
+                    processed_runs = [
+                        {**run, "text": remove_tags(run["text"])} for run in runs
+                    ]
+                    return [run for run in processed_runs if run["text"].strip()]
 
                 clean_in = clean_runs(runs_in)
                 clean_out = clean_runs(runs_out)

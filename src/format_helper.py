@@ -16,14 +16,10 @@ def format_subscripts(paragraph):
     # Your current tags to remove are {_> number <_}, so here we look for those to format subscript
     parts = re.split(r"(\{_>.*?<_\})", text)
 
-    segments = []
-    for part in parts:
-        if part.startswith("{_>") and part.endswith("<_}"):
-            # This is a subscript tag
-            subscript_text = part[3:-3]  # Remove the tags to get the number/text inside
-            segments.append((subscript_text, True))
-        else:
-            segments.append((part, False))
+    segments = [
+        (part[3:-3], True) if part.startswith("{_>") and part.endswith("<_}") else (part, False)
+        for part in parts
+    ]
 
     # Remove original runs once before rebuilding.
     for run in list(paragraph.runs):
