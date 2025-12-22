@@ -16,30 +16,25 @@ def format_subscripts(paragraph):
     # Your current tags to remove are {_> number <_}, so here we look for those to format subscript
     parts = re.split(r"(\{_>.*?<_\})", text)
 
-    new_runs = []
+    segments = []
     for part in parts:
         if part.startswith("{_>") and part.endswith("<_}"):
             # This is a subscript tag
             subscript_text = part[3:-3]  # Remove the tags to get the number/text inside
-            run = paragraph.add_run()
-            run.text = subscript_text
-            run.font.subscript = True
-            new_runs.append(run)
+            segments.append((subscript_text, True))
         else:
-            run = paragraph.add_run(part)
-            new_runs.append(run)
+            segments.append((part, False))
 
-    # Remove original runs
-    for run in paragraph.runs:
+    # Remove original runs once before rebuilding.
+    for run in list(paragraph.runs):
         p = run._element.getparent()
         p.remove(run._element)
 
-    # Append new runs with formatting
-    for new_run in new_runs:
-        run = paragraph.add_run(new_run.text)
-        run.font.subscript = (
-            new_run.font.subscript if hasattr(new_run.font, "subscript") else False
-        )
+    # Append new runs with formatting.
+    for text_part, is_subscript in segments:
+        run = paragraph.add_run(text_part)
+        if is_subscript:
+            run.font.subscript = True
 
 
 def format_superscripts(paragraph):
