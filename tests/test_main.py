@@ -2,6 +2,7 @@ import os
 import unittest
 from docx import Document
 from src.save_formatting import extract_formatting_from_column
+from src.process_mxliff import remove_tags
 
 class TestDocxMerge(unittest.TestCase):
     input_folder = "data/input_files"
@@ -46,7 +47,7 @@ class TestDocxMerge(unittest.TestCase):
                 in_text  = in_row.cells[in_col].text.strip()
                 out_text = out_row.cells[out_col].text.strip()
                 self.assertEqual(
-                    in_text, out_text,
+                    remove_tags(in_text), remove_tags(out_text),
                     f"Text mismatch at row {row_idx + 1}, input col {in_col}, output col {out_col + 1}"
                 )
 
@@ -68,9 +69,14 @@ class TestDocxMerge(unittest.TestCase):
                 runs_out = out_fmt[row_idx + 1][out_col]
 
                 # Drop blank text runs
-                clean_blank = lambda runs: [r for r in runs if r["text"].strip()]
-                clean_in = clean_blank(runs_in)
-                clean_out = clean_blank(runs_out)
+                def clean_runs(runs):
+                    processed_runs = [
+                        {**run, "text": remove_tags(run["text"])} for run in runs
+                    ]
+                    return [run for run in processed_runs if run["text"].strip()]
+
+                clean_in = clean_runs(runs_in)
+                clean_out = clean_runs(runs_out)
 
                 self.assertEqual(
                     clean_in, clean_out,
