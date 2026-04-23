@@ -12,23 +12,16 @@ A small toolchain to merge paired `.docx` and `.mxliff` files into a single, for
 ## Project Layout
 
 - `src/` — Processing pipeline
-  - `config_loader.py`: Central configuration (paths, formatting rules).
+  - `pipeline.py`: Shared runtime entrypoint used by the CLI and Colab.
+  - `config_loader.py`: Central formatting and processing configuration.
   - `process_word.py`: Extracts tables and formatting from input `.docx`.
   - `process_mxliff.py`: Parses `.mxliff` to a DataFrame.
   - `merge_df.py`: Aligns and merges Word/XLIFF data.
   - `df_to_word.py`: Builds the output Word table and saves files.
   - `format_helper.py`, `save_formatting.py`, `table_to_df.py`: Formatting helpers.
-- `scripts/`
-  - `main.py`: CLI entry point for local runs.
-  - `combine_for_notebook.py`: Builds a single Colab-friendly script from `src/`.
-- `colab/`
-  - `a_header_cell.md`: Instructions
-  - `b_upload_to_colab.py`: Step 1 (upload pairs in Colab)
-  - `c_notebook_script.py`: Step 2 (process pairs in Colab)
-- `data/`
-  - `input_files/`: Place source pairs here for local runs.
-  - `output_files/`: Merged results are written here.
-- `tests/`: Basic sanity tests for formatting and content mirroring.
+- `main.py`: CLI entry point for local runs.
+- `phrase_files_formatter.ipynb`: Open this notebook directly in Colab from GitHub.
+- `tests/`: Generated-fixture coverage for parsing, merging, and formatting.
 
 ## Requirements
 
@@ -48,35 +41,37 @@ pip install python-docx pandas
 
 ## Local Usage
 
-1. Put your `.docx` and `.mxliff` files into `data/input_files/` with matching base names (e.g., `Example.docx` and `Example.mxliff`).
+1. Put your `.docx` and `.mxliff` files into an input folder with matching base names (e.g., `Example.docx` and `Example.mxliff`).
 2. Run the CLI:
-   - `python3 -m scripts.main`
-3. Find results in `data/output_files/` as `<base>_merged.docx`.
+   - `python3 main.py --input /path/to/input --output /path/to/output`
+3. Find results in your output folder as `<base>_merged.docx`.
 
 Notes
 
-- Update input/output paths or formatting options in `src/config_loader.py` if your folders differ.
-- Existing merged files are skipped to avoid reprocessing.
+- Input and output folders are selected at runtime through CLI flags.
+- Existing merged files are skipped by default to avoid reprocessing.
+- Add `--force` to reprocess files that already have merged outputs.
 
 ## Google Colab Usage
 
-Use the prepared cells in `colab/` to run without setting up Python locally.
+Use the committed notebook at the repo root to run without setting up Python locally.
 
-1. Create a new Colab notebook.
-2. Add a text cell and paste the contents of `colab/a_header_cell.md`.
-3. Add a code cell with the contents of `colab/b_upload_to_colab.py` and run “Step 1: Upload Files”.
-4. Add a code cell with the contents of `colab/c_notebook_script.py` and run “Step 2: Process Files”.
+1. Open [`phrase_files_formatter.ipynb`](https://colab.research.google.com/github/dariru3/py-process_phrase_files/blob/main/phrase_files_formatter.ipynb) in Colab.
+2. Run **Step 1: Install From GitHub** to install the current repo version.
+3. Run **Step 2: Upload Files** to upload valid `.docx` / `.mxliff` pairs.
+4. Run **Step 3: Process Files** to call the same shared pipeline used by the CLI.
+5. Download outputs from Colab when processing is complete.
 
 Important
 
-- When prompted by the browser, allow multiple automatic downloads for `colab.research.google.com` so Colab can save multiple merged files. See the note in `colab/a_header_cell.md` and the manual screenshot.
+- When prompted by the browser, allow multiple automatic downloads for `colab.research.google.com` so Colab can save multiple merged files.
 
 ## Running Tests
 
 Use the built-in unittest suite:
 
 ```
-python3 -m unittest tests/test_main.py
+python3 -m unittest
 ```
 
 ## License

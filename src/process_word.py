@@ -19,7 +19,7 @@ def copy_content_to_table(original_table, new_table, columns_to_copy):
             cleansed_text = remove_tags(original_text)
             new_cells[i].text = cleansed_text
 
-def process_word_file(file_path, output_folder):
+def process_word_file(file_path):
     # Load settings
     p_settings = CONFIG["ProcessingDocSettings"]
     final_col_length = len(CONFIG["GeneralSettings"]["Column_Headers"])
