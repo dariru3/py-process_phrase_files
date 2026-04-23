@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 
 from src.pipeline import run_pipeline
@@ -27,6 +28,7 @@ def build_parser():
 
 
 def main(argv=None):
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     parser = build_parser()
     args = parser.parse_args(argv)
 
@@ -43,7 +45,7 @@ def main(argv=None):
         output_folder,
         skip_existing=not args.force,
     )
-    print(f"Processed {processed_count} file pair(s).")
+    logging.info("Processed %s file pair(s).", processed_count)
     return processed_count
 
 # Use `python3 main.py` to run from the console.

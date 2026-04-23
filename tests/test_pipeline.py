@@ -1,5 +1,6 @@
 import contextlib
 import io
+import logging
 import os
 import subprocess
 import sys
@@ -231,8 +232,20 @@ class TestPipeline(unittest.TestCase):
             handle.write(content)
 
     def _run_pipeline(self, input_dir, output_dir, skip_existing=True):
+        logger = logging.getLogger("src.pipeline")
+        original_handlers = logger.handlers[:]
+        original_level = logger.level
+        original_propagate = logger.propagate
+        logger.handlers = [logging.NullHandler()]
+        logger.setLevel(logging.CRITICAL)
+        logger.propagate = False
         with contextlib.redirect_stdout(io.StringIO()):
-            return run_pipeline(input_dir, output_dir, skip_existing=skip_existing)
+            try:
+                return run_pipeline(input_dir, output_dir, skip_existing=skip_existing)
+            finally:
+                logger.handlers = original_handlers
+                logger.setLevel(original_level)
+                logger.propagate = original_propagate
 
     def _clean_runs(self, runs):
         cleaned = []
