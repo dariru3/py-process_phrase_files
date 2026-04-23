@@ -1,7 +1,5 @@
 CONFIG = {
-    "GeneralSettings": { # When updating Colab, replace with commented folder paths
-        "InputFolderPath": "data/input_files/",
-        "OutputFolderPath": "data/output_files/",
+    "GeneralSettings": {
         "Column_Headers": ["ID", "Source", "Target", "Match", "Comment"]
     },
     "ProcessingDocSettings": {

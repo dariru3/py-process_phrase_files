@@ -9,6 +9,7 @@ from .process_word import process_word_file
 from .save_formatting import reapply_formatting_to_column
 from .config_loader import CONFIG
 
+
 def delete_column_in_table(table, column_index=CONFIG["ConditionalFormattingSettings"]["MatchColumnIndex"]):
     grid = table._tbl.find("w:tblGrid", table._tbl.nsmap)
     for cell in table.column_cells(column_index):
@@ -19,7 +20,7 @@ def delete_column_in_table(table, column_index=CONFIG["ConditionalFormattingSett
 def get_file_pairs(folder_path):
     docx_files = {}
     mxliff_files = {}
-    for filename in os.listdir(folder_path):
+    for filename in sorted(os.listdir(folder_path)):
         base_name, ext = os.path.splitext(filename)
         if ext == ".docx":
             docx_files[base_name] = filename
@@ -94,7 +95,7 @@ def process_files(docx_file, mxliff_file, input_folder, output_folder):
     df_word, formatting_info = None, None
 
     # Process the Word files
-    df_word, formatting_info = process_word_file(os.path.join(input_folder, docx_file), output_folder)
+    df_word, formatting_info = process_word_file(os.path.join(input_folder, docx_file))
 
     # Check Word data, then process MXLIFF files
     if df_word is not None and not df_word.empty and formatting_info is not None:
