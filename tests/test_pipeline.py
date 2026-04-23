@@ -1,4 +1,8 @@
+import contextlib
+import io
 import os
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -96,11 +100,14 @@ class TestPipeline(unittest.TestCase):
         pairs = get_file_pairs(self.input_dir)
         self.assertEqual([(f"{base_name}.docx", f"{base_name}.mxliff")], pairs)
 
-        processed_count = run_pipeline(self.input_dir, self.output_dir)
+        processed_count = self._run_pipeline(self.input_dir, self.output_dir)
         self.assertEqual(1, processed_count)
 
-        self.assertEqual(0, run_pipeline(self.input_dir, self.output_dir))
-        self.assertEqual(1, run_pipeline(self.input_dir, self.output_dir, skip_existing=False))
+        self.assertEqual(0, self._run_pipeline(self.input_dir, self.output_dir))
+        self.assertEqual(
+            1,
+            self._run_pipeline(self.input_dir, self.output_dir, skip_existing=False),
+        )
 
         output_path = os.path.join(self.output_dir, f"{base_name}_merged.docx")
         self.assertTrue(os.path.exists(output_path))
@@ -110,7 +117,10 @@ class TestPipeline(unittest.TestCase):
         input_table = input_doc.tables[3]
         output_table = output_doc.tables[0]
 
-        self.assertEqual(["p", "Japanese", "English", "Comment"], [cell.text for cell in output_table.rows[0].cells])
+        self.assertEqual(
+            ["p", "Japanese", "English", "Comment"],
+            [cell.text for cell in output_table.rows[0].cells],
+        )
         self.assertEqual(len(input_table.rows) + 1, len(output_table.rows))
 
         output_rows = output_table.rows[1:]
@@ -138,6 +148,20 @@ class TestPipeline(unittest.TestCase):
             self._clean_runs(input_formatting[1][3]),
             self._clean_runs(output_formatting[2][1]),
         )
+
+    def test_cli_help_returns_promptly(self):
+        result = subprocess.run(
+            [sys.executable, "main.py", "--help"],
+            cwd=os.getcwd(),
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=True,
+        )
+
+        self.assertIn("usage: main.py", result.stdout)
+        self.assertIn("--input", result.stdout)
+        self.assertIn("--output", result.stdout)
 
     def _build_input_docx(self, path):
         document = Document()
@@ -205,6 +229,10 @@ class TestPipeline(unittest.TestCase):
     def _write_mxliff(self, path, content):
         with open(path, "w", encoding="utf-8") as handle:
             handle.write(content)
+
+    def _run_pipeline(self, input_dir, output_dir, skip_existing=True):
+        with contextlib.redirect_stdout(io.StringIO()):
+            return run_pipeline(input_dir, output_dir, skip_existing=skip_existing)
 
     def _clean_runs(self, runs):
         cleaned = []
