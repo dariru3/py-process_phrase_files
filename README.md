@@ -65,6 +65,7 @@ Use the committed notebook at the repo root to run without setting up Python loc
 Important
 
 - When prompted by the browser, allow multiple automatic downloads for `colab.research.google.com` so Colab can save multiple merged files.
+- When testing the notebook from a feature branch, change the `git clone --branch ...` value in Step 1 from `"main"` to your branch name, then switch it back to `"main"` before merging.
 
 ## Running Tests
 

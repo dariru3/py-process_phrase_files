@@ -9,6 +9,7 @@
 - Install deps: `pip install -r requirements.txt` (Python 3.8+).
 - Local run: `python3 main.py --input /path/to/input --output /path/to/output`.
 - Colab run: open `phrase_files_formatter.ipynb` from GitHub in Colab and run the notebook cells.
+- When testing Colab from a non-`main` branch, update the `git clone --branch ...` value in notebook Step 1 from `"main"` to the branch name, then change it back to `"main"` before merge.
 
 ## Testing
 - Suite uses `unittest`: `python3 -m unittest tests/test_pipeline.py`.
